@@ -36,7 +36,8 @@ class StoreStudentRequest extends FormRequest
                 'required',
                 'unique:users'],
             'password' => [
-                'required'],
+                'required',
+            'confirmed'],
         ];
     }
 }

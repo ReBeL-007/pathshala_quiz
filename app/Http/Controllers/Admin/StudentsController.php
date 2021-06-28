@@ -36,7 +36,8 @@ class StudentsController extends Controller
     public function create()
     {
         abort_if(Gate::denies('student-create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return view('admin.students.create');
+        $courses = Course::get();
+        return view('admin.students.create',compact('courses'));
     }
 
     public function store(StoreStudentRequest $request)
@@ -49,6 +50,8 @@ class StudentsController extends Controller
             'address' => $request->address,
             'school' => $request->school,
             'passed' => $request->passed,
+            'course_id' => $request->course_id,
+            'status' => $request->status
         ];
         $user = User::create($data);
         // $student->roles()->sync($request->input('roles', []));
