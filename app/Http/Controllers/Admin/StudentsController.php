@@ -8,6 +8,7 @@ use Gate;
 use Symfony\Component\HttpFoundation\Response;
 use App\User;
 use App\Role;
+use App\Course;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Http\Requests\MassDestroyStudentRequest;
@@ -61,8 +62,9 @@ class StudentsController extends Controller
     public function edit(User $student)
     {
         abort_if(Gate::denies('student-edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $courses = Course::get();
         
-        return view('admin.students.edit', compact('student'));
+        return view('admin.students.edit', compact('student','courses'));
     }
 
     public function update(UpdateStudentRequest $request, User $student)
@@ -74,6 +76,8 @@ class StudentsController extends Controller
             'address' => $request->address,
             'school' => $request->school,
             'passed' => $request->passed,
+            'course_id' => $request->course_id,
+            'status' => $request->status,
         ];
         if($request->password) {
             // if($request->password !== $student->password){
@@ -81,7 +85,7 @@ class StudentsController extends Controller
             // }
         }
         $student->update($data);
-
+        
         Session::flash('flash_success', 'Student updated successfully!.');
         Session::flash('flash_type', 'alert-success');
         return redirect()->route('admin.students.index');

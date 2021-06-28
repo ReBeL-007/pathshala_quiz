@@ -25,6 +25,7 @@ class UpdateStudentRequest extends FormRequest
             'email'    => [
                 'required',
                 'unique:users,email,' . request()->route('student')->id],
+            
         ];
 
     }

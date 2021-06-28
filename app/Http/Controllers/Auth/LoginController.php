@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Auth;
+use \Illuminate\Http\Request;
+
 
 class LoginController extends Controller
 {
@@ -44,8 +46,24 @@ class LoginController extends Controller
         return redirect('/');
     }
 
+    // public function authenticate(Request $request)
+    // {
+    //     $credentials = $request->only('email', 'password');
+    //     $credentials['status'] == 1;
+    //     if (Auth::attempt($credentials)) {
+            
+    //         return redirect()->intended('dashboard');
+    //     }
+    // }
+   
+    protected function credentials(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        return array_add($credentials , 'status',1);
+    }
+
     // public function showLoginForm(){
     //     return redirect('/#signInModal');
     // }
-
+    
 }

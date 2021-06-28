@@ -53,7 +53,11 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:6',
+            'contact' =>'required',
+            'school' => 'required',
+            
+            
         ]);
     }
 
@@ -62,7 +66,11 @@ class RegisterController extends Controller
         $validators = $this->validator([
             "name" => $request['new-name'],
             "email" => $request['new-email'],
-            "password" => $request['new-password']
+            "password" => $request['password'],
+            "contact" => $request['new-contact'],
+            "course_id" => $request['course_id'],
+            "school" => $request['new-school']
+            
         ]);
             if ($validators->fails()) {
             return redirect('/login#register')
@@ -72,7 +80,10 @@ class RegisterController extends Controller
         $user = $this->create([
             "name" => $request['new-name'],
             "email" => $request['new-email'],
-            "password" => $request['new-password']
+            "password" => $request['password'],
+            "contact" => $request['new-contact'],
+            "course_id" => $request['course_id'],
+            "school" => $request['new-school']
         ]);
         event(new Registered($user));
 
@@ -95,6 +106,9 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'contact' => $data['contact'],
+            'school' => $data['school'],
+            'course_id' => $data['course_id'],
         ]);
     }
 

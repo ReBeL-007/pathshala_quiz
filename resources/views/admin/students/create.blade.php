@@ -36,13 +36,13 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.student.fields.password_helper') }}</span>
             </div>
-            {{-- <div class="form-group">
-                <label class="" for="address">{{ trans('cruds.student.fields.address') }}</label>
-                <input class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" type="address" name="address" id="address" >
-                @if($errors->has('address'))
-                    <span class="text-danger">{{ $errors->first('address') }}</span>
+            <div class="form-group">
+                <label class="required" for="password">{{ trans('cruds.student.fields.password') }}</label>
+                <input class="form-control {{ $errors->has('password_confirmation') ? 'is-invalid' : '' }}" type="password" name="password_confirmation" id="password_confirmation" required>
+                @if($errors->has('password_confirmation'))
+                    <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
                 @endif
-                <span class="help-block">{{ trans('cruds.student.fields.address_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.student.fields.password_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="" for="contact">{{ trans('cruds.student.fields.contact') }}</label>
@@ -52,6 +52,23 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.student.fields.contact_helper') }}</span>
             </div>
+            <div class="form-group">
+                <label class="" for="school">{{ trans('cruds.student.fields.preference') }}</label>
+                <input class="form-control {{ $errors->has('school') ? 'is-invalid' : '' }}" type="text" name="school" id="school" >
+                @if($errors->has('school'))
+                    <span class="text-danger">{{ $errors->first('school') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.student.fields.preference_helper') }}</span>
+            </div>
+            {{-- <div class="form-group">
+                <label class="" for="address">{{ trans('cruds.student.fields.address') }}</label>
+                <input class="form-control {{ $errors->has('address') ? 'is-invalid' : '' }}" type="address" name="address" id="address" >
+                @if($errors->has('address'))
+                    <span class="text-danger">{{ $errors->first('address') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.student.fields.address_helper') }}</span>
+            </div>
+            
             <div class="form-group">
                 <label class="" for="passed">{{ trans('cruds.student.fields.college') }}</label>
                 <input class="form-control {{ $errors->has('passed') ? 'is-invalid' : '' }}" type="text" name="passed" id="passed" >

@@ -73,8 +73,13 @@
                         </a>
                     </div> -->
                 </form>
-                {{--<form action="{{route('register')}}" method="POST" class="sign-up-form">
+                @php
+                    $courses = App\Course::get();
+                    
+                @endphp
+                <form action="{{route('register')}}" method="POST" class="sign-up-form">
                     @csrf
+                
                     <h2 class="title">Sign up</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
@@ -86,8 +91,33 @@
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" placeholder="Password" name="new-password"  autocomplete="new-password"/>
+                        <input type="password" placeholder="Password" name="password"  autocomplete="password"/>
                     </div>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="Confirm Password" name="password_confirmation"  autocomplete="password_confirmation" />
+                    </div>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="text" placeholder="Contact"  value="{{ old('new-contact', null) }}" name="new-contact" autocomplete="new-contact"  autocomplete="off"/>
+                    </div>
+                    
+                    <div class="input-field">
+                        <i class="fas fa-user"></i>
+                        <select class="input-field {{ $errors->has('course_id') ? 'is-invalid' : '' }}" name="course_id" id="course_id" >
+                    <option value="">Select course</option>
+                    @foreach($courses as $course)
+                    
+                        <option value="{{ $course->id }}" {{ old('course') ? 'selected' : '' }}>{{ $course->title }}</option>
+                    @endforeach
+                </select>
+                    </div>
+                    
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="text" placeholder="Previous School" value="{{ old('new-school', null) }}" name="new-school"  autocomplete="new-school"/>
+                    </div>
+
                     <input type="submit" class="btn" value="Sign up" />
                     @if ($errors->has('new-name'))
                     <span class="invalid-feedback" role="alert">
@@ -99,12 +129,22 @@
                         <strong>{{ str_replace('new-','',$errors->first('new-email'))}}</strong>
                     </span>
                     @endif
-                    @if ($errors->has('new-password'))
+                    @if ($errors->has('password'))
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ str_replace('new-','',$errors->first('new-password')) }}</strong>
+                        <strong>{{ $errors->first('password')}}</strong>
                     </span>
                     @endif
-                    @if ($errors->has('mew-invalid'))
+                    @if ($errors->has('password_confirmation'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('password_confirmation')}}</strong>
+                    </span>
+                    @endif
+                    @if ($errors->has('new-school'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ str_replace('new-','',$errors->first('new-school'))}}</strong>
+                    </span>
+                    @endif
+                    @if ($errors->has('new-invalid'))
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ str_replace('new-','',$errors->first('new-invalid')) }}</strong>
                     </span>
@@ -124,21 +164,21 @@
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                     </div> -->
-                </form>--}}
+                </form>
             </div>
         </div>
 
         <div class="panels-container">
             <div class="panel left-panel">
                 <div class="content">
-                    {{--<h3>New here ?</h3>--}}
-                    <h3 style="text-transform:uh3percase">
+                    <h3>New here ?</h3>
+                    <p style="text-transform:uppercase">
                     Pathshala Nepal Foundation
-                    </h3>
+                    </p>
                     <p>
                     Pathshala was founded in 2004 AD as co-educational English Medium School to cater the need of quality schooling in the context of 21st century learning.
                     </p>
-                    {{-- <button class="btn transparent" id="sign-up-btn">Sign up</button> --}}
+                    <button class="btn transparent" id="sign-up-btn">Sign up</button>
                 </div>
                 <img src="{{asset('img/log.svg')}}" class="image" alt="" />
             </div>

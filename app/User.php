@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'contact', 'address', 'school','passed',
+        'name', 'email', 'password', 'contact', 'address', 'school','passed','status','course_id',
     ];
 
     /**
@@ -38,6 +38,11 @@ class User extends Authenticatable
     public function attempts()
     {
         return $this->hasMany(Attempt::class, 'user_id');
+    }
+
+    public function courses()
+    {
+        return $this->belongsTo(Course::class);
     }
 
 }

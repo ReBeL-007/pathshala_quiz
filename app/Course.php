@@ -87,6 +87,11 @@ class Course extends Model implements HasMedia
         return $this->hasMany(Lesson::class, 'course_id');
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class,'course_id');
+    }
+
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')->width(50)->height(50);
