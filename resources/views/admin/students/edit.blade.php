@@ -47,7 +47,7 @@
 
             <div class="form-group">
                 <label class="required" for="course_id">{{ trans('cruds.student.fields.course') }}</label>
-                <select class="input-field {{ $errors->has('course_id') ? 'is-invalid' : '' }}" name="course_id" id="course_id" >
+                <select class="form-control {{ $errors->has('course_id') ? 'is-invalid' : '' }}" name="course_id" id="course_id" >
                     <option value="">Select course</option>
                     @foreach($courses as $course)
                     
@@ -62,7 +62,7 @@
 
             <div class="form-group">
                 <label class="required" for="status">{{ trans('cruds.student.fields.status') }}</label>
-                <select name="status" >
+                <select name="status" class="form-control">
                 <option value="0" {{$student->status == '0' ? 'selected' : ''}}>Deactive</option>
                 <option value="1" {{$student->status == '1' ? 'selected' : ''}}>Active</option>
                 </select>
