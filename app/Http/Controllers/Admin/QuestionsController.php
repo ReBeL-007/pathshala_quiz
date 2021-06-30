@@ -310,7 +310,7 @@ class QuestionsController extends Controller
             $options = $request->saq;
             // $point = $request->points;
             $prevOptions = $question->questionOptions->pluck('id');
-            // dd($options);
+            // dd($options);    
             if(count($options) == count($prevOptions)) {
                 foreach($options as $key => $option) {
 

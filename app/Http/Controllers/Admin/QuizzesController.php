@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Attempt;
 use App\AttemptAnswer;
 use App\Quiz;
+use App\Question;
 use App\Course;
 use App\User;
 use App\Admin;
@@ -127,7 +128,23 @@ class QuizzesController extends Controller
         if (!isset($request->time)) {
             $request->request->add(['time' => null, 'time_type' => null]);
         }
+        // $quiz->update($request->all());
+
+       
+        // recalculating remaining marks if full marks changed
+        if($quiz->full_marks != $request->full_marks) {
+            $sum_quiz_question_marks = Question::whereHas('quizzes', function ($query) use ($id) {
+                    $query->where('quiz_id', $id);
+                })
+                ->sum('marks');
+            
+            $request->request->add(['remaining_marks' => $request->full_marks - $sum_quiz_question_marks]);
+            // $quiz->remaining_marks = $quiz->full_marks - $sum_quiz_question_marks;
+            // $quiz->save();
+            }
+            // dd($request->all());
         $quiz->update($request->all());
+
         $users = User::all();
         $admins = Admin::all();
         if($quiz->published){

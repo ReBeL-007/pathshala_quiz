@@ -29,28 +29,32 @@
             <div class="col-md-4 content">
                 <div class="upcoming-test y-scroll">
                     <h4>Available Tests <small><a href="{{route('quiz_index')}}">See all</a></small> </h4>
-                    @if (count($quizzes)==0)
-                    <p>No Available Tests</p>
+                    @if(Auth::user()->status == 1)
+                        @if (count($quizzes)==0)
+                        <p>No Available Tests</p>
+                        @else
+
+                            @foreach ($quizzes as $test)
+
+                            <div class="upcoming-test-list" @if (rand(1,4)==2) style="background: rgba(190, 230, 243, 0.5);"
+                                @elseif(rand(1,4)==3) style="background: rgba(255, 221, 89, 0.3);" @elseif(rand(1,4)>3)
+                                style="background:
+                                rgba(169, 227, 200, 0.7);"@endif>
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h5>{{$test->title}}</h5>
+                                        <p>{{$test->course->title}} </p>
+                                    </div>
+                                    <div class="col-md-3 live-class">
+                                        <a href="{{route('quizUrl',['id'=>$test->id])}}">Take Quiz</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @endforeach
+                        @endif
                     @else
-
-                    @foreach ($quizzes as $test)
-
-                    <div class="upcoming-test-list" @if (rand(1,4)==2) style="background: rgba(190, 230, 243, 0.5);"
-                        @elseif(rand(1,4)==3) style="background: rgba(255, 221, 89, 0.3);" @elseif(rand(1,4)>3)
-                        style="background:
-                        rgba(169, 227, 200, 0.7);"@endif>
-                        <div class="row">
-                            <div class="col-md-9">
-                                <h5>{{$test->title}}</h5>
-                                <p>{{$test->course->title}} </p>
-                            </div>
-                            <div class="col-md-3 live-class">
-                                <a href="{{route('quizUrl',['id'=>$test->id])}}">Take Quiz</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    @endforeach
+                        <p>Your account is not activated yet.</p>
                     @endif
                 </div>
             </div>

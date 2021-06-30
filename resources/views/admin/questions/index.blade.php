@@ -13,7 +13,7 @@
         </a>
         @if(isset($quiz))
             <a href="{{ route('admin.questions.showImport').'?quiz='.$quiz->id }}"
-                class="btn btn-primary">Add Questions <i class="fas fa-file-excel"></i><a>
+                class="btn btn-primary">Import Questions <i class="fas fa-file-excel"></i><a>
         @endif
     </div>
 </div>

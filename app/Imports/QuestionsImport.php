@@ -25,14 +25,24 @@ class QuestionsImport implements ToModel,WithValidation, WithHeadingRow
             $question_type = "Multiple Answers";
         }
         $quiz = Quiz::find($this->quiz);
+
+        // to get question no of latest question
+        $latest_question = Question::whereHas('quizzes', function ($query) use ($quiz) {
+            $query->where('quiz_id', $quiz->id);
+        })
+        ->orderBy('question_no','desc')
+        ->first();
+        
         $question = Question::create([
             'question_text' => $row['question'],
             'question_hint' => $row['question_hint'],
             'type' => $question_type,
             'marks' => $row['marks'],
+            'question_no' => ($latest_question)?$latest_question->question_no+1:1,
         ]);
         if($quiz->full_marks){
             $quiz->remaining_marks -= $question->marks;
+            $quiz->save();
         }
         $quiz->questions()->attach($question);
 

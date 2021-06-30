@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In</title>
+
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+      integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/login.css" />
+
+    <script src="js/formManipulate.js" defer></script>
+  </head>
+  <body>
+    <section class="section-log">
+      <div class="row-log">
+        <div class="brandLogo">
+          <img src="img/asmita.png" alt="" />
+        </div>
+        <div class="logIn__form">
+          <form action="#" class="form">
+            <!-- <div class="u-margin-bottom">
+              <h2 class="heading-secondary">Welcome Back!</h2>
+            </div> -->
+            <div class="form__group">
+              <input
+                type="text"
+                class="form__input"
+                placeholder="First Name*"
+                id="firstName"
+                required
+              />
+              <label for="firstName" class="form__label">First Name*</label>
+            </div>
+
+            <div class="form__group">
+              <input
+                type="text"
+                class="form__input"
+                placeholder="Last Name*"
+                id="lastName"
+                required
+              />
+              <label for="lastName" class="form__label">Last Name*</label>
+            </div>
+
+            <div class="form__group">
+              <input
+                type="email"
+                class="form__input"
+                placeholder="Email Address*"
+                id="email"
+                required
+              />
+              <label for="email" class="form__label">Email Address*</label>
+            </div>
+
+            <div class="form__group">
+              <input
+                type="number"
+                class="form__input"
+                placeholder="Phone Number*"
+                id="phoneNumber"
+                oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                maxlength="10"
+                required
+              />
+              <label for="phoneNumber" class="form__label">Phone Number*</label>
+            </div>
+
+            <div class="form__group">
+              <input
+                type="password"
+                class="form__input"
+                placeholder="Password*"
+                id="password"
+                required
+              />
+              <label for="password" class="form__label">Password*</label>
+            </div>
+
+            <div class="form__group">
+              <input
+                type="password"
+                class="form__input"
+                placeholder="Confirm Password*"
+                id="confirmPassword"
+                required
+              />
+              <label for="confirmPassword" class="form__label"
+                >Confirm Password*</label
+              >
+            </div>
+
+            <div class="form__group">
+              <select
+                name="role"
+                id="role"
+                class="form__input form__input--select"
+                style="color: #999"
+              >
+                <option value="" disabled selected>Select Role*</option>
+                <option value="teacher">Teacher</option>
+                <option value="customer">customer</option>
+                <option value="user">user</option>
+              </select>
+              <label
+                for="role"
+                class="form__label select-effect select-label__hide"
+                >Select Role*</label
+              >
+            </div>
+
+            <!-- hidden form show only for teacher -->
+
+            <div class="hide--form">
+              <div class="form__group">
+                <select
+                  name="level"
+                  id="level"
+                  class="form__input form__input--select"
+                  style="color: #999"
+                >
+                  <option value="" selected>Teaching Level*</option>
+                  <option value="+2">+2 college</option>
+                  <option value="master">masters</option>
+                  <option value="schoolLevel">school level</option>
+                </select>
+                <label
+                  for="level"
+                  class="form__label select-effect select-label__hide"
+                  >Teaching Level*</label
+                >
+              </div>
+              <div class="form__group">
+                <select
+                  name=""
+                  id="subject"
+                  class="form__input form__input--select"
+                  style="color: #999"
+                >
+                  <option value="" selected>Subject*</option>
+                  <option value="math">Math</option>
+                  <option value="nepali">Nepali</option>
+                  <option value="science">Science</option>
+                </select>
+                <label
+                  for="subject"
+                  class="form__label select-effect select-label__hide"
+                  >Subject*</label
+                >
+              </div>
+
+              <div class="form__group">
+                <input
+                  type="text"
+                  class="form__input"
+                  placeholder="College/ School Name*"
+                  id="instituteName"
+                  required
+                />
+                <label for="instituteName" class="form__label"
+                  >College/ School Name*</label
+                >
+              </div>
+
+              <div class="form__group">
+                <input
+                  type="text"
+                  class="form__input"
+                  placeholder="Principal Name*"
+                  id="principalName"
+                  required
+                />
+                <label for="principalName" class="form__label"
+                  >Principal Name*</label
+                >
+              </div>
+
+              <div class="form__group">
+                <input
+                  type="number"
+                  class="form__input"
+                  placeholder="College/ School Contact*"
+                  id="instituteNumber"
+                  oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  maxlength="10"
+                  required
+                />
+                <label for="instituteNumber" class="form__label"
+                  >College/ School Contact*</label
+                >
+              </div>
+
+              <div class="form__group">
+                <select
+                  name="role"
+                  id="role"
+                  class="form__input form__input--select"
+                  style="color: #999"
+                >
+                  <option value="" selected>Provience*</option>
+                  <option value="1">Provience 1</option>
+                  <option value="2">Provience 2</option>
+                  <option value="3">Provience 3</option>
+                </select>
+                <label
+                  for="role"
+                  class="form__label select-effect select-label__hide"
+                  >Provience*</label
+                >
+              </div>
+
+              <!-- 1. side by side input field -->
+
+              <div class="group__input--field">
+                <div class="form__group">
+                  <select
+                    name=""
+                    id="municipality"
+                    class="form__input form__input--select"
+                    style="color: #999"
+                  >
+                    <option value="" selected>Municipality*</option>
+                    <option value="kathmandu">Kathmandu</option>
+                    <option value="chitwan">Chitwan</option>
+                    <option value="bhaktapur">bhaktapur</option>
+                  </select>
+                  <label
+                    for="municipality"
+                    class="form__label select-effect select-label__hide"
+                    >Municipality*</label
+                  >
+                </div>
+
+                <div class="form__group">
+                  <select
+                    name=""
+                    id="provience"
+                    class="form__input form__input--select"
+                    style="color: #999"
+                  >
+                    <option value="" selected>District*</option>
+                    <option value="kathmandu">Kathmandu</option>
+                    <option value="chitwan">Chitwan</option>
+                    <option value="bhaktapur">bhaktapur</option>
+                  </select>
+                  <label
+                    for="provience"
+                    class="form__label select-effect select-label__hide"
+                    >District*</label
+                  >
+                </div>
+              </div>
+
+              <!-- 2. side by side input field -->
+              <div class="group__input--field">
+                <div class="form__group">
+                  <input
+                    type="number"
+                    class="form__input"
+                    placeholder="Ward Number"
+                    id="ward"
+                    oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    maxlength="3"
+                    required
+                  />
+                  <label
+                    for="ward"
+                    class="form__label select-effect select-label__hide"
+                    >Ward Number</label
+                  >
+                </div>
+
+                <div class="form__group">
+                  <input
+                    type="text"
+                    class="form__input"
+                    placeholder="Street Name"
+                    id="street"
+                    oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    maxlength="3"
+                    required
+                  />
+                  <label
+                    for="street"
+                    class="form__label select-effect select-label__hide"
+                    >Street Name</label
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- <div class="form__group immediate__actions">
+              <label class="container-checkbox"
+                >One
+                <input type="checkbox" checked="checked" />
+                <span class="checkmark"></span>
+              </label>
+              <a href="#" class="link">Forgot Password?</a>
+            </div> -->
+            <div class="form__group align-end">
+              <p>*required fields</p>
+            </div>
+
+            <div class="form__group align-center">
+              <button class="btn btn--log">Register</button>
+            </div>
+
+            <div class="form__group">
+              <div class="other--option">
+                <ul class="options__links">
+                  <li>
+                    <a href="">
+                      <span class="icon"
+                        ><i class="fas fa-arrow-right"></i
+                      ></span>
+                      <span class="effect">Log In</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="">
+                      <span class="icon"
+                        ><i class="fas fa-arrow-right"></i
+                      ></span>
+                      <span class="effect">Home</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- <div class="form-group">
+              <span>Or Sign In With</span>
+            </div> -->
+          </form>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

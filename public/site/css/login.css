@@ -1,0 +1,514 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap");
+
+:root {
+    --color-primary: #0924ad;
+    --color-log-background: #e9edf6;
+    --color-white: #fff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+/* utiity styles */
+body {
+    font-size: 1.6rem;
+    font-family: "Open Sans", sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.u-margin-bottom {
+    margin-bottom: 2rem;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-end {
+    text-align: end;
+}
+
+.heading-secondary {
+    font-size: 3rem;
+}
+
+.section-log {
+    min-height: 100vh;
+    padding: 5rem 2rem;
+    background-color: var(--color-log-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row-log {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: var(--color-white);
+
+    padding-top: 5rem;
+    box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 25%);
+
+    width: 100%;
+
+    max-width: 62rem;
+    min-width: 30rem;
+}
+
+.row-log > * {
+    flex-grow: 1;
+}
+
+.brandLogo {
+    width: 16.5rem;
+    align-self: center;
+}
+
+.brandLogo img {
+    width: 100%;
+}
+
+.logIn__form {
+    /* width: 20%; */
+    padding: 6rem;
+}
+
+.form__group:not(:last-child) {
+    margin-bottom: 2rem;
+}
+
+/* recent changes */
+
+.form__input,
+.selection .select2-selection {
+    font-family: inherit;
+    font-size: 1.5rem;
+    padding: 1.5rem 2rem;
+    border-radius: 0.3rem;
+    background-color: var(--color-log-background);
+    border: none;
+    border-bottom: 0.3rem solid transparent;
+    display: block;
+    width: 100%;
+    color: inherit;
+    transition: all 0.3s;
+}
+
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container:focus,
+.select2-container:active,
+.select2-selection:focus,
+.select2-selection:active,
+.selection:focus,
+.selection:active {
+    border: none !important;
+}
+
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__rendered {
+    padding: 0;
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+    margin-top: 0;
+}
+
+.select2-container:focus,
+.select2-container:active,
+.select2-selection:focus,
+.select2-selection:active,
+.selection:focus,
+.selection:active {
+    border: none;
+    border-bottom: 0.3rem solid var(--color-primary);
+}
+
+.select2-container--default.select2-container--focus
+    .select2-selection--multiple {
+    border: none;
+    border-bottom: 0.3rem solid transparent;
+}
+
+.form__input:focus {
+    outline: none;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+    border-bottom: 0.3rem solid var(--color-primary);
+}
+
+.form__input:focus:invalid {
+    /* border-bottom: 0.3rem solid #ff7730; */
+}
+.form__input::-webkit-input-placeholder {
+    color: #999;
+}
+
+.select2-search__field {
+    position: relative;
+    width: auto !important;
+    z-index: 500;
+}
+
+/* .mul-select ~ .form__label {
+  display: inline-block;
+  transform: translateY(-5rem);
+  color: #999;
+  font-weight: normal;
+} */
+
+.multi__select-container {
+    /* margin-top: -3rem; */
+    margin-bottom: 5rem;
+}
+
+.multi__select-container .form__label {
+    display: inline-block;
+    color: #999;
+    font-weight: normal;
+    position: relative;
+    z-index: 100;
+    transform: translateY(4.5rem);
+}
+
+.move-label {
+    display: inline-block !important;
+    transform: translateY(0.71rem) !important;
+    color: #000 !important;
+    font-weight: bold !important;
+}
+
+/* end of recent changes */
+
+.form__label {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-left: 2rem;
+    margin-top: 0.7rem;
+    display: block;
+    transition: all 0.3s;
+    transform: translateY(-8rem);
+}
+
+.form__input:placeholder-shown ~ .form__label {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-4rem);
+}
+
+.form__radio-group {
+    width: 49%;
+    display: inline-block;
+}
+
+.btn__log,
+.btn__log:link,
+.btn__log:visited {
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 2rem 4rem;
+    text-align: center;
+    display: inline-block;
+    border-radius: 4rem;
+    transition: all 0.2s ease;
+    position: relative;
+    border: none;
+    cursor: pointer;
+}
+
+.btn__log:hover {
+    color: #fff;
+    transform: translateY(-0.3rem);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.btn__log:active,
+.btn__log:focus {
+    outline: none;
+    transform: translateY(-0.1rem);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+/* immediate actions */
+.immediate__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+}
+
+/* check box */
+.container-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* browser default hide */
+.container-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* custom checkbox */
+.container-checkbox .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+/*  add a grey background color */
+.container-checkbox:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a background */
+.container-checkbox input:checked ~ .checkmark {
+    background-color: var(--color-primary);
+}
+
+.container-checkbox .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container-checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+/* forgot password */
+
+.link {
+    color: var(--color-primary);
+    font-size: 1.8rem;
+    letter-spacing: 0.2rem;
+}
+
+/* button login */
+.btn--log {
+    text-align: center;
+    border-radius: 3px;
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+/* other action links */
+.other--option {
+    padding-top: 3rem;
+    font-size: 1.6rem;
+}
+
+.options__links {
+    /* width: 90%; */
+    display: flex;
+    justify-content: space-between;
+}
+
+.other--option li a {
+    display: flex;
+    color: var(--color-primary);
+    transition: 0.3s;
+    /* line-height: 2; */
+}
+
+.icon-2 {
+    position: relative;
+    font-size: 1rem;
+    z-index: 10;
+    margin-right: 0.9rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-primary);
+}
+
+.icon-2::before {
+    content: "";
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--color-log-background);
+    border-radius: 50%;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.other--option li a:hover,
+.other--option li a:active {
+    text-decoration: none;
+}
+
+.other--option li a:hover .effect,
+.other--option li a:active .effect {
+    text-decoration: underline;
+    text-underline-position: under;
+}
+
+/* register */
+
+/* for select input and if teacher select options*/
+
+.form__input--select option {
+    color: #000;
+}
+
+.form__input--select:focus:invalid {
+    /* border-bottom: 0.3rem solid #ff7730; */
+}
+
+.hide--form {
+    display: none;
+}
+
+.show {
+    display: block;
+    transition: 0.3s;
+}
+
+/* side by side input field */
+
+.group__input--field {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.group__input--field > * {
+    flex-basis: 100%;
+}
+
+.select-label {
+    transform: translateY(-8rem);
+    visibility: visible;
+    opacity: 1;
+    transition: 0.3s;
+}
+
+.select-label__hide {
+    transform: translateY(-4rem);
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+/* .showMultiple {
+  display: block;
+} */
+
+/* responsive */
+@media (max-width: 700px) {
+    .logIn__form {
+        padding: 3rem;
+    }
+}
+
+@media (max-width: 600px) {
+    html {
+        font-size: 58%;
+    }
+
+    .options__links {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .btn__log {
+        width: 100%;
+    }
+
+    .btn--log {
+        padding: 1.5rem 1.8rem;
+    }
+}
+
+@media (max-width: 580px) {
+    .group__input--field {
+        flex-direction: column;
+        gap: 0rem;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 400px) {
+    html {
+        font-size: 50%;
+    }
+}
+
+/* newly added feature and css */
+.buttons-new button {
+    background-color: hsl(230, 90%, 26%);
+    outline: none;
+    color: #fff;
+    border: none;
+    padding: 0.4rem 1.6rem;
+}
+
+.multi__select-container {
+}
+
+.wrap {
+    border: 3px solid #e9edf6;
+    margin-bottom: 3rem;
+    padding: 0.8rem;
+    position: relative;
+}
+
+.delete__div {
+    position: absolute;
+    top: 6px;
+    right: 0;
+    padding-right: 0.8rem;
+    background-color: transparent;
+    outline: none;
+    color: #dc3545;
+    font-weight: bold;
+    border: none;
+}

@@ -30,7 +30,7 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
-    protected $redirect = "/login#register";
+    // protected $redirect = "/login#register";
 
     /**
      * Create a new controller instance.
@@ -53,11 +53,11 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required|string|min:6',
             'contact' =>'required',
+            'course_id' =>'required',
             'school' => 'required',
-            
-            
         ]);
     }
 
@@ -67,13 +67,15 @@ class RegisterController extends Controller
             "name" => $request['new-name'],
             "email" => $request['new-email'],
             "password" => $request['password'],
+            "password_confirmation" => $request['password_confirmation'],
             "contact" => $request['new-contact'],
             "course_id" => $request['course_id'],
             "school" => $request['new-school']
             
         ]);
+        
             if ($validators->fails()) {
-            return redirect('/login#register')
+            return redirect('/register')
                         ->withErrors($validators)
                         ->withInput();
         }
@@ -113,8 +115,9 @@ class RegisterController extends Controller
     }
 
 
-    public function showRegistrationForm()
-    {
-        return redirect('/login#register');
-    }
+    // public function showRegistrationForm()
+    // {
+    //     // return redirect('/login#register');
+    //     return redirect('/register');
+    // }
 }

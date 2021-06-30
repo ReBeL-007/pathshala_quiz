@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+
+    <!-- font-awesome -->
+
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+      integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+      crossorigin="anonymous"
+    />
+    <!-- javascript -->
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/insidePage.css" />
+    <link rel="stylesheet" href="css/commonPage.css" />
+  </head>
+  <body>
+    <section class="header-section section">
+      <!-- logo -->
+      <a href="#" class="logo-link">
+        <img src="img/asmita.png" alt="" />
+      </a>
+      <form action="" class="header-section__form">
+        <div class="form__group">
+          <input type="text" placeholder="Search..." />
+          <select id="Categories">
+            <option value="hide">All Categories</option>
+            <option value="all categories">All Categories</option>
+            <option value="uncategorized">uncategorized</option>
+            <option value="schoolLevel">School Level</option>
+            <option value="one">One</option>
+            <option value="two">two</option>
+            <option value="three">three</option>
+            <option value="four">four</option>
+            <option value="five">five</option>
+            <option value="six">six</option>
+            <option value="seven">seven</option>
+            <option value="eight">eight</option>
+            <option value="nine">nine</option>
+            <option value="ten">ten</option>
+            <option value="ten">ten</option>
+            <option value="MBBS">MBBS</option>
+            <option value="BCA">BCA</option>
+            <option value="BBS">BBS</option>
+          </select>
+          <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+      </form>
+      <!-- search -->
+    </section>
+    <!-- mobile tablet search -->
+    <a class="btn searchIcon">
+      <i class="fas fa-search"></i>
+      <form action="" class="header-section__form myForm">
+        <div class="form__group">
+          <input type="text" placeholder="Search..." />
+          <select id="Categories">
+            <option value="hide">All Categories</option>
+            <option value="all categories">All Categories</option>
+            <option value="uncategorized">uncategorized</option>
+            <option value="schoolLevel">School Level</option>
+            <option value="one">One</option>
+            <option value="two">two</option>
+            <option value="three">three</option>
+            <option value="four">four</option>
+            <option value="five">five</option>
+            <option value="six">six</option>
+            <option value="seven">seven</option>
+            <option value="eight">eight</option>
+            <option value="nine">nine</option>
+            <option value="ten">ten</option>
+            <option value="ten">ten</option>
+            <option value="MBBS">MBBS</option>
+            <option value="BCA">BCA</option>
+            <option value="BBS">BBS</option>
+          </select>
+          <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+      </form>
+    </a>
+    <section class="sub-header__container">
+      <!-- nav section -->
+      <nav class="section-nav">
+        <input type="checkbox" id="check" />
+        <div class="hamburger-menu-container">
+          <div class="hamburger-menu">
+            <div></div>
+          </div>
+        </div>
+        <div class="logo-container">
+          <a href="#" class="logo-container__link">
+            <img src="./img/asmita.png" alt="" />
+          </a>
+        </div>
+        <!-- desktop nav and then transformed into mobile nav-->
+        <div class="nav-btn">
+          <!-- after sticky should be displayed -->
+          <div class="logo-container">
+            <a href="#" class="logo-container__link">
+              <img src="./img/asmita.png" alt="" />
+            </a>
+          </div>
+          <div class="nav-links">
+            <ul>
+              <li class="nav-link">
+                <a href="#">School <i class="fas fa-caret-down"></i></a>
+                <!-- <div class="dropdown">
+                      <ul>
+                        <li class="dropdown-link">
+                          <a href="#"> Primary Level </a>
+                        </li>
+                        <li class="dropdown-link">
+                          <a href="#"> One </a>
+                        </li>
+                        <li class="dropdown-link">
+                          <a href="#"> Two </a>
+                        </li>
+                        <li class="dropdown-link">
+                          <a href="#"> Three </a>
+                        </li>
+                      </ul>
+                    </div> -->
+              </li>
+              <li class="nav-link">
+                <a href="#">10 +2 Books <i class="fas fa-caret-down"></i></a>
+                <!-- <div class="dropdown">
+                      <ul>
+                        <li class="dropdown-link">
+                          <a href="#"> Eleven </a>
+                        </li>
+                        <li class="dropdown-link">
+                          <a href="#"> Twelve </a>
+                        </li>
+                      </ul>
+                    </div> -->
+              </li>
+              <li class="nav-link">
+                <a href="#"
+                  >University Books <i class="fas fa-caret-down"></i
+                ></a>
+                <div class="dropdown">
+                  <ul>
+                    <li class="dropdown-link">
+                      <a href="#"> BBS <i class="fas fa-caret-right"></i></a>
+                      <div class="dropdown nested">
+                        <ul>
+                          <li class="dropdown-link">
+                            <a href="#">
+                              Tribhuwan University
+                              <i class="fas fa-caret-right"></i
+                            ></a>
+                            <div class="dropdown nested">
+                              <ul>
+                                <li class="dropdown-link">
+                                  <a href="#">
+                                    First Year
+                                    <i class="fas fa-caret-right"></i
+                                  ></a>
+                                </li>
+                                <li class="dropdown-link">
+                                  <a href="#">
+                                    Second Year
+                                    <i class="fas fa-caret-right"></i
+                                  ></a>
+                                </li>
+                                <li class="dropdown-link">
+                                  <a href="#">
+                                    Third Year
+                                    <i class="fas fa-caret-right"></i
+                                  ></a>
+                                </li>
+                                <li class="dropdown-link">
+                                  <a href="#">
+                                    Fourth Year<i
+                                      class="fas fa-caret-right"
+                                    ></i>
+                                  </a>
+                                </li>
+                                <div class="arrow"></div>
+                              </ul>
+                            </div>
+                          </li>
+                          <li class="dropdown-link">
+                            <a href="#">
+                              Mid-Western University
+                              <i class="fas fa-caret-right"></i
+                            ></a>
+                          </li>
+                          <li class="dropdown-link">
+                            <a href="#">
+                              Far-Western University
+                              <i class="fas fa-caret-right"></i
+                            ></a>
+                          </li>
+                          <div class="arrow"></div>
+                        </ul>
+                      </div>
+                    </li>
+                    <li class="dropdown-link">
+                      <a href="#"> BBA <i class="fas fa-caret-right"></i></a>
+                    </li>
+                    <li class="dropdown-link">
+                      <a href="#"> BIM <i class="fas fa-caret-right"></i></a>
+                    </li>
+                    <li class="dropdown-link">
+                      <a href="#"> BHM<i class="fas fa-caret-right"></i> </a>
+                    </li>
+                    <div class="arrow"></div>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-link">
+                <a href="#">More Books <i class="fas fa-caret-down"></i></a>
+              </li>
+              <li class="nav-link">
+                <a href="#">Teachers Guide <i class="fas fa-caret-down"></i></a>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-sign">
+            <a href="#" class="sign-in"
+              ><i class="fas fa-user"></i> <span> Sign In</span></a
+            >
+            <a href="#" class="register">
+              <i class="fas fa-user-plus"></i>
+              <span>Register</span></a
+            >
+          </div>
+          <!-- visible after sticky -->
+          <a class="btn sticky-search">
+            <i class="fas fa-search"></i>
+            <form action="" class="header-section__form sticky-form">
+              <div class="form__group">
+                <input type="text" placeholder="Search..." />
+                <select id="Categories">
+                  <option value="hide">All Categories</option>
+                  <option value="all categories">All Categories</option>
+                  <option value="uncategorized">uncategorized</option>
+                  <option value="schoolLevel">School Level</option>
+                  <option value="one">One</option>
+                  <option value="two">two</option>
+                  <option value="three">three</option>
+                  <option value="four">four</option>
+                  <option value="five">five</option>
+                  <option value="six">six</option>
+                  <option value="seven">seven</option>
+                  <option value="eight">eight</option>
+                  <option value="nine">nine</option>
+                  <option value="ten">ten</option>
+                  <option value="ten">ten</option>
+                  <option value="MBBS">MBBS</option>
+                  <option value="BCA">BCA</option>
+                  <option value="BBS">BBS</option>
+                </select>
+                <button class="search-btn">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </form>
+          </a>
+        </div>
+      </nav>
+    </section>
+    <main>
+      <section class="section section--breadcrum">
+        <p class="short-breadcrum">
+          <a href="#">Home</a>/ <a href="">Shop</a> / <a href=""> School</a>
+        </p>
+      </section>
+      <div class="main--padding">
+        <section class="section section__common-section">
+          <div class="product__shortlist">
+            <h3 class="product-heading">All Products</h3>
+            <!-- shortlist container -->
+            <ul class="products__shortlist-container">
+              <li class="product">
+                <a href="" class="product-image">
+                  <img src="img/books.jpg" alt="" />
+                </a>
+                <div class="product-body">
+                  <a href="" class="product-body--title"
+                    >The Principles abcdegsadfsd</a
+                  >
+                  <div class="top-picks__rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                </div>
+              </li>
+              <li class="product">
+                <a href="" class="product-image">
+                  <img src="img/books.jpg" alt="" />
+                </a>
+                <div class="product-body">
+                  <a href="" class="product-body--title"
+                    >The Principles abcdegsadfsd</a
+                  >
+                  <div class="top-picks__rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                </div>
+              </li>
+              <li class="product">
+                <a href="" class="product-image">
+                  <img src="img/books.jpg" alt="" />
+                </a>
+                <div class="product-body">
+                  <a href="" class="product-body--title"
+                    >The Principles abcdegsadfsd</a
+                  >
+                  <div class="top-picks__rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- product main page -->
+          <div class="product__main-page">
+            <div class="product__main-page-top">
+              <form action="" class="sort__form">
+                <div class="form__container">
+                  <label for="sort">Sort By:</label>
+                  <select name="" id="sort">
+                    <option value="" selected>Default Sorting</option>
+                    <option value="">Sort by price high to low</option>
+                    <option value="">Default Sorting</option>
+                  </select>
+                </div>
+              </form>
+              <div class="wrap__content">
+                <form action="" class="sort__form">
+                  <div class="form__container">
+                    <label for="sortPage">Show:</label>
+                    <select name="" id="sortPage">
+                      <option value="" selected>10</option>
+                      <option value="">16</option>
+                      <option value="">32</option>
+                    </select>
+                  </div>
+                </form>
+                <!-- currently not in use -->
+                <!-- <div class="content__alignment">
+                  <img src="" alt="" />
+                  <img src="" alt="" />
+                </div> -->
+              </div>
+            </div>
+            <div class="product__main-page-main">
+              <div class="top-picks__card card__link">
+                <a href="https://goal.com">
+                  <div class="top-picks__image">
+                    <img src="img/books.jpg" alt="" />
+                  </div>
+                  <div class="top-picks__body">
+                    <a class="top-picks__info"
+                      >10 +2 Books, Eleven, latest releases, love books</a
+                    >
+                    <a class="top-picks__title">Major Nepali, Grade - 11</a>
+                    <div class="top-picks__rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="card__btn">
+                      <i class="fas fa-arrow-right"></i>
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </a>
+              </div>
+              <div class="top-picks__card card__link">
+                <a href="https://goal.com">
+                  <div class="top-picks__image">
+                    <img src="img/books.jpg" alt="" />
+                  </div>
+                  <div class="top-picks__body">
+                    <a class="top-picks__info"
+                      >10 +2 Books, Eleven, latest releases, love books</a
+                    >
+                    <a class="top-picks__title">Major Nepali, Grade - 11</a>
+                    <div class="top-picks__rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="card__btn">
+                      <i class="fas fa-arrow-right"></i>
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </a>
+              </div>
+              <div class="top-picks__card card__link">
+                <a href="https://goal.com">
+                  <div class="top-picks__image">
+                    <img src="img/books.jpg" alt="" />
+                  </div>
+                  <div class="top-picks__body">
+                    <a class="top-picks__info"
+                      >10 +2 Books, Eleven, latest releases, love books</a
+                    >
+                    <a class="top-picks__title">Major Nepali, Grade - 11</a>
+                    <div class="top-picks__rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="card__btn">
+                      <i class="fas fa-arrow-right"></i>
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </a>
+              </div>
+              <div class="top-picks__card card__link">
+                <a href="https://goal.com">
+                  <div class="top-picks__image">
+                    <img src="img/books.jpg" alt="" />
+                  </div>
+                  <div class="top-picks__body">
+                    <a class="top-picks__info"
+                      >10 +2 Books, Eleven, latest releases, love books</a
+                    >
+                    <a class="top-picks__title">Major Nepali, Grade - 11</a>
+                    <div class="top-picks__rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="card__btn">
+                      <i class="fas fa-arrow-right"></i>
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </a>
+              </div>
+              <div class="top-picks__card card__link">
+                <a href="https://goal.com">
+                  <div class="top-picks__image">
+                    <img src="img/books.jpg" alt="" />
+                  </div>
+                  <div class="top-picks__body">
+                    <a class="top-picks__info"
+                      >10 +2 Books, Eleven, latest releases, love books</a
+                    >
+                    <a class="top-picks__title">Major Nepali, Grade - 11</a>
+                    <div class="top-picks__rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="card__btn">
+                      <i class="fas fa-arrow-right"></i>
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </a>
+              </div>
+              <div class="top-picks__card card__link">
+                <a href="https://goal.com">
+                  <div class="top-picks__image">
+                    <img src="img/books.jpg" alt="" />
+                  </div>
+                  <div class="top-picks__body">
+                    <a class="top-picks__info"
+                      >10 +2 Books, Eleven, latest releases, love books</a
+                    >
+                    <a class="top-picks__title">Major Nepali, Grade - 11</a>
+                    <div class="top-picks__rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="card__btn">
+                      <i class="fas fa-arrow-right"></i>
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </a>
+              </div>
+              <div class="top-picks__card card__link">
+                <a href="https://goal.com">
+                  <div class="top-picks__image">
+                    <img src="img/books.jpg" alt="" />
+                  </div>
+                  <div class="top-picks__body">
+                    <a class="top-picks__info"
+                      >10 +2 Books, Eleven, latest releases, love books</a
+                    >
+                    <a class="top-picks__title">Major Nepali, Grade - 11</a>
+                    <div class="top-picks__rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="card__btn">
+                      <i class="fas fa-arrow-right"></i>
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </a>
+              </div>
+              <div class="top-picks__card card__link">
+                <a href="https://goal.com">
+                  <div class="top-picks__image">
+                    <img src="img/books.jpg" alt="" />
+                  </div>
+                  <div class="top-picks__body">
+                    <a class="top-picks__info"
+                      >10 +2 Books, Eleven, latest releases, love books</a
+                    >
+                    <a class="top-picks__title">Major Nepali, Grade - 11</a>
+                    <div class="top-picks__rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="card__btn">
+                      <i class="fas fa-arrow-right"></i>
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </a>
+              </div>
+              <div class="top-picks__card card__link">
+                <a href="https://goal.com">
+                  <div class="top-picks__image">
+                    <img src="img/books.jpg" alt="" />
+                  </div>
+                  <div class="top-picks__body">
+                    <a class="top-picks__info"
+                      >10 +2 Books, Eleven, latest releases, love books</a
+                    >
+                    <a class="top-picks__title">Major Nepali, Grade - 11</a>
+                    <div class="top-picks__rating">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                    <a href="#" class="card__btn">
+                      <i class="fas fa-arrow-right"></i>
+                      <span>Read More</span>
+                    </a>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="product__main-page-bottom">
+              <form action="" class="sort__form">
+                <div class="form__container">
+                  <label for="sortPage">Show:</label>
+                  <select name="" id="sortPage">
+                    <option value="" selected>10</option>
+                    <option value="">16</option>
+                    <option value="">32</option>
+                  </select>
+                </div>
+              </form>
+              <ul class="page__numbers">
+                <li class="page__number-active"><span>1</span></li>
+                <li><span>2</span></li>
+                <li>
+                  <span><i class="fas fa-chevron-right"></i></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
