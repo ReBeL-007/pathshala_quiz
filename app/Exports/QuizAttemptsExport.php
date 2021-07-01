@@ -28,6 +28,7 @@ class QuizAttemptsExport implements FromArray,WithHeadings
         foreach ($attempts as $attempt) {
         $data = [
             'user' => $attempt->user->name,
+            'contact' => $attempt->user->contact,
             'total_marks' => 0,
             'full_marks' => $full_marks,
 
@@ -56,7 +57,7 @@ class QuizAttemptsExport implements FromArray,WithHeadings
 
     public function headings():array
     {
-        $headings = ["User", "Obtained Marks", "Total Marks"];
+        $headings = ["User", "Contact", "Obtained Marks", "Total Marks"];
         $quiz = Quiz::findOrFail($this->id);
         foreach ($quiz->questions as $key => $question) {
             array_push($headings,'Question '.($key+1));
