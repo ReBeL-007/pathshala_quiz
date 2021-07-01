@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Admin Portal | Mangosoft</title>
+    <link rel = "icon" href ="{{asset('fav.png')}}" type = "image/x-icon">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- to accept http while server running on https -->
@@ -24,11 +25,11 @@
 <body class="hold-transition login-page">
     <section>
         <div class="imgBx">
-            <img src="{{asset('mangosoft.png')}}" alt="logo" />
+            <img src="{{asset('pathshala.png')}}" alt="logo" style="height:auto" />
         </div>
         <div class="contentBx">
             <div class="formBx">
-                <h2>Login</h2>
+                <h2 style="border-bottom: 4px solid #F68635;" >Login</h2>
                 <form action="{{ route('admin.login') }}" method="post">
                     {{ csrf_field() }}
                     <div class="inputBx">
@@ -48,7 +49,7 @@
                         </label>
                     </div>
                     <div class="inputBx">
-                        <input type="submit" class="submit" value="Log In" />
+                        <input type="submit" class="submit" value="Log In" style="background:#F68635" />
                     </div>
                     <div class="error-container">
                         @if ($errors->has('email'))

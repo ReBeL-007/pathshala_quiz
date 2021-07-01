@@ -9,7 +9,7 @@
                 {{ trans('global.add') }} {{ trans('cruds.student.title_singular') }}
             </a>
             <a class="btn btn-success ml-2 " href="{{ route("admin.users.importUser") }}">
-                {{ trans('global.add') }} Users     <i class="fas fa-file-excel"></i>
+                Import Students     <i class="fas fa-file-excel"></i>
         </a>
         </div>
     </div>
@@ -74,7 +74,7 @@
                                         <form action="{{ route('admin.students.resetAttempt', $student->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                             <input type="hidden" name="_method" value="POST">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="submit" class="btn btn-xs btn-danger" value="Reset Attempt">
+                                            <input type="submit" class="btn btn-xs btn-warning" value="Reset Attempt">
                                         </form>
                                     @endcan
                                 @endif
