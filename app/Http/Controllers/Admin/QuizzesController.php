@@ -130,14 +130,14 @@ class QuizzesController extends Controller
         }
         // $quiz->update($request->all());
 
-       
+
         // recalculating remaining marks if full marks changed
         if($quiz->full_marks != $request->full_marks) {
             $sum_quiz_question_marks = Question::whereHas('quizzes', function ($query) use ($id) {
                     $query->where('quiz_id', $id);
                 })
                 ->sum('marks');
-            
+
             $request->request->add(['remaining_marks' => $request->full_marks - $sum_quiz_question_marks]);
             // $quiz->remaining_marks = $quiz->full_marks - $sum_quiz_question_marks;
             // $quiz->save();
@@ -312,5 +312,10 @@ class QuizzesController extends Controller
     public function export($id)
     {
         return Excel::download(new QuizAttemptsExport($id), 'quiz_attempts.xlsx');
+    }
+
+    public function saveImage(Request $request){
+        $imgpath = 'storage/'.request()->file('file')->store('uploads/editor', 'public');
+        return response()->json(['location' => asset($imgpath)]);
     }
 }

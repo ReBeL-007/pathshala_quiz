@@ -821,3 +821,42 @@ img[data-dz-thumbnail] {
   .toggle-slider.round:before {
     border-radius: 50%;
   }
+
+  .readonly-editor > p{
+    margin-bottom: 0;
+}
+.editor{
+    min-height: 10rem;
+    padding: 1rem;
+    border: 1px solid #ced4da !important;
+    border-radius: .25rem !important;
+    box-shadow: inset 0 0 0 transparent !important;
+    outline: none !important;
+}
+.badge-secondary {
+    color: white !important;
+}
+.badge-success{
+    color: white !important;
+}
+
+.option-editor{
+    padding: 0.6em !important;
+    min-height: 2rem !important;
+}
+
+.option-editor.invalid{
+    border: 1px solid #ff0000 !important;
+}
+
+.editor.invalid{
+    border: 1px solid #ff0000 !important;
+}
+
+.tox .tox-editor-header {
+    z-index: 100 !important;
+}
+
+.editor-label{
+    z-index: 10;
+}

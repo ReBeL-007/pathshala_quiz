@@ -36,7 +36,7 @@ class QuestionsController extends Controller
                         $q->whereIn('quiz_id', Quiz::ofTeacher()->pluck('id'));
                     });
         }
-        
+
         if (request('show_deleted') == 1) {
             abort_if(Gate::denies('question-access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
             $questions = $questions->onlyTrashed()->paginate(10);
@@ -70,7 +70,6 @@ class QuestionsController extends Controller
 
     public function store(StoreQuestionRequest $request)
     {
-        // dd($request->all());
         $time = $request->time;
         switch ($request->time_type) {
             case '1':
@@ -98,7 +97,7 @@ class QuestionsController extends Controller
         ];
         // dd($data1);
         $question = Question::create($data1);
-        
+
         $question->quizzes()->sync($request->quiz_id);
         $quiz=Quiz::find($request->quiz_id);
         if($quiz->remaining_marks != NULL){
@@ -120,20 +119,17 @@ class QuestionsController extends Controller
             }
         }
         elseif($request->type == 'Multiple Answers'){
-            $options = $request->option_text2;
-            $point = $request->maq_points;
+            $options = $request->option_text;
+            $point = $request->points;
             foreach($options as $key => $option){
                 $data2 = [
                     'option_text' => $option,
                     'question_id' => $question->id,
                 ];
-                foreach($point as $p) {
-                    if($key+1 == $p) {
-                        $data2['points'] = 1;
-                            break;
-                    } else {
-                        $data2['points'] = 0;
-                    }
+                if(in_array($key,$request->points)){
+                    $data2['points'] = 1;
+                }else{
+                    $data2['points'] = 0;
                 }
                 Option::create($data2);
             }
@@ -151,15 +147,15 @@ class QuestionsController extends Controller
             }
         }
         elseif($request->type == 'Short Answer'){
-            $option = $request->saq;
-            if(isset($option)){
+            // $option = $request->saq;
+            // if(isset($option)){
 
-            $data2 = [
-                'option_text' => $option,
-                'question_id' => $question->id,
-            ];
-                Option::create($data2);
-            }
+            // $data2 = [
+            //     'option_text' => $option,
+            //     'question_id' => $question->id,
+            // ];
+            //     Option::create($data2);
+            // }
 
             }
         return back()->with('flash_success','Question Created Successfully.');
@@ -199,28 +195,24 @@ class QuestionsController extends Controller
             $options = $request->option_text;
             $point = $request->points;
             $prevOptions = $question->questionOptions->pluck('id');
-
             if(count($options) == count($prevOptions)) {
                 foreach($options as $key => $option) {
-
                     $data2 = [
                         'option_text' => $option,
-                        'points' => (($key+1)==$point)?1:0,
+                        'points' => (($key)==$point)?1:0,
                         'question_id' => $question->id,
                     ];
-
                     Option::updateOrInsert(
-                        ['question_id'=>$question->id, 'id'=>$prevOptions[$key] ],
+                        ['question_id'=>$question->id, 'id'=>$prevOptions[$key-1] ],
                         $data2
                     );
                 }
             } else {
                 Option::where('question_id',$question->id)->delete();
                 foreach($options as $key => $option) {
-
                     $data2 = [
                         'option_text' => $option,
-                        'points' => (($key+1)==$point)?1:0,
+                        'points' => (($key)==$point)?1:0,
                         'question_id' => $question->id,
                     ];
                     Option::create($data2);
@@ -228,8 +220,8 @@ class QuestionsController extends Controller
             }
         }
         elseif($request->type == 'Multiple Answers') {
-            $options = $request->option_text2;
-            $point = $request->maq_points;
+            $options = $request->option_text;
+            $point = $request->points;
             $prevOptions = $question->questionOptions->pluck('id');
 
             if(count($options) == count($prevOptions)) {
@@ -239,7 +231,7 @@ class QuestionsController extends Controller
                     'question_id' => $question->id,
                 ];
                 foreach($point as $p) {
-                    if($key+1 == $p) {
+                    if($key == $p) {
                         $data2['points'] = 1;
                             break;
                     } else {
@@ -248,7 +240,7 @@ class QuestionsController extends Controller
                 }
 
                     Option::updateOrInsert(
-                        ['question_id'=>$question->id, 'id'=>$prevOptions[$key] ],
+                        ['question_id'=>$question->id, 'id'=>$prevOptions[$key-1] ],
                         $data2
                     );
                 }
@@ -307,36 +299,36 @@ class QuestionsController extends Controller
         }
         elseif($request->type == 'Short Answer') {
 
-            $options = $request->saq;
-            // $point = $request->points;
-            $prevOptions = $question->questionOptions->pluck('id');
-            // dd($options);    
-            if(count($options) == count($prevOptions)) {
-                foreach($options as $key => $option) {
+            // $options = $request->saq;
+            // // $point = $request->points;
+            // $prevOptions = $question->questionOptions->pluck('id');
+            // // dd($options);
+            // if(count($options) == count($prevOptions)) {
+            //     foreach($options as $key => $option) {
 
-                    $data2 = [
-                        'option_text' => $option,
-                        // 'points' => (($key+1)==$point)?1:0,
-                        'question_id' => $question->id,
-                    ];
+            //         $data2 = [
+            //             'option_text' => $option,
+            //             // 'points' => (($key+1)==$point)?1:0,
+            //             'question_id' => $question->id,
+            //         ];
 
-                    Option::updateOrInsert(
-                        ['question_id'=>$question->id, 'id'=>$prevOptions[$key] ],
-                        $data2
-                    );
-                }
-            } else {
-                Option::where('question_id',$question->id)->delete();
-                foreach($options as $key => $option) {
+            //         Option::updateOrInsert(
+            //             ['question_id'=>$question->id, 'id'=>$prevOptions[$key] ],
+            //             $data2
+            //         );
+            //     }
+            // } else {
+            //     Option::where('question_id',$question->id)->delete();
+            //     foreach($options as $key => $option) {
 
-                    $data2 = [
-                        'option_text' => $option,
-                        // 'points' => (($key+1)==$point)?1:0,
-                        'question_id' => $question->id,
-                    ];
-                    Option::create($data2);
-                }
-            }
+            //         $data2 = [
+            //             'option_text' => $option,
+            //             // 'points' => (($key+1)==$point)?1:0,
+            //             'question_id' => $question->id,
+            //         ];
+            //         Option::create($data2);
+            //     }
+            // }
         }
         return redirect()->route('admin.questions.index',['quiz'=>$quiz->id])->with('flash_success','Updated Successfully');
     }
@@ -378,7 +370,7 @@ class QuestionsController extends Controller
             $quiz = $question->quizzes->first();
             $question->delete();
             $quiz->remaining_marks += $question->marks;
-            $quiz->save(); 
+            $quiz->save();
 
 
             $remaining_question = Question::whereHas('quizzes', function ($query) use ($quiz) {
@@ -392,7 +384,7 @@ class QuestionsController extends Controller
             }
         }
         // dd($quiz);
-        
+
         // Question::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
@@ -417,7 +409,7 @@ class QuestionsController extends Controller
         }else{
             return back()->with('flash_danger','Question Marks is more than remaining marks of quiz.');
         }
-        
+
 
         $latest_question = Question::whereHas('quizzes', function ($query) use ($quiz) {
             $query->where('quiz_id', $quiz->id);
@@ -441,7 +433,6 @@ class QuestionsController extends Controller
         abort_if(Gate::denies('question-delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $question = Question::onlyTrashed()->findOrFail($id);
         $question->forceDelete();
-
-        return redirect()->route('admin.questions.index');
+        return back();
     }
 }

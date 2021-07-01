@@ -69,6 +69,8 @@
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js">
 </script>
+<script src="https://cdn.tiny.cloud/1/nwtjwoappy5b04blgg43ezszcis40jtnlzxnwv3vlh1f5uq9/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
 <script>
     $(document).ready(function() {
         setTimeout(function() {
@@ -212,30 +214,55 @@
         $(function(){
 
             $('.date-time-picker').datetimepicker({});
-
+        changed_editor = 0;
+        changed_option_editor = 0;
+        changed_read_only_editor = 0;
         //adding editor
-        $('.editor').each(function(i,ele){
-            let value = $(this).parents('.editor-container').find('textarea').text();
-            let $id = $(this).attr('id');
-            let $this = $(this);
-            if($(this).attr('id')!=undefined){
+        tinymce.init({
+        selector: '.editor',
+        inline:true,
+        setup: function(editor) {
+            editor.on('init', function(e) {
+                data = $(editor.bodyElement).text();
+                editor.setContent(data);
+                changed_editor+=1;
+                $('.loading').removeClass('d-none');
+                if(changed_editor === $('.editor').length){
+                    $('.loading').addClass('d-none');
+                }
+            });
+        },
+        plugins: 'print preview paste importcss searchreplace autolink directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+        // external_plugins: {
+        //     'tiny_mce_wiris' : "{{ asset('backened/plugins/@wiris/mathtype-tinymce5/plugin.min.js')}}"
+        // },
+        imagetools_cors_hosts: ['picsum.photos'],
+        menubar: 'file edit view insert format tools table help',
+        toolbar: 'bold italic underline | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor | charmap emoticons | fullscreen  preview | insertfile image media link codesample | tiny_mce_wiris_formulaEditor tiny_mce_wiris_formulaEditorChemistr',
+        toolbar_sticky: true,
+        image_advtab: true,
+        file_picker_types: 'image',
+        automatic_uploads: true,
+        images_upload_url: '{{route("admin.quizzes.saveImage")}}',
+        icons: "thin",
+        height: 600,
+        image_caption: true,
+        quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+        quickbars_insert_toolbar: "image media table hr",
+        toolbar_mode: 'sliding',
+        contextmenu: 'link image imagetools table',
+        skin:  'snow',
+        content_css: 'default',
+        });
+    //     $('.editor').each(function(i,ele){
+    //         let value = $(this).parents('.editor-container').find('textarea').text();
+    //         let $id = $(this).attr('id');
+    //         let $this = $(this);
+    //         if($(this).attr('id')!=undefined){
 
-            ckConfig["simpleUpload"] = {
-        // The URL that the images are uploaded to.
-        uploadUrl: "{{ route('admin.assignments.storeMedia') }}",
-        // Enable the XMLHttpRequest.withCredentials property.
-        withCredentials: true,
-
-        // Headers sent along with the XMLHttpRequest to the upload server.
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}',
-        }
-    };
-            InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), ckConfig
-            // simpleUpload: {
+    //         ckConfig["simpleUpload"] = {
     //     // The URL that the images are uploaded to.
-
-        // }
+    //     uploadUrl: "{{ route('admin.assignments.storeMedia') }}",
     //     // Enable the XMLHttpRequest.withCredentials property.
     //     withCredentials: true,
 
@@ -243,46 +270,77 @@
     //     headers: {
     //         'X-CSRF-TOKEN': '{{csrf_token()}}',
     //     }
-    // })
-            ).then(editor=>{
-                editor.setData(value);
-                editor.model.document.on( 'change', ( evt, data ) => {
-                    $this.parents('.editor-container').find('textarea').html(editor.getData());
-                });
-            });
-            }
-    });
+    // };
+    //         InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), ckConfig
+    //         // simpleUpload: {
+    // //     // The URL that the images are uploaded to.
+
+    //     // }
+    // //     // Enable the XMLHttpRequest.withCredentials property.
+    // //     withCredentials: true,
+
+    // //     // Headers sent along with the XMLHttpRequest to the upload server.
+    // //     headers: {
+    // //         'X-CSRF-TOKEN': '{{csrf_token()}}',
+    // //     }
+    // // })
+    //         ).then(editor=>{
+    //             editor.setData(value);
+    //             editor.model.document.on( 'change', ( evt, data ) => {
+    //                 $this.parents('.editor-container').find('textarea').html(editor.getData());
+    //             });
+    //         });
+    //         }
+    // });
 
     //editor in option
-    $('.option-editor').each(function(i,ele){
-        let value = $(this).parents('.option-container').find('textarea').text();
-        let $id = $(this).attr('id');
-        let $this = $(this);
-            InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), optionConfig ).then(editor=>{
-                editor.setData(value);
-                editor.model.document.on( 'change', ( evt, data ) => {
-                    $this.parents('.option-container').find('textarea').html(editor.getData());
-                });
-            });
-    });
+    // $('.option-editor').each(function(i,ele){
+    //     let value = $(this).parents('.option-container').find('textarea').text();
+    //     let $id = $(this).attr('id');
+    //     let $this = $(this);
+    //         InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), optionConfig ).then(editor=>{
+    //             editor.setData(value);
+    //             editor.model.document.on( 'change', ( evt, data ) => {
+    //                 $this.parents('.option-container').find('textarea').html(editor.getData());
+    //             });
+    //         });
+    // });
 
     //readonly editor for viewing editor text
-    $('.readonly-editor').each(function(i,ele){
-        let value = $(this).text();
-        let $this = $(this);
-            InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), {
-                image: {
-        toolbar: [
-            'imageTextAlternative',
-            'imageStyle:full',
-            'imageStyle:side'
-        ]
-    },
-            isReadOnly: true,
-            } ).then(editor=>{
-                editor.isReadOnly = true;
-                editor.setData(value);
+    // $('.readonly-editor').each(function(i,ele){
+    //     let value = $(this).text();
+    //     let $this = $(this);
+    //         InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), {
+    //             image: {
+    //     toolbar: [
+    //         'imageTextAlternative',
+    //         'imageStyle:full',
+    //         'imageStyle:side'
+    //     ]
+    // },
+    //         isReadOnly: true,
+    //         } ).then(editor=>{
+    //             editor.isReadOnly = true;
+    //             editor.setData(value);
+    //         });
+    // });
+
+
+    tinymce.init({
+        selector: '.readonly-editor',
+        inline: true,
+        readonly: true,
+        setup: function(editor) {
+            editor.on('init', function(e) {
+                data = $(editor.bodyElement).text();
+                editor.setContent(data);
+                changed_read_only_editor+=1;
+                $('.loading').removeClass('d-none');
+                if(changed_read_only_editor === $('.readonly-editor').length){
+                    $('.loading').addClass('d-none');
+                }
             });
+        },
     });
 
     function get_notification() {

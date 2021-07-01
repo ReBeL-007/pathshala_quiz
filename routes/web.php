@@ -139,6 +139,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::get('quizzes/response/{id}', ['uses' => 'Admin\QuizzesController@response', 'as' => 'quizzes.response']);
     Route::post('quizzes/ispublished', ['uses' => 'Admin\QuizzesController@update_publish', 'as' => 'quizzes.updatePublish']);
     Route::post('quizzes/isanswerpublished', ['uses' => 'Admin\QuizzesController@update_answer_publish', 'as' => 'quizzes.updateAnswerPublish']);
+    Route::post('quizzes/save/image', ['uses' => 'Admin\QuizzesController@saveImage', 'as' => 'quizzes.saveImage']);
 
     // attempts
     Route::get('quizzes/attempts/view/{id}', 'Admin\QuizzesController@editAttempts')->name('show_attempts');

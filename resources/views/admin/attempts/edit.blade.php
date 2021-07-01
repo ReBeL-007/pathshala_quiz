@@ -279,6 +279,7 @@ window.speechSynthesis.speak(msg);
                     , }
                     ,success:function(json) {
                     $attempts = JSON.parse(json);
+                    console.log($attempts);
                     }
 
                 });
@@ -292,6 +293,11 @@ window.speechSynthesis.speak(msg);
             $('.users-select').append('<option value='+i+'>'+$attempts[i].user.name+'</option>');
             }
         });
+        const hasEditor = false;
+
+        if(! hasEditor){
+
+        }
 
         // '<div class="option "><input type="radio" disabled="">&nbsp;&nbsp;<label class="option_text" for="">b.test2</label></div>'
         $(document).on('click','.right-btn',function(){
@@ -322,87 +328,114 @@ window.speechSynthesis.speak(msg);
                 $('.feedback-attempt').addClass('d-none');
             }
             $('.feedback-attempt').attr('rel',$attempt.id);
-            $('.answers-container').html('');
+            // $('.answers-container').html('');
             $.each($quiz.questions,function(i,ele){
-            $template = $('#attempt-template').html();
-            $template = $template.replace('[[[question]]]',i+1+'.<div class="readonly-editor" id="re-'+i+'"> '+ele.question_text+'</div>');
-            $attempted_answer = findByQuestion(ele.id);
-            $option = '';
-            if(ele.type=="Long Answer" || ele.type=="Short Answer"){
-                        $image = '<div class="row image-viewer">';
-                        $.each($attempt_answers.attempt_options,function($i,$ele){
-                        if($ele.answer_text!=null){
-                            $option += '<div class="readonly-editor" id="answer_'+i+'">'+$ele.answer_text+'</div>';
-                        }
-                        if($ele.image !=null){
-                        $image += '<div class="col-md-4"><img class="img-thumbnail rounded" src="/'+$ele.image.replace('public','storage')+'" alt="Picture "'+$i+'></div>';
-                        }
-                        });
-                        $image += '</div>';
-                        $option+=$image;
-                    }else{
-                $.each(ele.question_options,function(index,element){
-                    // console.log(ele);
-                    $option_template = $('#option-template').html();
-
-                    if(ele.type=="Multiple Choices" || ele.type=="True or False"){
-                        $option_template = $option_template.replace('[[[input_type]]]','radio');
-                    }else if(ele.type=="Multiple Answers"){
-                        $option_template = $option_template.replace('[[[input_type]]]','checkbox');
+                let $attempt_answer = null;
+                $attempt.attempt_answers.forEach((attempt_answer) => {
+                    if(ele.id == attempt_answer.id){
+                        $attempt_answer = attempt_answer;
                     }
-                    $.each($attempt_answers.attempt_options,function($i,$ele){
-                        if(element.id == $ele.option_id){
-                            if(element.points==1 && $ele.option_id == element.id){
-                                $option_template = $option_template.replace('[[[state]]]','correct-option');
-                            }else{
-                                $option_template = $option_template.replace('[[[state]]]','wrong-option');
-                                $option_template = $option_template.replace('[[[icon]]]','<i class="fas fa-times"></i>');
-                            }
-                            $option_template = $option_template.replace('[[[status]]]','checked');
-                        }
-                        $option_template = $option_template.replace('[[[status]]]','');
-                    });
-                    $option_template = $option_template.replace('[[[option_text]]]',String.fromCharCode(97+index)+'.<div class="readonly-editor" id="o-re-'+i+index+'"> '+element.option_text+'</div>');
-                    if(element.points==1){
-                        $option_template = $option_template.replace('[[[icon]]]','<i class="fas fa-check"></i>');
-                    }else{
-                        $option_template = $option_template.replace('[[[icon]]]','');
-                    }
-                    $option_template = $option_template.replace('[[[state]]]','');
-                    $option+=$option_template;
                 });
-            }
 
-            $feedback_template = $('#feedback-template').html();
-            $feedback_template = $feedback_template.replace('[[[total_marks]]]',ele.marks);
-            $feedback_template = $feedback_template.replace('[[[marks]]]',($attempted_answer.marks==undefined)?0:$attempted_answer.marks);
-            $feedback_template = $feedback_template.replaceAll('[[[answer]]]',$attempted_answer.id);
-            $template = $template.replace('[[[feedback]]]',$feedback_template);
-            if($attempt_answers.feedback!=''){
-                $template = $template.replace('[[[feedback_field]]]','<div class="form-group"><textarea class="form-control feedback" rel="'+$attempt_answers.id+'" placeholder="Enter feedback (max 1000 characters)" spellcheck="true" maxlength="1000" rows="3">'+($attempted_answer.feedback==undefined)?'':$attempt_answers.feedback+'</textarea></div>');
-            }else{
-                $template = $template.replace('[[[feedback_field]]]','');
-            }
-            $template = $template.replace('[[[option]]]',$option);
-            $('.answers-container').append($template);
+                $attempt_answer.attempt_options.forEach((attempt_option)=> {
+
+                });
+
+                console.log($attempt_answer);
+
+                $('.answers-container').append(`
+                <div class="attempt-container row">
+                        <div class="answers col-md-8">
+                            <h5 class="question">1.<div class="readonly-editor"><p>${ele.question_text}</p></div></h5>
+
+                    <div class="option ${(ele.opt)} correct-option">
+                        <input type="radio" disabled="" checked="">&nbsp;&nbsp;<label class="option_text" for="">a.<div class="ck-blurred readonly-editor ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-read-only" id="o-re-00" lang="en" dir="ltr" role="textbox" aria-label="Rich Text Editor, main" contenteditable="false"><p>4</p></div></label><span class="check ml-auto"><i class="fas fa-check"></i></span></div>
+
+                    <div class="option ">
+                        <input type="radio" disabled="">&nbsp;&nbsp;<label class="option_text" for="">
+                            b.<div class="readonly-editor"></div>
+                    </div>
+                    <div class="option ">
+                        <input type="radio" disabled="">&nbsp;&nbsp;<label class="option_text" for="">c.<div class="ck-blurred readonly-editor ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-read-only" id="o-re-02" lang="en" dir="ltr" role="textbox" aria-label="Rich Text Editor, main" contenteditable="false"><p>8</p></div></label><span class="check ml-auto"></span></div>
+                            <br>
+                        </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-8 grading-input-container">
+                                <h6><input type="text" class="grading-input" rel="13" value="10"> /
+                                    10 pts</h6>
+                            </div>
+                            <div class="col-md-3 center"><a class="feedback-btn" rel="13"><i class="far fa-comment-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `);
+
+
+
+            // $template = $('#attempt-template').html();
+            // $template = $template.replace('[[[question]]]',i+1+'.<div class="readonly-editor" id="re-'+i+'"> '+ele.question_text+'</div>');
+            // $attempted_answer = findByQuestion(ele.id);
+            // $option = '';
+            // if(ele.type=="Long Answer" || ele.type=="Short Answer"){
+            //             $image = '<div class="row image-viewer">';
+            //             $.each($attempt_answers.attempt_options,function($i,$ele){
+            //             if($ele.answer_text!=null){
+            //                 $option += '<div class="readonly-editor" id="answer_'+i+'">'+$ele.answer_text+'</div>';
+            //             }
+            //             if($ele.image !=null){
+            //             $image += '<div class="col-md-4"><img class="img-thumbnail rounded" src="/'+$ele.image.replace('public','storage')+'" alt="Picture "'+$i+'></div>';
+            //             }
+            //             });
+            //             $image += '</div>';
+            //             $option+=$image;
+            //         }else{
+            //     $.each(ele.question_options,function(index,element){
+            //         // console.log(ele);
+            //         $option_template = $('#option-template').html();
+
+            //         if(ele.type=="Multiple Choices" || ele.type=="True or False"){
+            //             $option_template = $option_template.replace('[[[input_type]]]','radio');
+            //         }else if(ele.type=="Multiple Answers"){
+            //             $option_template = $option_template.replace('[[[input_type]]]','checkbox');
+            //         }
+            //         $.each($attempt_answers.attempt_options,function($i,$ele){
+            //             if(element.id == $ele.option_id){
+            //                 if(element.points==1 && $ele.option_id == element.id){
+            //                     $option_template = $option_template.replace('[[[state]]]','correct-option');
+            //                 }else{
+            //                     $option_template = $option_template.replace('[[[state]]]','wrong-option');
+            //                     $option_template = $option_template.replace('[[[icon]]]','<i class="fas fa-times"></i>');
+            //                 }
+            //                 $option_template = $option_template.replace('[[[status]]]','checked');
+            //             }
+            //             $option_template = $option_template.replace('[[[status]]]','');
+            //         });
+            //         $option_template = $option_template.replace('[[[option_text]]]',String.fromCharCode(97+index)+'.<div class="readonly-editor" id="o-re-'+i+index+'"> '+element.option_text+'</div>');
+            //         if(element.points==1){
+            //             $option_template = $option_template.replace('[[[icon]]]','<i class="fas fa-check"></i>');
+            //         }else{
+            //             $option_template = $option_template.replace('[[[icon]]]','');
+            //         }
+            //         $option_template = $option_template.replace('[[[state]]]','');
+            //         $option+=$option_template;
+            //     });
+            // }
+
+            // $feedback_template = $('#feedback-template').html();
+            // $feedback_template = $feedback_template.replace('[[[total_marks]]]',ele.marks);
+            // $feedback_template = $feedback_template.replace('[[[marks]]]',($attempted_answer.marks==undefined)?0:$attempted_answer.marks);
+            // $feedback_template = $feedback_template.replaceAll('[[[answer]]]',$attempted_answer.id);
+            // $template = $template.replace('[[[feedback]]]',$feedback_template);
+            // if($attempt_answers.feedback!=''){
+            //     $template = $template.replace('[[[feedback_field]]]','<div class="form-group"><textarea class="form-control feedback" rel="'+$attempt_answers.id+'" placeholder="Enter feedback (max 1000 characters)" spellcheck="true" maxlength="1000" rows="3">'+($attempted_answer.feedback==undefined)?'':$attempt_answers.feedback+'</textarea></div>');
+            // }else{
+            //     $template = $template.replace('[[[feedback_field]]]','');
+            // }
+            // $template = $template.replace('[[[option]]]',$option);
+            // $('.answers-container').append($template);
             });
-                $('.readonly-editor').each(function(i,ele){
-        let value = $(this).html();
-        let $this = $(this);
-            InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), {
-                image: {
-        toolbar: [
-            'imageTextAlternative',
-            'imageStyle:full',
-            'imageStyle:side'
-        ]
-    },
-            isReadOnly: true,
-            } ).then(editor=>{
-                editor.isReadOnly = true;
-                editor.setData(value);
-            });
-    });
 
     $('.image-viewer').each(function(i,ele){
         new Viewer(document.getElementsByClassName('image-viewer')[i]);

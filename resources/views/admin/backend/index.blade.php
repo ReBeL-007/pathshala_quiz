@@ -41,6 +41,22 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-3 content mr-5">
+            <div class="leaderboard">
+                <h1 class="mx-auto text-center"><svg class="ico-cup">
+                        <use xlink:href="#cup"></use>
+                    </svg>Leaderboard</h1>
+                <div class="quiz-selection-container d-flex justify-content-center">
+                    <select name="quiz-selection" id="quiz-selection">
+                        @foreach ($quiz_for_leaderboard as $quiz)
+                        <option value="{{$quiz->id}}">{{$quiz->title}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <ol class="leaderbord-ol">
+                </ol>
+            </div>
+        </div>
         <div class="col-md-6">
             @if (count($quizzes)>0)
 
@@ -115,22 +131,6 @@
                 </div>
             </div>
             @endif
-        </div>
-        <div class="col-md-3 content ">
-            <div class="leaderboard">
-                <h1 class="mx-auto text-center"><svg class="ico-cup">
-                        <use xlink:href="#cup"></use>
-                    </svg>Leaderboard</h1>
-                <div class="quiz-selection-container d-flex justify-content-center">
-                    <select name="quiz-selection" id="quiz-selection">
-                        @foreach ($quiz_for_leaderboard as $quiz)
-                        <option value="{{$quiz->id}}">{{$quiz->title}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <ol class="leaderbord-ol">
-                </ol>
-            </div>
         </div>
     </div>
 </div>
