@@ -48,11 +48,11 @@ class HomeController extends Controller
         $attempts = $quiz->attempts()->with('user')->where('status','submitted')->orderBy('total_marks','DESC')->get();
         $filter_attempt = collect();
         foreach ($attempts as $key=>$attempt) {
-            if(!$filter_attempt->contains('user_id',$attempt->user_id)){
-                $filter_attempt->push($attempt);
-            }
             if($key>4){
                 break;
+            }
+            if(!$filter_attempt->contains('user_id',$attempt->user_id)){
+                $filter_attempt->push($attempt);
             }
         }
         return $filter_attempt;
