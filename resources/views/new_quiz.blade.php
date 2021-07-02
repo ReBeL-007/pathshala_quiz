@@ -978,6 +978,13 @@
                 $(".time-indicator").removeClass("d-none");
             }
         }
+        // $(document).on('click','.option-wrapper',function(){
+        //     $(this).find('input').prop('checked',! $(this).find('input').prop('checked'));
+        //     $(this).addClass("active");
+        //     $("input[name='option']:not(:checked)").each(function (i, ele) {
+        //         $(ele).parents(".option-wrapper").removeClass("active");
+        //     });
+        // });
 
         getQuestion($question_no);
 
@@ -1358,6 +1365,7 @@
             addAnswer(selected_options);
             clearInterval(answerInterval);
             submit();
+            $(this).prop('disabled',true);
         });
 
         function submit() {

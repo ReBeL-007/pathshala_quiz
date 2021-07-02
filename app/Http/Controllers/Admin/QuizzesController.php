@@ -293,6 +293,7 @@ class QuizzesController extends Controller
     public function updateAnswer(Request $request)
     {
         $attempt_answer = AttemptAnswer::find($request->answer_id);
+        $attempt = $attempt_answer->attempt()->first();
         if ($request->feedback != null) {
             if ($request->feedback == '[[[clear]]]') {
                 $attempt_answer->feedback = '';
@@ -304,8 +305,11 @@ class QuizzesController extends Controller
         }
 
         if ($request->marks != null) {
+            $attempt->total_marks -= $attempt_answer->marks;
             $attempt_answer->marks = $request->marks;
+            $attempt->total_marks += $attempt_answer->marks;
             $attempt_answer->save();
+            $attempt->save();
         }
     }
 

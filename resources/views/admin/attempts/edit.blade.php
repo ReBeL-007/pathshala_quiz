@@ -90,13 +90,11 @@
     }
 
     .correct-option {
-        margin-top: 10px;
         border: #45d667 solid;
         background-color: #71e98d65;
     }
 
     .wrong-option {
-        margin-top: 10px;
         border: rgb(255, 53, 53) solid 1px;
         background-color: #e9717139;
     }
@@ -106,6 +104,7 @@
         padding-right: 10px;
         display: flex;
         align-items: center;
+        margin-top: 10px;
     }
 
     @media screen and (min-device-width: 1000px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
@@ -174,6 +173,11 @@
         display: flex;
         align-items: center;
     }
+    .short-answer-container {
+    border: 1px solid #0093cd;
+    border-radius: 5px;
+    padding: 1rem;
+    }
 </style>
 <div class="review-container d-flex justify-content-center">
     <div class="col-md-8">
@@ -224,35 +228,7 @@
             <div class="card-body">
                 <div class="answers-container">
                 </div>
-                <template id="attempt-template">
-                    <div class="attempt-container row">
-                        <div class="answers col-md-8">
-                            <h5 class="question">[[[question]]]</h5>
-                            [[[option]]]
-                            <br>
-                            [[[feedback_field]]]
-                        </div>
-                        [[[feedback]]]
-                    </div>
-                </template>
-                <template id="option-template">
-                    <div class="option [[[state]]]">
-                        <input type="[[[input_type]]]" disabled="" [[[status]]]>&nbsp;&nbsp;<label class="option_text"
-                            for="">[[[option_text]]]</label><span class="check ml-auto">[[[icon]]]</span></div>
-                </template>
-                <template id="feedback-template">
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-8 grading-input-container">
-                                <h6><input type="text" class="grading-input" rel="[[[answer]]]" value="[[[marks]]]"> /
-                                    [[[total_marks]]] pts</h6>
-                            </div>
-                            <div class="col-md-3 center"><a class="feedback-btn" rel="[[[answer]]]"><i
-                                        class="far fa-comment-alt"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </template>
+
             </div>
         </div>
     </div>
@@ -267,8 +243,6 @@ window.speechSynthesis.speak(msg);
 @section('scripts')
 <script>
     $(function(){
-
-
         $attempts = [];
         $.ajax({    async:false,
                     type: 'POST'
@@ -301,26 +275,33 @@ window.speechSynthesis.speak(msg);
 
         // '<div class="option "><input type="radio" disabled="">&nbsp;&nbsp;<label class="option_text" for="">b.test2</label></div>'
         $(document).on('click','.right-btn',function(){
-            if($attempts.length >$attempt_no ){
+            if($attempts.length >$attempt_no+1 ){
             $attempt_no++;
             $('.users-select').val($attempt_no).trigger('change');
-            loadAttempts();
+            loadAttempts($attempt_no);
             }
         });
         $(document).on('click','.left-btn',function(){
-            if($attempt_no !=0 ){
+            if($attempt_no >0 ){
             $attempt_no--;
             $('.users-select').val($attempt_no).trigger('change');
-            loadAttempts();
+            loadAttempts($attempt_no);
             }
         });
+
+        $(document).on('change','.users-select',function(){
+            loadAttempts($(this).val());
+        });
+
         if($attempts.length ==0){
             $('.answers-container').append('<p class="text-center">No attempts available</p>');
         }else{
-        loadAttempts();
+        loadAttempts($attempt_no);
         }
-        function loadAttempts(){
-            $attempt = $attempts[$attempt_no];
+        function loadAttempts(attempt_no){
+            $attempt = $attempts[attempt_no];
+            console.log($attempt);
+            $('.point-span').html($attempt.total_marks);
             $quiz = $attempt.quiz;
             if($attempt.feedback!=''){
                 $('.feedback-attempt').html($attempt.feedback).removeClass('d-none');
@@ -328,118 +309,111 @@ window.speechSynthesis.speak(msg);
                 $('.feedback-attempt').addClass('d-none');
             }
             $('.feedback-attempt').attr('rel',$attempt.id);
-            // $('.answers-container').html('');
-            $.each($quiz.questions,function(i,ele){
+            $('.answers-container').html('');
+            var now  = "04/09/2013 15:00:00";
+            var then = "02/09/2013 14:20:30";
+
+            var ms = moment($attempt.updated_at,"YYYY-MM-DD HH:mm:ss").diff(moment($attempt.created_at,"YYYY-MM-DD HH:mm:ss"));
+            $('.complete-time-span').html(moment.duration(ms).humanize());
+            $.each($quiz.questions,function(i,question){
+                if(question.deleted_at === null){
+
                 let $attempt_answer = null;
                 $attempt.attempt_answers.forEach((attempt_answer) => {
-                    if(ele.id == attempt_answer.id){
+                    if(question.id == attempt_answer.question_id){
                         $attempt_answer = attempt_answer;
+                        return;
                     }
                 });
 
-                $attempt_answer.attempt_options.forEach((attempt_option)=> {
+                // if($attempt_answer){
+                //     $attempt_answer.attempt_options.forEach((attempt_option)=> {
 
+                //     });
+                // }
+
+                let options = $('<div></div>');
+                if(question.type === 'Multiple Answers'){
+                    input_type = 'checkbox'
+                }else{
+                    input_type = 'radio';
+                }
+                if(question.type==='Short Answer'){
+                    if($attempt_answer.attempt_options){
+                        $(options).append(`<div class="readonly-editor short-answer-container">${$attempt_answer.attempt_options[0].answer_text.replace('../','/')}</div>`);
+                    }
+                    if($attempt_answer.feedback != null){
+                        $(options).append(`<div class="form-group mt-3"><small>Feedback</small><textarea class="form-control feedback" rel="${$attempt_answer.id}"placeholder="Enter feedback (max 1000 characters)" spellcheck="true" maxlength="1000" rows="3">${$attempt_answer.feedback}</textarea></div>`);
+                    }
+                }else{
+                question.question_options.forEach((option,index)=>{
+                    let check = '';
+                    if(option.points){
+                        check = '<div class="ml-2"><i class="fas fa-check"></i></div>';
+                    }
+                    $attempt_option = null;
+                    if($attempt_answer){
+                        $attempt_answer.attempt_options.forEach((attempt_option)=> {
+                            if(attempt_option.option_id == option.id){
+                                $attempt_option = attempt_option;
+                                return ;
+                            }
+                        });
+                    }
+                    let ticked = '';
+                    if($attempt_option !=null){
+                        ticked = 'checked';
+                    }
+                    let result = '';
+                    if(check != '' || ticked !=''){
+                        result = 'wrong-option';
+                    }
+                    if(check != '' && ticked !=''){
+                        result = 'correct-option';
+                    }
+
+                    $(options).append($(`
+                            <div class="option ${result}">
+                                    <input type="${input_type}" disabled ${ticked} >&nbsp;&nbsp;<label class="option_text" for="">
+                                        ${String.fromCharCode(97+index)}.<div class="readonly-editor">${option.option_text.replace('../','/')}</div>
+                                        ${check}
+                                </div>
+                            `));
                 });
+            }
 
-                console.log($attempt_answer);
 
                 $('.answers-container').append(`
-                <div class="attempt-container row">
+                <div class="attempt-container row my-5">
                         <div class="answers col-md-8">
-                            <h5 class="question">1.<div class="readonly-editor"><p>${ele.question_text}</p></div></h5>
-
-                    <div class="option ${(ele.opt)} correct-option">
-                        <input type="radio" disabled="" checked="">&nbsp;&nbsp;<label class="option_text" for="">a.<div class="ck-blurred readonly-editor ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-read-only" id="o-re-00" lang="en" dir="ltr" role="textbox" aria-label="Rich Text Editor, main" contenteditable="false"><p>4</p></div></label><span class="check ml-auto"><i class="fas fa-check"></i></span></div>
-
-                    <div class="option ">
-                        <input type="radio" disabled="">&nbsp;&nbsp;<label class="option_text" for="">
-                            b.<div class="readonly-editor"></div>
+                            <h5 class="question"><small>${question.question_no}</small>.&nbsp;<div class="readonly-editor"><p>${question.question_text.replace('../','/')}</p></div></h5>
+                    ${$(options).html()}
                     </div>
-                    <div class="option ">
-                        <input type="radio" disabled="">&nbsp;&nbsp;<label class="option_text" for="">c.<div class="ck-blurred readonly-editor ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-read-only" id="o-re-02" lang="en" dir="ltr" role="textbox" aria-label="Rich Text Editor, main" contenteditable="false"><p>8</p></div></label><span class="check ml-auto"></span></div>
-                            <br>
-                        </div>
                     <div class="col-md-4">
                         <div class="row">
                             <div class="col-md-8 grading-input-container">
-                                <h6><input type="text" class="grading-input" rel="13" value="10"> /
-                                    10 pts</h6>
+                                <h6><input type="text" class="grading-input" rel="${$attempt_answer.id}" value="${$attempt_answer.marks}"> /
+                                    ${question.marks} pts</h6>
                             </div>
-                            <div class="col-md-3 center"><a class="feedback-btn" rel="13"><i class="far fa-comment-alt"></i></a>
+                            <div class="col-md-3 center"><a class="feedback-btn" rel="${$attempt_answer.id}"><i class="far fa-comment-alt"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 `);
 
+                }
 
-
-            // $template = $('#attempt-template').html();
-            // $template = $template.replace('[[[question]]]',i+1+'.<div class="readonly-editor" id="re-'+i+'"> '+ele.question_text+'</div>');
-            // $attempted_answer = findByQuestion(ele.id);
-            // $option = '';
-            // if(ele.type=="Long Answer" || ele.type=="Short Answer"){
-            //             $image = '<div class="row image-viewer">';
-            //             $.each($attempt_answers.attempt_options,function($i,$ele){
-            //             if($ele.answer_text!=null){
-            //                 $option += '<div class="readonly-editor" id="answer_'+i+'">'+$ele.answer_text+'</div>';
-            //             }
-            //             if($ele.image !=null){
-            //             $image += '<div class="col-md-4"><img class="img-thumbnail rounded" src="/'+$ele.image.replace('public','storage')+'" alt="Picture "'+$i+'></div>';
-            //             }
-            //             });
-            //             $image += '</div>';
-            //             $option+=$image;
-            //         }else{
-            //     $.each(ele.question_options,function(index,element){
-            //         // console.log(ele);
-            //         $option_template = $('#option-template').html();
-
-            //         if(ele.type=="Multiple Choices" || ele.type=="True or False"){
-            //             $option_template = $option_template.replace('[[[input_type]]]','radio');
-            //         }else if(ele.type=="Multiple Answers"){
-            //             $option_template = $option_template.replace('[[[input_type]]]','checkbox');
-            //         }
-            //         $.each($attempt_answers.attempt_options,function($i,$ele){
-            //             if(element.id == $ele.option_id){
-            //                 if(element.points==1 && $ele.option_id == element.id){
-            //                     $option_template = $option_template.replace('[[[state]]]','correct-option');
-            //                 }else{
-            //                     $option_template = $option_template.replace('[[[state]]]','wrong-option');
-            //                     $option_template = $option_template.replace('[[[icon]]]','<i class="fas fa-times"></i>');
-            //                 }
-            //                 $option_template = $option_template.replace('[[[status]]]','checked');
-            //             }
-            //             $option_template = $option_template.replace('[[[status]]]','');
-            //         });
-            //         $option_template = $option_template.replace('[[[option_text]]]',String.fromCharCode(97+index)+'.<div class="readonly-editor" id="o-re-'+i+index+'"> '+element.option_text+'</div>');
-            //         if(element.points==1){
-            //             $option_template = $option_template.replace('[[[icon]]]','<i class="fas fa-check"></i>');
-            //         }else{
-            //             $option_template = $option_template.replace('[[[icon]]]','');
-            //         }
-            //         $option_template = $option_template.replace('[[[state]]]','');
-            //         $option+=$option_template;
-            //     });
-            // }
-
-            // $feedback_template = $('#feedback-template').html();
-            // $feedback_template = $feedback_template.replace('[[[total_marks]]]',ele.marks);
-            // $feedback_template = $feedback_template.replace('[[[marks]]]',($attempted_answer.marks==undefined)?0:$attempted_answer.marks);
-            // $feedback_template = $feedback_template.replaceAll('[[[answer]]]',$attempted_answer.id);
-            // $template = $template.replace('[[[feedback]]]',$feedback_template);
-            // if($attempt_answers.feedback!=''){
-            //     $template = $template.replace('[[[feedback_field]]]','<div class="form-group"><textarea class="form-control feedback" rel="'+$attempt_answers.id+'" placeholder="Enter feedback (max 1000 characters)" spellcheck="true" maxlength="1000" rows="3">'+($attempted_answer.feedback==undefined)?'':$attempt_answers.feedback+'</textarea></div>');
-            // }else{
-            //     $template = $template.replace('[[[feedback_field]]]','');
-            // }
-            // $template = $template.replace('[[[option]]]',$option);
-            // $('.answers-container').append($template);
             });
 
     $('.image-viewer').each(function(i,ele){
         new Viewer(document.getElementsByClassName('image-viewer')[i]);
     });
+    tinymce.init({
+                selector: '.readonly-editor',
+                inline: true,
+                readonly: true,
+        });
         }
 
         function findByQuestion($id){
@@ -455,7 +429,7 @@ window.speechSynthesis.speak(msg);
 
         $(document).on('click','.feedback-btn',function(){
             if($(this).parents('.attempt-container').find('.feedback').length == 0){
-            $(this).parents('.attempt-container').find('.answers').append('<div class="form-group"><textarea class="form-control feedback" rel="'+$(this).attr("rel")+'"placeholder="Enter feedback (max 1000 characters)" spellcheck="true" maxlength="1000" rows="3"></textarea></div>');
+            $(this).parents('.attempt-container').find('.answers').append('<div class="form-group mt-3"><small>Feedback</small><textarea class="form-control feedback" rel="'+$(this).attr("rel")+'"placeholder="Enter feedback (max 1000 characters)" spellcheck="true" maxlength="1000" rows="3"></textarea></div>');
             }
         });
 
@@ -473,6 +447,19 @@ window.speechSynthesis.speak(msg);
                         'answer_id':$(this).attr('rel'),
                         'marks': $marks
                     , }
+                });
+                $.ajax({    async:false,
+                    type: 'POST'
+                    , url: "{{ route('admin.get_quiz_attempts') }}"
+                    , data: {
+                        '_token': '{{ csrf_token() }}',
+                        'id':'{{request()->route()->parameters["id"]}}'
+                    , }
+                    ,success:function(json) {
+                    $attempts = JSON.parse(json);
+                    $('.point-span').html($attempts[$attempt_no].total_marks);
+                    }
+
                 });
         });
 
