@@ -352,6 +352,9 @@ window.speechSynthesis.speak(msg);
                         check = '<div class="ml-2"><i class="fas fa-check"></i></div>';
                     }
                     $attempt_option = null;
+                    let result = '';
+                    let ticked = '';
+
                     if($attempt_answer){
                         $attempt_answer.attempt_options.forEach((attempt_option)=> {
                             if(attempt_option.option_id == option.id){
@@ -359,19 +362,17 @@ window.speechSynthesis.speak(msg);
                                 return ;
                             }
                         });
-                    }
-                    let ticked = '';
+
                     if($attempt_option !=null){
                         ticked = 'checked';
                     }
-                    let result = '';
                     if(check != '' || ticked !=''){
                         result = 'wrong-option';
                     }
                     if(check != '' && ticked !=''){
                         result = 'correct-option';
                     }
-
+                }
                     $(options).append($(`
                             <div class="option ${result}">
                                     <input type="${input_type}" disabled ${ticked} >&nbsp;&nbsp;<label class="option_text" for="">
@@ -381,8 +382,17 @@ window.speechSynthesis.speak(msg);
                             `));
                 });
             }
-
-
+            let feedback = $('<div></div>');
+            if($attempt_answer!=null){
+                $(feedback).append(`
+                <div class="col-md-8 grading-input-container">
+                                <h6><input type="text" class="grading-input" rel="${$attempt_answer.id}" value="${$attempt_answer.marks}"> /
+                                    ${question.marks} pts</h6>
+                            </div>
+                            <div class="col-md-3 center"><a class="feedback-btn" rel="${$attempt_answer.id}"><i class="far fa-comment-alt"></i></a>
+                            </div>
+                            `);
+            }
                 $('.answers-container').append(`
                 <div class="attempt-container row my-5">
                         <div class="answers col-md-8">
@@ -391,12 +401,7 @@ window.speechSynthesis.speak(msg);
                     </div>
                     <div class="col-md-4">
                         <div class="row">
-                            <div class="col-md-8 grading-input-container">
-                                <h6><input type="text" class="grading-input" rel="${$attempt_answer.id}" value="${$attempt_answer.marks}"> /
-                                    ${question.marks} pts</h6>
-                            </div>
-                            <div class="col-md-3 center"><a class="feedback-btn" rel="${$attempt_answer.id}"><i class="far fa-comment-alt"></i></a>
-                            </div>
+                            ${$(feedback).html()}
                         </div>
                     </div>
                 </div>
