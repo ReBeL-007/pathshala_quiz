@@ -210,18 +210,18 @@
                         <div class="col-md-3 review-elem grading-text">
                             Points: <span class="point-span"></span>
                         </div>
-                        <div class="col-md-1  review-elem feedback-attempt-btn"><i class="far fa-comment-alt"></i>
-                        </div>
+                        <!-- <div class="col-md-1  review-elem feedback-attempt-btn"><i class="far fa-comment-alt"></i>
+                        </div> -->
                     </div>
                 </div>
                 <br>
-                <div class="row w-100">
+                <!-- <div class="row w-100">
                     <div class="form-group w-100">
                         <textarea class="form-control feedback-attempt d-none"
                             placeholder="Enter feedback (max 1000 characters)" spellcheck="true" maxlength="1000"
                             rows="3"></textarea>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="card">
@@ -389,7 +389,7 @@ window.speechSynthesis.speak(msg);
                                 <h6><input type="text" class="grading-input" rel="${$attempt_answer.id}" value="${$attempt_answer.marks}"> /
                                     ${question.marks} pts</h6>
                             </div>
-                            <div class="col-md-3 center"><a class="feedback-btn" rel="${$attempt_answer.id}"><i class="far fa-comment-alt"></i></a>
+                            <div class="col-md-3 center"><a class="feedback-btn" rel="${$attempt_answer.id}"></a>
                             </div>
                             `);
             }
