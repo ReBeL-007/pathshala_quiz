@@ -74,6 +74,7 @@
                 $totalCount = 0;
                 $correctCount = 0;
                 $data = [];
+                $percentage = 0;
                 if($question->type != 'Short Answer'){
                 foreach ($question->questionOptions as $key=>$option) {
                 $arr = [
