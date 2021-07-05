@@ -173,6 +173,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::get('response/export/{id}', ['uses' => 'Admin\QuizzesController@export', 'as' => 'responses.export']);
 
     // students
+    Route::put('students/active', 'Admin\StudentsController@massActive')->name('students.massActive');
     Route::delete('students/destroy', 'Admin\StudentsController@massDestroy')->name('students.massDestroy');
     Route::post('students/{student}/reset_attempt', 'Admin\StudentsController@resetAttempt')->name('students.resetAttempt');
     Route::resource('students', 'Admin\StudentsController');

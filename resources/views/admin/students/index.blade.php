@@ -37,6 +37,9 @@
                             {{ trans('cruds.student.fields.email') }}
                         </th>
                         <th>
+                            {{ trans('cruds.student.fields.status') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -56,7 +59,9 @@
                             <td>
                                 {{ $student->email ?? '' }}
                             </td>
-
+                            <td>
+                                {{($student->status == '1') ? 'Active':'Deactive'}}
+                            </td>
                             <td>
                                 <!-- @can('student-show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.students.show', $student->id) }}">
@@ -133,6 +138,38 @@
     }
   }
   dtButtons.push(deleteButton)
+@endcan
+
+let activeButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+@can('student-delete')
+  let activeButtonTrans = 'Active Selected'
+  let activeButton = {
+    text: activeButtonTrans,
+    url: "{{ route('admin.students.massActive') }}",
+    className: 'btn-secondary',
+    action: function (e, dt, node, config) {
+      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
+          return $(entry).data('entry-id')
+      });
+
+      if (ids.length === 0) {
+        alert('{{ trans('global.datatables.zero_selected') }}')
+
+        return
+      }
+
+      if (confirm('{{ trans('global.areYouSure') }}')) {
+        $.ajax({
+          headers: {'x-csrf-token': $('meta[name="csrf-token"]').attr('content')},
+          method: 'POST',
+          url: config.url,
+          data: { ids: ids, _method: 'PUT' }})
+          .done(function () { location.reload() })
+
+      }
+    }
+  }
+  dtButtons.push(activeButton)
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
