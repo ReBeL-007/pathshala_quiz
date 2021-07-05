@@ -8,9 +8,9 @@
             <a class="btn btn-primary" href="{{ route("admin.students.create") }}">
                 {{ trans('global.add') }} {{ trans('cruds.student.title_singular') }}
             </a>
-            <a class="btn btn-success ml-2 " href="{{ route("admin.users.importUser") }}">
+            <!-- <a class="btn btn-success ml-2 " href="{{ route("admin.users.importUser") }}">
                 Import Students     <i class="fas fa-file-excel"></i>
-        </a>
+            </a> -->
         </div>
     </div>
 @endcan
