@@ -69,7 +69,7 @@
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js">
 </script>
-<script src="https://cdn.tiny.cloud/1/nwtjwoappy5b04blgg43ezszcis40jtnlzxnwv3vlh1f5uq9/tinymce/5/tinymce.min.js"
+<script src="https://cdn.tiny.cloud/1/yo0g13l2am9ojsuuq0xx3hb3z9vqh0ifhlzgx254ogvciry2/tinymce/5/tinymce.min.js"
     referrerpolicy="origin"></script>
 <script>
     $(document).ready(function() {
@@ -224,7 +224,7 @@
         setup: function(editor) {
             editor.on('init', function(e) {
                 data = $(editor.bodyElement).text();
-                editor.setContent(data.replace('../../../','/'));
+                editor.setContent(data.replace('../../../','/').replace('../../','/'));
                 changed_editor+=1;
                 $('.loading').removeClass('d-none');
                 if(changed_editor === $('.editor').length){
@@ -334,8 +334,8 @@
             editor.on('init', function(e) {
                 data = $(editor.bodyElement).text();
                 console.log(data)
-                editor.setContent(data.replace('../../../','/'));
-                // editor.setContent(data.replace('../../','/'));
+                // editor.setContent(data.replace('../../../','/'));
+                editor.setContent(data.replace('../../','/').replace('../../../','/'));
                 changed_read_only_editor+=1;
                 $('.loading').removeClass('d-none');
                 if(changed_read_only_editor === $('.readonly-editor').length){
