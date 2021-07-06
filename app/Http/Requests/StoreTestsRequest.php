@@ -28,6 +28,7 @@ class StoreTestsRequest extends FormRequest
         return [
             'title' => ['required'],
             'course_id' => 'exists:courses,id',
+            'quiz_type' => ['required'],
         ];
     }
 }
