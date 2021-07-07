@@ -32,12 +32,17 @@ class StoreStudentRequest extends FormRequest
             //
             'name'     => [
                 'required'],
+
             'email'    => [
                 'required',
                 'unique:users'],
+
             'password' => [
                 'required',
             'confirmed'],
+
+            'contact'    => [
+                'unique:users,contact'],
         ];
     }
 }
