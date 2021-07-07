@@ -1,7 +1,14 @@
 @inject('request', 'Illuminate\Http\Request')
 @extends('admin.backend.layouts.master')
 @section('title','Quiz Response')
-
+@section('styles')
+    <style>
+        .readonly-editor img, .readonly-editor iframe {
+            max-width: 100% !important;
+            /* background: black; */
+        }
+    </style>
+@endsection
 @section('content')
 <style>
     .grading-container {

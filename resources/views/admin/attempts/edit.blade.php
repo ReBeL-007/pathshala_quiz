@@ -392,7 +392,7 @@ window.speechSynthesis.speak(msg);
             let feedback = $('<div></div>');
             if($attempt_answer!=null){
                 $(feedback).append(`
-                <div class="col-md-8 grading-input-container">
+                            <div class="grading-input-container">
                                 <h6><input type="text" class="grading-input" rel="${$attempt_answer.id}" value="${$attempt_answer.marks}"> /
                                     ${question.marks} pts</h6>
                             </div>
@@ -401,12 +401,12 @@ window.speechSynthesis.speak(msg);
                             `);
             }
                 $('.answers-container').append(`
-                <div class="attempt-container row my-5">
-                        <div class="answers col-md-8">
+                <div class="attempt-container row my-5" style="position: relative;">
+                        <div class="answers col-md-10">
                             <h5 class="question"><small>${question.question_no}</small>.&nbsp;<div class="readonly-editor"><p>${question.question_text.replace('../','/')}</p></div></h5>
                     ${$(options).html()}
                     </div>
-                    <div class="col-md-4">
+                    <div class="" style="position: absolute; right: 0; top: 0;">
                         <div class="row">
                             ${$(feedback).html()}
                         </div>
