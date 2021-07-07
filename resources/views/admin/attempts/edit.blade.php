@@ -1,7 +1,14 @@
 @inject('request', 'Illuminate\Http\Request')
 @extends('admin.backend.layouts.master')
 @section('title','Attempts')
-
+@section('styles')
+    <style>
+        .readonly-editor img, .readonly-editor iframe {
+            max-width: 100% !important;
+            /* background: black; */
+        }
+    </style>
+@endsection
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
     integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
@@ -180,7 +187,7 @@
     }
 </style>
 <div class="review-container d-flex justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-12">
         {{-- <div class="attempt-nav">
             <div class="back">
                 <a><i class="fas fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
