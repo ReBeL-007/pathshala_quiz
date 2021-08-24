@@ -1,6 +1,6 @@
 <a href="{{route('admin.dashboard')}}" class="brand-link">
-    <img src="{{asset('pathshala.png')}}" alt="Asmita Logo" class="brand-image" />
-    <span class="brand-text font-weight-light" style="font-weight: bold">Quiz</span>
+    <!-- <img src="{{asset('pathshala.png')}}" alt="Asmita Logo" class="brand-image" /> -->
+    <span class="brand-text font-weight-light" style="font-weight: bold">Quizzes</span>
 </a>
 
 <div class="sidebar">

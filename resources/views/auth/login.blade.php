@@ -105,12 +105,12 @@
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         <select class="input-field {{ $errors->has('course_id') ? 'is-invalid' : '' }}" name="course_id" id="course_id" >
-                    <option value="">Select course</option>
-                    @foreach($courses as $course)
-                    
-                        <option value="{{ $course->id }}" {{ old('course') ? 'selected' : '' }}>{{ $course->title }}</option>
-                    @endforeach
-                </select>
+                            <option value="">Select course</option>
+                            @foreach($courses as $course)
+                            
+                                <option value="{{ $course->id }}" {{ old('course') ? 'selected' : '' }}>{{ $course->title }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     
                     <div class="input-field">
