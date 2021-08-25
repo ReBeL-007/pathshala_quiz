@@ -105,12 +105,12 @@
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         <select class="input-field {{ $errors->has('course_id') ? 'is-invalid' : '' }}" name="course_id" id="course_id" >
-                    <option value="">Select course</option>
-                    @foreach($courses as $course)
-                    
-                        <option value="{{ $course->id }}" {{ old('course') ? 'selected' : '' }}>{{ $course->title }}</option>
-                    @endforeach
-                </select>
+                            <option value="">Select course</option>
+                            @foreach($courses as $course)
+                            
+                                <option value="{{ $course->id }}" {{ old('course') ? 'selected' : '' }}>{{ $course->title }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     
                     <div class="input-field">
@@ -178,7 +178,7 @@
                     <p>
                     Pathshala was founded in 2004 AD as co-educational English Medium School to cater the need of quality schooling in the context of 21st century learning.
                     </p>
-                    <button class="btn transparent" id="sign-up-btn">Sign up</button>
+                    <a href="{{ route('register')}}" ><button class="btn transparent" id="sign-up-btn"> Sign up</button></a>
                 </div>
                 <img src="{{asset('img/log.svg')}}" class="image" alt="" />
             </div>
@@ -198,7 +198,7 @@
         </div>
     </div>
     <script src="{{ asset('/backend/plugins/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('js/login/registerSigninapp.js')}}"></script>
+    <!-- <script src="{{asset('js/login/registerSigninapp.js')}}"></script> -->
     {{-- <script>
        $(function(){
             const href = window.location.href.split('#');

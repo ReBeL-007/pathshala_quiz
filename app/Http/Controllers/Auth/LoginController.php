@@ -56,11 +56,11 @@ class LoginController extends Controller
     //     }
     // }
    
-    protected function credentials(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
-        return array_add($credentials , 'status',1);
-    }
+    // protected function credentials(Request $request)
+    // {
+    //     $credentials = $request->only('email', 'password');
+    //     return array_add($credentials , 'status',1);
+    // }
 
     // public function showLoginForm(){
     //     return redirect('/#signInModal');

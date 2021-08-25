@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Attempt;
 use App\AttemptAnswer;
 use App\Quiz;
+use App\Question;
 use App\Course;
 use App\User;
 use App\Admin;
@@ -23,7 +24,7 @@ class QuizzesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin');
+        $this->middleware('auth:admin')->except('saveImage');
     }
     /**
      * Display a listing of Test.
@@ -127,7 +128,23 @@ class QuizzesController extends Controller
         if (!isset($request->time)) {
             $request->request->add(['time' => null, 'time_type' => null]);
         }
+        // $quiz->update($request->all());
+
+
+        // recalculating remaining marks if full marks changed
+        if($quiz->full_marks != $request->full_marks) {
+            $sum_quiz_question_marks = Question::whereHas('quizzes', function ($query) use ($id) {
+                    $query->where('quiz_id', $id);
+                })
+                ->sum('marks');
+
+            $request->request->add(['remaining_marks' => $request->full_marks - $sum_quiz_question_marks]);
+            // $quiz->remaining_marks = $quiz->full_marks - $sum_quiz_question_marks;
+            // $quiz->save();
+            }
+            // dd($request->all());
         $quiz->update($request->all());
+
         $users = User::all();
         $admins = Admin::all();
         if($quiz->published){
@@ -276,6 +293,7 @@ class QuizzesController extends Controller
     public function updateAnswer(Request $request)
     {
         $attempt_answer = AttemptAnswer::find($request->answer_id);
+        $attempt = $attempt_answer->attempt()->first();
         if ($request->feedback != null) {
             if ($request->feedback == '[[[clear]]]') {
                 $attempt_answer->feedback = '';
@@ -287,13 +305,21 @@ class QuizzesController extends Controller
         }
 
         if ($request->marks != null) {
+            $attempt->total_marks -= $attempt_answer->marks;
             $attempt_answer->marks = $request->marks;
+            $attempt->total_marks += $attempt_answer->marks;
             $attempt_answer->save();
+            $attempt->save();
         }
     }
 
     public function export($id)
     {
         return Excel::download(new QuizAttemptsExport($id), 'quiz_attempts.xlsx');
+    }
+
+    public function saveImage(Request $request){
+        $imgpath = 'storage/'.request()->file('file')->store('uploads/editor', 'public');
+        return response()->json(['location' => asset($imgpath)]);
     }
 }

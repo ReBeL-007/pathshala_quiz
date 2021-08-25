@@ -32,9 +32,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-
+        $user = Auth::user();
+        
         $now = Carbon::now();
-        $quizzes = Quiz::all();
+        $quizzes = Quiz::where('course_id',$user->course_id)->get();
         $attempted_quizzes = [];
         $upcoming_tests = [];
         $quiz_for_leaderboard = [];

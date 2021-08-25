@@ -53,7 +53,8 @@
 <script src="{{ asset('/backend/dropzone-5.7.0/dist/min/dropzone.min.js')}}"></script>
 <script src="{{ asset('/backend/plugins/viewer/viewer.min.js')}}"></script>
 <script src="{{ url('js/custom-toggle.js') }}"></script>
-
+<script src="https://cdn.tiny.cloud/1/nwtjwoappy5b04blgg43ezszcis40jtnlzxnwv3vlh1f5uq9/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script> --}}
 
 <!-- dataTable -->
@@ -198,55 +199,9 @@
 <script src="{{ asset('backend/plugins/ckeditor5/build/ckeditor.js') }}"></script>
 <script src="{{ asset('backend/plugins/ckeditor5/build/config.js') }}"></script>
 <script src="{{ asset('js/admin/ckfinder/ckfinder.js')}}"></script>
+
 <script>
     $(function(){
-
-        //adding editor
-        $('.editor').each(function(i,ele){
-            let value = $(this).parents('.editor-container').find('textarea').text();
-            let $id = $(this).attr('id');
-            let $this = $(this);
-            if($(this).attr('id')!=undefined){
-            InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), ckConfig ).then(editor=>{
-                editor.setData(value);
-                editor.model.document.on( 'change', ( evt, data ) => {
-                    $this.parents('.editor-container').find('textarea').html(editor.getData());
-                });
-            });
-            }
-    });
-
-    //editor in option
-    $('.option-editor').each(function(i,ele){
-        let value = $(this).parents('.option-container').find('textarea').text();
-        let $id = $(this).attr('id');
-        let $this = $(this);
-            InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), optionConfig ).then(editor=>{
-                editor.setData(value);
-                editor.model.document.on( 'change', ( evt, data ) => {
-                    $this.parents('.option-container').find('textarea').html(editor.getData());
-                });
-            });
-    });
-
-    //readonly editor for viewing editor text
-    $('.readonly-editor').each(function(i,ele){
-        let value = $(this).text();
-        let $this = $(this);
-            InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), {
-                image: {
-        toolbar: [
-            'imageTextAlternative',
-            'imageStyle:full',
-            'imageStyle:side'
-        ]
-    },
-            isReadOnly: true,
-            } ).then(editor=>{
-                editor.isReadOnly = true;
-                editor.setData(value);
-            });
-    });
 
     function get_notification() {
                 $.ajax({
@@ -292,33 +247,33 @@
 function closeSearch() {
     document.getElementById("overlay").style.display = "none";
 }
-  document.onkeydown = function(e) {
-  if(event.keyCode == 123) {
-    console.log('You cannot inspect Element');
-     return false;
-  }
-  if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
-    console.log('You cannot inspect Element');
-    return false;
-  }
-  if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
-    console.log('You cannot inspect Element');
-    return false;
-  }
-  if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
-    console.log('You cannot inspect Element');
-    return false;
-  }
-  if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-    console.log('You cannot inspect Element');
-    return false;
-  }
-}
-// prevents right clicking
-document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener("keydown", function(e) {
-  if (e.key === 's' && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-    e.preventDefault();
-  }
-}, false);
+//   document.onkeydown = function(e) {
+//   if(event.keyCode == 123) {
+//     console.log('You cannot inspect Element');
+//      return false;
+//   }
+//   if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+//     console.log('You cannot inspect Element');
+//     return false;
+//   }
+//   if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+//     console.log('You cannot inspect Element');
+//     return false;
+//   }
+//   if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+//     console.log('You cannot inspect Element');
+//     return false;
+//   }
+//   if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+//     console.log('You cannot inspect Element');
+//     return false;
+//   }
+// }
+// // prevents right clicking
+// document.addEventListener('contextmenu', e => e.preventDefault());
+// document.addEventListener("keydown", function(e) {
+//   if (e.key === 's' && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+//     e.preventDefault();
+//   }
+// }, false);
 </script>

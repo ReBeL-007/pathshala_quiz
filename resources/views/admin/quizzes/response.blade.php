@@ -1,7 +1,14 @@
 @inject('request', 'Illuminate\Http\Request')
 @extends('admin.backend.layouts.master')
 @section('title','Quiz Response')
-
+@section('styles')
+    <style>
+        .readonly-editor img, .readonly-editor iframe {
+            max-width: 100% !important;
+            /* background: black; */
+        }
+    </style>
+@endsection
 @section('content')
 <style>
     .grading-container {
@@ -17,6 +24,19 @@
     .question {
         display: flex;
         align-items: center;
+    }
+    .latest-answer-container{
+        border: 1px solid #0093cd;
+        border-radius: 5px;
+        margin: 2rem 0px;
+        padding: 1rem;
+        position: relative;
+    }
+    .latest-answer-label{
+        position: absolute;
+        top: -.7rem;
+        background-color: white;
+        font-size: .8rem;
     }
 </style>
 <div class="card">
@@ -51,8 +71,8 @@
         <p class="text-center">No Any Responses</p>
         @endif
         <div class="responses-content-detail">
-            @foreach ($quiz->questions as $no=>$question)
-            <div class="question">{{$no+1}}. <div id="re{{$no}}" class="readonly-editor">
+            @foreach ($quiz->questions->sortBy('question_no')->where('deleted_at',null) as $no=>$question)
+            <div class="question">{{$question->question_no}}. <div id="re{{$no}}" class="readonly-editor">
                     {{$question->question_text}}
                 </div><span>({{$question->marks}} Points)</span>
             </div>
@@ -61,8 +81,9 @@
                 $totalCount = 0;
                 $correctCount = 0;
                 $data = [];
-                foreach ($question->where('id',$question->id)->first()->questionOptions as $key=>$option) {
-
+                $percentage = 0;
+                if($question->type != 'Short Answer'){
+                foreach ($question->questionOptions as $key=>$option) {
                 $arr = [
                 'id' => $option->id,
                 'name' => str_replace('</p>','',str_replace('<p>','',$option->option_text)),
@@ -105,10 +126,12 @@
                     }else{
                     $percentage = 0;
                     }
+                }
                     @endphp
                     {{$percentage}}% of respondents ({{$correctCount}} of {{$totalCount}}) answered this question
                     correctly.
             </div>
+            @if($question->type != 'Short Answer')
             <figure class="highcharts-figure">
                 <div id="chart{{$no}}"></div>
 
@@ -159,6 +182,14 @@
       }]
     });
             </script>
+            @else
+            <div class="latest-answer-container">
+                <label class="latest-answer-label"> Latest Answer </label>
+                <div class="readonly-editor">
+                    {{App\AttemptAnswer::where('question_id',$question->id)->get()->last()->attemptOptions()->first()->answer_text}}
+                </div>
+            </div>
+            @endif
             @endforeach
         </div>
 

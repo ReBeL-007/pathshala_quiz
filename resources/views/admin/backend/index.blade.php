@@ -21,7 +21,7 @@
 
 </style>
 <div class="content">
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
@@ -39,8 +39,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="row">
+        
         <div class="col-md-6">
             @if (count($quizzes)>0)
 
@@ -74,8 +75,8 @@
                 type: 'pie'
               },
               exporting: {
-    enabled: false
-  },
+                enabled: false
+            },
 
             legend: {
                 align: 'left',
@@ -116,8 +117,9 @@
             </div>
             @endif
         </div>
-        <div class="col-md-3 content ">
-            <div class="leaderboard">
+
+        <div class="col-md-6 content">
+            <div class="leaderboard" style="width:100%">
                 <h1 class="mx-auto text-center"><svg class="ico-cup">
                         <use xlink:href="#cup"></use>
                     </svg>Leaderboard</h1>

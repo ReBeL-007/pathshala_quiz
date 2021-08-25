@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-md-12 form-group">
                 {!! Form::label('course_id', 'Course', ['class' => 'control-label required']) !!}
-                {!! Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control select2']) !!}
+                {!! Form::select('course_id', $courses, old('course_id'), ['class' => 'form-control select2', 'required']) !!}
                 <p class="help-block"></p>
                 @if($errors->has('course_id'))
                 <p class="help-block">

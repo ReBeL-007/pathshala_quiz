@@ -217,27 +217,31 @@ class PermissionsTableSeeder extends Seeder
             [
                 'title' => 'grade_access',
                 'slug' => 'grade-access',
-            ]
-            // [
-            //     'title' => 'student_create',
-            //     'slug' => 'student-create',
-            // ],
-            // [
-            //     'title' => 'student_edit',
-            //     'slug' => 'student-edit',
-            // ],
-            // [
-            //     'title' => 'student_show',
-            //     'slug' => 'student-show',
-            // ],
-            // [
-            //     'title' => 'student_delete',
-            //     'slug' => 'student-delete',
-            // ],
-            // [
-            //     'title' => 'student_access',
-            //     'slug' => 'student-access',
-            // ],
+            ],
+            [
+                'title' => 'student_create',
+                'slug' => 'student-create',
+            ],
+            [
+                'title' => 'student_edit',
+                'slug' => 'student-edit',
+            ],
+            [
+                'title' => 'student_show',
+                'slug' => 'student-show',
+            ],
+            [
+                'title' => 'student_delete',
+                'slug' => 'student-delete',
+            ],
+            [
+                'title' => 'student_access',
+                'slug' => 'student-access',
+            ],
+            [
+                'title' => 'response_access',
+                'slug' => 'response-access',
+            ],
         ];
 
         Permission::insert($permissions);

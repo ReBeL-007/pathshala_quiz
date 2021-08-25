@@ -497,7 +497,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0rem 0.5rem;
+        padding: 1rem 0.5rem;
         border: 0.5px solid #808e9b;
         cursor: pointer;
         margin-bottom: 2rem;
@@ -534,7 +534,7 @@
         display: inline-block;
         position: absolute;
         right: -1rem;
-        top: 0.9rem;
+        top: 0.1rem;
     }
 
     .radio-container::after {
@@ -609,6 +609,9 @@
     .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-rounded-corners {
         border-radius: 8px;
     }
+    .editor{
+        padding: 1rem;
+    }
 </style>
 <div class="live-test-wrapper">
     <div class="row d-flex justify-content-center cover">
@@ -654,7 +657,7 @@
                                     Q.<span class="question_no_span"></span>
                                 </div>
                                 <div class="question-text col-md-10">
-                                    <div id="question-editor"></div>
+                                    <div class="readonly-editor" id="question-editor"></div>
                                 </div>
                                 <span class="solution-container ml-auto"
                                     ><img
@@ -670,12 +673,12 @@
                                 /></span>
                             </div>
                             <div class="hint-text-container d-none">
-                                <div class="hint-text" id="hint-editor"></div>
+                                <div class="hint-text readonly-editor" id="hint-editor"></div>
                                 <div class="hint-append">Hint</div>
                             </div>
                             <div class="solution-text-container d-none">
                                 <div
-                                    class="solution-text"
+                                    class="solution-text readonly-editor"
                                     id="solution-editor"
                                 ></div>
                                 <div class="solution-append">Solution</div>
@@ -696,7 +699,7 @@
                                         >
                                             <div
                                                 class="
-                                                    readonly-option-editor
+                                                    readonly-editor
                                                     label-text
                                                 "
                                                 id="option-1"
@@ -720,7 +723,7 @@
                                         >
                                             <div
                                                 class="
-                                                    readonly-option-editor
+                                                    readonly-editor
                                                     label-text
                                                 "
                                                 id="option-2"
@@ -744,7 +747,7 @@
                                         >
                                             <div
                                                 class="
-                                                    readonly-option-editor
+                                                    readonly-editor
                                                     label-text
                                                 "
                                                 id="option-3"
@@ -768,7 +771,7 @@
                                         >
                                             <div
                                                 class="
-                                                    readonly-option-editor
+                                                    readonly-editor
                                                     label-text
                                                 "
                                                 id="option-4"
@@ -781,7 +784,7 @@
                                 </div>
                                 <div class="answer-container d-none">
                                     <div
-                                        class="answer"
+                                        class="editor answer"
                                         id="answer-editor"
                                     ></div>
                                     <div class="answer-append">
@@ -814,74 +817,44 @@
 @endsection @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 <script>
-    let $question_editor;
-    InlineEditor.create(document.querySelector("#question-editor"), {
-        image: {
-            toolbar: [
-                "imageTextAlternative",
-                "imageStyle:full",
-                "imageStyle:side",
-            ],
-        },
-        isReadOnly: true,
-    }).then((editor) => {
-        $question_editor = editor;
-        editor.isReadOnly = true;
-    });
-    let $hint_editor;
-    InlineEditor.create(document.querySelector("#hint-editor"), {
-        image: {
-            toolbar: [
-                "imageTextAlternative",
-                "imageStyle:full",
-                "imageStyle:side",
-            ],
-        },
-        isReadOnly: true,
-    }).then((editor) => {
-        $hint_editor = editor;
-        editor.isReadOnly = true;
-    });
 
-    let $solution_editor;
-    InlineEditor.create(document.querySelector("#solution-editor"), {
-        image: {
-            toolbar: [
-                "imageTextAlternative",
-                "imageStyle:full",
-                "imageStyle:side",
-            ],
+    tinymce.init({
+        selector: '.editor',
+        inline:true,
+        setup: function(editor) {
+            editor.on('init', function(e) {
+                data = $(editor.bodyElement).text();
+                $(editor).html(data);
+            });
         },
-        isReadOnly: true,
-    }).then((editor) => {
-        $solution_editor = editor;
-        editor.isReadOnly = true;
-    });
-
-    let $option_editors = [];
-    $(".readonly-option-editor").each(function (i, ele) {
-        InlineEditor.create(document.querySelector("#" + $(this).attr("id")), {
-            image: {
-                toolbar: [
-                    "imageTextAlternative",
-                    "imageStyle:full",
-                    "imageStyle:side",
-                ],
-            },
-            isReadOnly: true,
-        }).then((editor) => {
-            $option_editors.push(editor);
-            editor.isReadOnly = true;
+        plugins: 'print preview paste importcss searchreplace autolink directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+        // external_plugins: {
+        //     'tiny_mce_wiris' : "{{ asset('backened/plugins/@wiris/mathtype-tinymce5/plugin.min.js')}}"
+        // },
+        imagetools_cors_hosts: ['picsum.photos'],
+        menubar: 'file edit view insert format tools table help',
+        toolbar: 'bold italic underline | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor | charmap emoticons | fullscreen  preview | insertfile image media link codesample | tiny_mce_wiris_formulaEditor tiny_mce_wiris_formulaEditorChemistr',
+        toolbar_sticky: true,
+        image_advtab: true,
+        file_picker_types: 'image',
+        automatic_uploads: true,
+        images_upload_url: '{{route("admin.quizzes.saveImage")}}',
+        icons: "thin",
+        height: 600,
+        image_caption: true,
+        quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+        quickbars_insert_toolbar: "image media table hr",
+        toolbar_mode: 'sliding',
+        contextmenu: 'link image imagetools table',
+        skin:  'snow',
+        content_css: 'default',
         });
-    });
 
-    let $answer_editor;
-    InlineEditor.create(
-        document.querySelector("#answer-editor"),
-        answerConfig
-    ).then((editor) => {
-        $answer_editor = editor;
-    });
+        tinymce.init({
+                selector: '.readonly-editor',
+                inline: true,
+                readonly: true,
+        });
     $(function () {
         let editors = [];
         var quiz = [];
@@ -1005,13 +978,20 @@
                 $(".time-indicator").removeClass("d-none");
             }
         }
+        // $(document).on('click','.option-wrapper',function(){
+        //     $(this).find('input').prop('checked',! $(this).find('input').prop('checked'));
+        //     $(this).addClass("active");
+        //     $("input[name='option']:not(:checked)").each(function (i, ele) {
+        //         $(ele).parents(".option-wrapper").removeClass("active");
+        //     });
+        // });
 
         getQuestion($question_no);
 
         function getQuestion($ele) {
             clearInterval(answerInterval);
             $(".submit-container").html("");
-            $answer_editor.setData("");
+            $('#answer-editor').html("");
             $ele--;
             setCookie(
                 "question_no_" + quiz.id + "_" + $user_id,
@@ -1111,7 +1091,7 @@
                                 quiz.questions[$ele].id +
                                 "_" +
                                 $user_id,
-                            $answer_editor.getData()
+                                tinymce.get('answer-editor').getContent()
                         );
                     }, 5000);
                     break;
@@ -1139,7 +1119,7 @@
             $.each($answer, function (i, ele) {
                 if (ele.question_id == quiz.questions[$question_no - 1].id) {
                     if (ele.options == "text_answer") {
-                        $answer_editor.setData(
+                        $('#answer-editor').html(
                             localStorage.getItem(
                                 "short_answer_" +
                                     quiz.questions[$question_no - 1].id +
@@ -1171,28 +1151,28 @@
                 .attr("rel", `${question_id}`);
             $(".question-no").html("Q." + question_no);
             $(".question-no-span").html(question_no);
-            $question_editor.setData(question_text);
+           $('#question-editor').html(question_text);
             if (answer_available == "during_quiz") {
                 $(".solution")
                     .attr("src", "{{asset('solution.png')}}")
                     .attr("data-original-title", "Solution available")
                     .addClass("active");
-                $solution_editor.setData(solution_text);
+               $('#solution-editor').html(solution_text);
             } else {
                 $(".solution")
                     .attr("src", "")
                     .attr("data-original-title", "No Solution available")
                     .removeClass("active");
-                $solution_editor.setData("");
+               $('#solution-editor').html("");
             }
             if (hint_text != undefined) {
-                $hint_editor.setData(hint_text);
+               $('#hint-editor').html(hint_text);
             }
             if (
                 solution_text != undefined &&
                 !answer_available == "during_quiz"
             ) {
-                $solution_editor.setData(solution_text);
+               $('#solution-editor').html(solution_text);
             }
             hint = hint_text != null ? "hint_on" : "hint_off";
             if (hint == "hint_on") {
@@ -1200,13 +1180,13 @@
                     .attr("src", "{{asset('img/hint_on.svg')}}")
                     .attr("data-original-title", "Hint available")
                     .addClass("active");
-                $hint_editor.setData(hint_text);
+               $('#hint-editor').html(hint_text);
             } else {
                 $(".hint")
                     .attr("src", "{{asset('img/hint_off.svg')}}")
                     .attr("data-original-title", "No Hint available")
                     .removeClass("active");
-                $hint_editor.setData("");
+               $('#hint-editor').html("");
             }
         }
 
@@ -1244,8 +1224,10 @@
             $($option_wrapper)
                 .find("label")
                 .attr("for", "option-" + ele.id);
-            $option_editors[option_no].setData(ele.option_text);
+               $(`#option-${option_no+1}`).html(ele.option_text);
         }
+
+
 
         //when next btn is clicked
         $(document).on("click", ".next", function () {
@@ -1275,11 +1257,11 @@
         function addAnswer(option, time = null) {
             var $question_id = quiz.questions[$question_no - 1].id;
             if (quiz.questions[$question_no - 1].type == "Short Answer") {
-                if ($answer_editor.getData() != "") {
+                if (tinymce.get('answer-editor').getContent() != "") {
                     option = "text_answer";
                     localStorage.setItem(
                         "short_answer_" + $question_id + "_" + $user_id,
-                        $answer_editor.getData()
+                        tinymce.get('answer-editor').getContent()
                     );
                 }
             }
@@ -1383,6 +1365,7 @@
             addAnswer(selected_options);
             clearInterval(answerInterval);
             submit();
+            $(this).prop('disabled',true);
         });
 
         function submit() {

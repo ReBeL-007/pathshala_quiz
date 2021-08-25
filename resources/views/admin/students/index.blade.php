@@ -8,9 +8,9 @@
             <a class="btn btn-primary" href="{{ route("admin.students.create") }}">
                 {{ trans('global.add') }} {{ trans('cruds.student.title_singular') }}
             </a>
-            <a class="btn btn-success ml-2 " href="{{ route("admin.users.importUser") }}">
-                {{ trans('global.add') }} Users     <i class="fas fa-file-excel"></i>
-        </a>
+            <!-- <a class="btn btn-success ml-2 " href="{{ route("admin.users.importUser") }}">
+                Import Students     <i class="fas fa-file-excel"></i>
+            </a> -->
         </div>
     </div>
 @endcan
@@ -37,6 +37,9 @@
                             {{ trans('cruds.student.fields.email') }}
                         </th>
                         <th>
+                            {{ trans('cruds.student.fields.status') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -56,7 +59,9 @@
                             <td>
                                 {{ $student->email ?? '' }}
                             </td>
-
+                            <td>
+                                {{($student->status == '1') ? 'Active':'Deactive'}}
+                            </td>
                             <td>
                                 <!-- @can('student-show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.students.show', $student->id) }}">
@@ -74,7 +79,7 @@
                                         <form action="{{ route('admin.students.resetAttempt', $student->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                             <input type="hidden" name="_method" value="POST">
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <input type="submit" class="btn btn-xs btn-danger" value="Reset Attempt">
+                                            <input type="submit" class="btn btn-xs btn-warning" value="Reset Attempt">
                                         </form>
                                     @endcan
                                 @endif
@@ -133,6 +138,38 @@
     }
   }
   dtButtons.push(deleteButton)
+@endcan
+
+let activeButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
+@can('student-delete')
+  let activeButtonTrans = 'Active Selected'
+  let activeButton = {
+    text: activeButtonTrans,
+    url: "{{ route('admin.students.massActive') }}",
+    className: 'btn-secondary',
+    action: function (e, dt, node, config) {
+      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
+          return $(entry).data('entry-id')
+      });
+
+      if (ids.length === 0) {
+        alert('{{ trans('global.datatables.zero_selected') }}')
+
+        return
+      }
+
+      if (confirm('{{ trans('global.areYouSure') }}')) {
+        $.ajax({
+          headers: {'x-csrf-token': $('meta[name="csrf-token"]').attr('content')},
+          method: 'POST',
+          url: config.url,
+          data: { ids: ids, _method: 'PUT' }})
+          .done(function () { location.reload() })
+
+      }
+    }
+  }
+  dtButtons.push(activeButton)
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {

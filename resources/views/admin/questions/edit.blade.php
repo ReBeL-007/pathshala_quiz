@@ -16,7 +16,7 @@
     </div>
 
     <div class="card-body">
-        <form method="POST" class="question-update-form" action="{{ route("admin.questions.update", [$question->id]) }}"
+        <form method="POST" id="question-update-form" action="{{ route("admin.questions.update", [$question->id]) }}"
             enctype="multipart/form-data">
             @method('PUT')
             @csrf
@@ -64,9 +64,8 @@
             <br>
             <div class="form-group editor-container" id="quest">
                 <label for="question-text" class="editor-label"> Write Question</label>
-                <textarea class="d-none" name="question_text"
-                    required>{{ $question->question_text , old('question_text') }}</textarea>
                 <div class="editor {{ $errors->has('question_text') ? 'is-invalid' : '' }}" id="question_text">
+                    {{$question->question_text}}
                 </div>
                 @if($errors->has('question_text'))
                 <div class="invalid-feedback">
@@ -77,25 +76,26 @@
             </div>
 
 
-            @if($question->type == 'Multiple Choices')
 
-            <div class="mcq" id="mcq">
+            @if($question->type == 'Multiple Choices')
+            <div class="options-container">
                 @foreach($question->questionOptions as $key=>$options)
                 <div class="col-md-12 row option-pad">
                     <div class="icheck-success">
-                        <input type="radio" name="points" id="option{{ $key+1 }}" value="{{ $key+1 }}"
+                        <input type="radio" class="points" name="points" id="option{{ $key+1 }}" value="{{ $key+1 }}"
                             {{ (($options->points==1) ? 'checked' : '' )}}>
                         <label for="option{{ $key+1 }}">
                         </label>
                     </div>
                     <div class="col-md-8 option-container">
                         <label for="question-text" class="editor-label">Option {{$key+1}}</label>
-                        <textarea class="d-none"
-                            name="option_text[]">{{ $options->option_text , old('option_text[]') }}</textarea>
-                        <div class="option-editor {{ $errors->has('option_text') ? 'is-invalid' : '' }}"
-                            id="option_text_{{$key+1}}">
+                        <div class="option-editor editor opt-editor-{{$key+1}} {{ $errors->has('option_text') ? 'is-invalid' : '' }}"
+                            id="option_text[{{$key+1}}]" rel-pos="{{$key+1}}">{{$options->option_text}}
                         </div>
                     </div>
+                    @if ($key > 1)
+                    <div><a class="btn btn-danger text-white option-delete-btn"><i class="fas fa-trash"></i></a></div>
+                    @endif
                     @if($errors->has('option_text'))
                     <div class="invalid-feedback">
                         {{ $errors->first('option_text') }}
@@ -105,33 +105,36 @@
                 </div>
                 @endforeach
             </div>
-            <div class="form-group add_mcq_option" id="add_mcq_option">
-                <input type="button" class="btn btn-default" id="add" value="Add more option">
+            <div class="form-group option-button-container">
+                @if (count($question->questionOptions)<4)
+                    <input type="button" class="btn btn-default" id="add-mcq-option" value="Add more option">
+                @endif
             </div>
 
             {{-- multi answers --}}
             @elseif($question->type == 'Multiple Answers')
-            <div class="maq" id="maq">
+            <div class="options-container">
                 <div class="col-md-12 row">
                     @foreach($question->questionOptions as $key=>$options)
                     <div class="col-md-12 row option-pad">
                         <div class="icheck-success">
-                            <input type="checkbox" name="maq_points[]" id="checkbox{{ $key+1 }}" value="{{ $key+1 }}"
+                            <input type="checkbox" name="points[]" class="points" id="option{{ $key+1 }}" value="{{ $key+1 }}"
                                 {{ (($options->points==1) ? 'checked' : '' )}}>
-                            <label for="checkbox{{ $key+1 }}">
+                            <label for="option{{ $key+1 }}">
                             </label>
                         </div>
                         <div class="col-md-8 option-container">
                             <label for="question-text" class="editor-label">Option {{$key+1}}</label>
-                            <textarea class="d-none"
-                                name="option_text2[]">{{ $options->option_text , old('option_text2[]') }}</textarea>
-                            <div class="option-editor {{ $errors->has('option_text2') ? 'is-invalid' : '' }}"
-                                id="option_text_maq_{{$key+1}}">
+                            <div class="option-editor editor opt-editor-{{$key+1}} {{ $errors->has('option_text') ? 'is-invalid' : '' }}"
+                                id="option_text[{{$key+1}}]" rel-pos="{{$key+1}}">{{$options->option_text}}
                             </div>
                         </div>
-                        @if($errors->has('option_text2'))
+                        @if ($key > 1)
+                            <div><a class="btn btn-danger text-white option-delete-btn"><i class="fas fa-trash"></i></a></div>
+                        @endif
+                        @if($errors->has('option_text'))
                         <div class="invalid-feedback">
-                            {{ $errors->first('option_text2') }}
+                            {{ $errors->first('option_text') }}
                         </div>
                         @endif
                         <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span>
@@ -139,15 +142,16 @@
                     @endforeach
                 </div>
             </div>
-            <div class="form-group add_maq_option" id="add_maq_option">
-                <input type="button" class="btn btn-default" id="add" value="Add more option">
+            <div class="form-group option-button-container">
+                @if (count($question->questionOptions)<4)
+                    <input type="button" class="btn btn-default" id="add-maq-option" value="Add more option">
+                @endif
             </div>
             @endif
             <div class="form-group editor-container">
                 <label for="question-hint" class="editor-label"> Write hint for the question</label>
-                <textarea class="d-none"
-                    name="question_hint"> {{ $question->question_hint,old('question_hint') }}</textarea>
-                <div id="question_hint" class="editor {{ $errors->has('question_hint') ? 'is-invalid' : '' }}">
+                <div id="question_hint" class="editor {{ $errors->has('question_hint') ? 'is-invalid' : '' }}" >
+                    {{$question->question_hint}}
                 </div>
                 @if($errors->has('question_hint'))
                 <div class="invalid-feedback">
@@ -158,10 +162,9 @@
             </div>
             <div class="form-group editor-container">
                 <label for="question-hint" class="editor-label"> Write explanation of correct answer here</label>
-                <textarea class="d-none"
-                    name="answer_explanation">{{$question->question_explanation, old('answer_explanation') }}</textarea>
                 <div id="answer_explanation"
                     class="editor {{ $errors->has('answer_explanation') ? 'is-invalid' : '' }}">
+                    {{$question->question_explanation}}
                 </div>
                 @if($errors->has('answer_explanation'))
                 <div class="invalid-feedback">
@@ -225,6 +228,280 @@
 
 @section('scripts')
 <script src="{{ asset('js/admin/adaptiveDropdown.js') }}"></script>
+<script>
+     function create_tiny_mce(selector){
+        tinymce.init({
+                selector: selector,
+                inline:true,
+                plugins: 'print preview paste importcss searchreplace autolink directionality code visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
+                // external_plugins: {
+                //     'tiny_mce_wiris' : "{{ asset('backened/plugins/@wiris/mathtype-tinymce5/plugin.min.js')}}"
+                // },
+                imagetools_cors_hosts: ['picsum.photos'],
+                menubar: 'file edit view insert format tools table help',
+                toolbar: 'bold italic underline | fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor | charmap emoticons | fullscreen  preview | insertfile image media link codesample | tiny_mce_wiris_formulaEditor tiny_mce_wiris_formulaEditorChemistr',
+                toolbar_sticky: true,
+                image_advtab: true,
+                file_picker_types: 'image',
+                automatic_uploads: true,
+                images_upload_url: '{{route("admin.quizzes.saveImage")}}',
+                icons: "thin",
+                height: 600,
+                image_caption: true,
+                quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+                quickbars_insert_toolbar: "image media table hr",
+                toolbar_mode: 'sliding',
+                contextmenu: 'link image imagetools table',
+                skin:  'snow',
+                content_css: 'default',
+        });
+    }
+    $(function(){
+        $("#type").change(function() {
+            const question_type = $(this).val();
+            console.log(question_type);
+            $('.options-container').html('');
+            $('.option-button-container').html('');
+            tinymce.remove(`.opt-editor-1`);
+            tinymce.remove(`.opt-editor-2`);
+            tinymce.remove(`.opt-editor-3`);
+            tinymce.remove(`.opt-editor-4`);
+            if(question_type === 'Multiple Choices'){
+                $('.options-container').append(`
+                <div class="col-md-12 row option-pad">
+                    <div class="icheck-success">
+                        <input type="radio" name="points" class="points" id="option1" value="1">
+                        <label for="option1">
+                        </label>
+                    </div>
+                    <div class="col-md-8 option-container">
+                        <label for="question-text" class="editor-label">Option 1</label>
+                        <div class="editor option-editor" id="option_text[1]">
+                            </div>
+                    </div>
+                    <div class="invalid-feedback">
+                    </div>
+                    <span class="help-block"></span>
+                </div>
+                <div class="col-md-12 row option-pad">
+                    <div class="icheck-success">
+                        <input type="radio" name="points" class="points" id="option2" value="2" required>
+                        <label for="option2">
+                        </label>
+                    </div>
+                    <div class="col-md-8 option-container">
+                        <label for="question-text" class="editor-label">Option 2</label>
+                        <div class="editor option-editor" id="option_text[2]">
+                            </div>
+                    </div>
+                    <div class="invalid-feedback">
+                    </div>
+                    <span class="help-block"></span>
+                </div>
+                `);
+                $('.option-button-container').html('<input type="button" class="btn btn-default" id="add-mcq-option" value="Add more option">');
+            }else if(question_type === 'Multiple Answers'){
+                $('.options-container').append(`
+                <div class="col-md-12 row option-pad">
+                    <div class="icheck-success">
+                        <input type="checkbox" class="points" name="points[1]" id="option1" value="1">
+                        <label for="option1">
+                        </label>
+                    </div>
+                    <div class="col-md-8 option-container">
+                        <label for="question-text" class="editor-label">Option 1</label>
+                        <div class="editor option-editor" id="option_text[1]">
+                            </div>
+                    </div>
+                    <div class="invalid-feedback">
+                    </div>
+                    <span class="help-block"></span>
+                </div>
+                <div class="col-md-12 row option-pad">
+                    <div class="icheck-success">
+                        <input type="checkbox" class="points" name="points[2]" id="option2" value="2">
+                        <label for="option2">
+                        </label>
+                    </div>
+                    <div class="col-md-8 option-container">
+                        <label for="question-text" class="editor-label">Option 2</label>
+                        <div class="editor option-editor" id="option_text[2]">
+                            </div>
+                    </div>
+                    <div class="invalid-feedback">
+                    </div>
+                    <span class="help-block"></span>
+                </div>
+                `);
+                $('.option-button-container').html('<input type="button" class="btn btn-default" id="add-maq-option" value="Add more option">');
+            }else if(question_type === 'True or False'){
+                $('.options-container').append(`<div class="torf" id="torf">
+                                    <div class="col-md-12 row" style="margin-bottom:5px;">
+                                        <div class="icheck-success">
+                                            <input type="radio" class="points" name="points" id="option1" value="1" required>
+                                            <label for="option1">
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                        <input class="" name="torf[]" id="torf" type="text" value="True" readonly>
+                                        </div>
+                                            <div class="invalid-feedback">
+                                            </div>
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <br>
+                                    <div class="col-md-12 row">
+                                        <div class="icheck-success">
+                                            <input type="radio" class="points" name="points" id="option2" value="2" required>
+                                            <label for="option2">
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8">
+                                        <input class="" name="torf[]" id="torf" type="text" value="False" readonly>
+
+                                        </div>
+                                            <div class="invalid-feedback">
+                                            </div>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>`);
+            }
+            create_tiny_mce('.option-editor');
+        });
+
+        $(document).on('click','#add-maq-option',function(){
+            const option_count = $('.option-editor').length+1;
+
+            $('.options-container').append(`
+                <div class="col-md-12 row option-pad">
+                    <div class="icheck-success">
+                        <input type="checkbox" name="points[${option_count}]" class="points" id="option${option_count}" value="${option_count}">
+                        <label for="option${option_count}">
+                        </label>
+                    </div>
+                    <div class="col-md-8 option-container">
+                        <label for="question-text" class="editor-label">Option ${option_count}</label>
+                        <div class="editor option-editor opt-editor-${option_count}" rel-pos="${option_count}" id="option_text[${option_count}]">
+                            </div>
+                    </div>
+                    <div><a class="btn btn-danger text-white option-delete-btn"><i class="fas fa-trash"></i></a></div>
+                    <div class="invalid-feedback">
+                    </div>
+                    <span class="help-block"></span>
+                </div>
+                `);
+                create_tiny_mce(`.opt-editor-${option_count}`);
+                if(option_count>3){
+                    $('#add-maq-option').remove();
+                }
+        });
+
+        $(document).on('click','#add-mcq-option',function(){
+            const option_count = $('.option-editor').length+1;
+            $('.options-container').append(`
+                <div class="col-md-12 row option-pad">
+                    <div class="icheck-success">
+                        <input type="radio" class="points" name="points" id="option${option_count}" value="${option_count}">
+                        <label for="option${option_count}">
+                        </label>
+                    </div>
+                    <div class="col-md-8 option-container">
+                        <label for="question-text" class="editor-label">Option ${option_count}</label>
+                        <div class="editor option-editor opt-editor-${option_count}" rel-pos="${option_count}" id="option_text[${option_count}]">
+                            </div>
+                    </div>
+                    <div><a class="btn btn-danger text-white option-delete-btn"><i class="fas fa-trash"></i></a></div>
+                    <div class="invalid-feedback">
+                    </div>
+                    <span class="help-block"></span>
+                </div>
+                `);
+                create_tiny_mce(`.opt-editor-${option_count}`);
+                if(option_count>3){
+                    $('#add-mcq-option').remove();
+                }
+        });
+
+        $(document).on('click','.option-delete-btn',function(){
+            position = $(this).parents('.option-pad').find('.option-editor').attr('rel-pos');
+            if(position == 3){
+                if($('.opt-editor-4').length!=0){
+                    tinymce.get('option_text[3]').setContent(tinymce.get('option_text[4]').getContent());
+                    $('#option3').prop("checked", $('#option4').prop("checked"));
+                    tinymce.remove(`.opt-editor-4`);
+                    $('.opt-editor-4').parents('.option-pad').remove();
+                }else{
+                tinymce.remove(`.opt-editor-${position}`);
+                $(this).parents('.option-pad').remove();
+                 }
+            }else{
+                tinymce.remove(`.opt-editor-${position}`);
+                $(this).parents('.option-pad').remove();
+            }
+            if($('#type').val()==='Multiple Choices'){
+                type = 'mcq';
+            }else if($('#type').val()==='Multiple Answers'){
+                type = 'maq';
+            }
+            $('.option-button-container').html(`<input type="button" class="btn btn-default" id="add-${type}-option" value="Add more option">`);
+        });
+
+        // validation check
+        $('#question-update-form').on('submit',function(e){
+            e.preventDefault();
+            hasError = false;
+            console.log($('#type').val());
+
+            if($('#type').val() == ''){
+                hasError = true;
+                $('#type').addClass('is-invalid');
+            }else{
+                $('#type').removeClass('is-invalid');
+            }
+
+            if(tinymce.get('question_text').getContent() == ''){
+                    hasError = true;
+                    $('#question_text').addClass('invalid');
+                    $('html, body').animate({
+                        scrollTop: $('#question_text').offset().top
+                    }, 100, 'linear');
+                }
+
+            $('.option-editor').each(function(i,ele){
+                if(tinymce.get(ele.id).getContent() == ''){
+                    hasError = true;
+                    $(ele).addClass('invalid');
+                    $('html, body').animate({
+                        scrollTop: ele.offsetTop
+                    }, 100, 'linear');
+                }else{
+                    $(ele).removeClass('invalid');
+                }
+            });
+
+            if($('.points:checked').length == 0 && $('#type').val() !== 'Short Answer'){
+                hasError = true;
+                $('.points').parent().addClass('invalid');
+                $('html, body').animate({
+                        scrollTop: $('.points').parent().offset().top
+                    }, 100, 'linear');
+             }else{
+                $('.points').parent().removeClass('invalid');
+             }
+
+            if($('#marks').val() == '' || $('#marks').val() == 0){
+                hasError = true;
+                $('#marks').addClass('is-invalid');
+                $('#marks-feedback').html('Marks is required.');
+            }
+
+            if(! hasError){
+                event.target.submit();
+            }
+        });
+    });
+</script>
+
 <script type="text/javascript">
     $(document).ready(function(){
         $(document).on('change','#quiz_id',function(){
@@ -246,13 +523,7 @@
                 }
             }
         });
-        $(".question-update-form").submit(function(e){
-            if($('#marks').val() == '' || $('#marks').val() == 0){
-                e.preventDefault();
-                $('#marks').addClass('is-invalid');
-                $('#marks-feedback').html('Marks is required.');
-            }
-        });
+
         $('#quiz_id').val($('#quiz_id').val()).trigger('change');
         $(document).on('keyup','#marks',function(){
             $remaining_marks = $final_remaining_marks - $(this).val();
@@ -267,7 +538,6 @@
             else{
                 $('#remaining-marks').removeClass('d-none');
             }
-            console.log($remaining_marks);
             if($remaining_marks<0 && $selected_option.attr('rel-type').trim()!='Practice Quiz'){
                 $('#submit-btn').attr('disabled',true);
                 $('.marks-help-block').html('Marks is more than remaining marks');
@@ -286,353 +556,7 @@
                 $("#time, #time_type").attr('disabled','true');
                 }
             });
-                        $(document).on('click','#add_maq_option',function(){
-                        var i=$('#maq input[type="checkbox"]').length;
-                        i++;
-                        if($('#row4').length !=0){
-                            i=3
-                        }
-                        // $('#maq').append('<div class="col-md-12 row option-pad" id="row'+i+'"> <div class="icheck-success"> <input type="checkbox" name="maq_points[]" id="checkbox'+i+'" value="'+i+' required"> <label for="checkbox'+i+'"> </label> </div> <div class="col-md-8 option-container"> <label for="question-text" class="editor-label">Option '+i+'</label> <textarea class="d-none" name="option_text2[]" required></textarea> <div class="option-editor {{ $errors->has('option_text2') ? 'is-invalid' : '' }}" id="option_text_maq_'+i+'">{{ old('option_text2[]', '') }}</div>  @if($errors->has('option_text2')) <div class="invalid-feedback"> {{ $errors->first('option_text2') }} </div> @endif <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span> </div><div class="col-md-1"><button id="'+i+'" class="btn btn-secondary remove2" alt="Delete this option"><i class="fas fa-trash"></i></button></div>');
-                        $('#maq').append('<div class="col-md-12 row option-pad" id="row'+i+'"> <div class="icheck-success"> <input type="checkbox" name="maq_points[]" id="checkbox'+i+'" value="'+i+' required"> <label for="checkbox'+i+'"> </label> </div> <div class="col-md-8 option-container"> <label for="question-text" class="editor-label">Option '+i+'</label> <textarea class="d-none" name="option_text2[]" required></textarea> <div class="option-editor {{ $errors->has('option_text2') ? 'is-invalid' : '' }}" id="option_text_maq_'+i+'">{{ old('option_text2[]', '') }}</div>  @if($errors->has('option_text2')) <div class="invalid-feedback"> {{ $errors->first('option_text2') }} </div> @endif <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span> </div><div class="col-md-1"></div>');
-                        $this = $('#option_text_maq_'+i);
-                        InlineEditor.create( document.querySelector( '#option_text_maq_'+i ), optionConfig ).then(editor=>{
-                        editor.model.document.on( 'change', ( evt, data ) => {
-                        $this.parents('.option-container').find('textarea').html(editor.getData());
-                            });
-                        });
-                        var j = $('#maq input[type="checkbox"]').length;
-                        if(j>=4){
-                                $('#add_maq_option').hide();
-                            }
-                        });
 
-                    $(document).on('click','.remove2',function(){
-                        var button_id = $(this).attr("id");
-                        $('#row'+button_id).remove();
-                        var j = $('#maq input[type="checkbox"]').length;
-                        if(j<4){
-                                    $('#add_maq_option').show();
-                                }
-                    });
-                    $(document).on('click','#add_mcq_option',function(){
-                    var i=$('#mcq input[type="radio"]').length;
-                        i++;
-                        if($('#row4').length !=0){
-                            i=3
-                        }
-                        $('#mcq').append('<div class="col-md-12 row option-pad" id="row'+i+'"><br><div class="icheck-success"> <input type="radio" name="points" id="option'+i+'" value="'+i+'" required> <label for="option'+i+'"> </label> </div> <div class="col-md-8 option-container"> <label for="question-text" class="editor-label">Option '+i+'</label> <textarea class="d-none" name="option_text[]" required></textarea> <div class="option-editor {{ $errors->has('option_text') ? 'is-invalid' : '' }}" id="option_text_'+i+'">{{ old('option_text[]', '') }}</div> </div> <div class="col-md-1"></div> @if($errors->has('option_text')) <div class="invalid-feedback"> {{ $errors->first('option_text') }} </div> @endif <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span> </div>');
-                        // $('#mcq').append('<div class="col-md-12 row option-pad" id="row'+i+'"><br><div class="icheck-success"> <input type="radio" name="points" id="option'+i+'" value="'+i+'" required> <label for="option'+i+'"> </label> </div> <div class="col-md-8 option-container"> <label for="question-text" class="editor-label">Option '+i+'</label> <textarea class="d-none" name="option_text[]" required></textarea> <div class="option-editor {{ $errors->has('option_text') ? 'is-invalid' : '' }}" id="option_text_'+i+'">{{ old('option_text[]', '') }}</div> </div> <div class="col-md-1"><button id="'+i+'" class="btn btn-secondary remove" alt="Delete this option"><i class="fas fa-trash"></i></button></div> @if($errors->has('option_text')) <div class="invalid-feedback"> {{ $errors->first('option_text') }} </div> @endif <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span> </div>');
-                        let $this = $('#option_text_'+i);
-                        InlineEditor.create( document.querySelector( '#option_text_'+i ), optionConfig ).then(editor=>{
-                            editor.model.document.on( 'change', ( evt, data ) => {
-                                $this.parents('.option-container').find('textarea').html(editor.getData());
-                            });
-                        });
-                        var j = $('#mcq input[type="radio"]').length;
-                        if(j>=4){
-                                $('#add_mcq_option').hide();
-                            }
-                    });
-
-                    $(document).on('click','.remove',function(){
-                        var button_id = $(this).attr("id");
-                        $('#row'+button_id).remove();
-                        var j = $('#option input[type="radio"]').length;
-                        if(j<4){
-                                    $('#add_mcq_option').show();
-                                }
-                    });
-            var selected_type = $("#type").val();
-            if(selected_type == 'Multiple Choices') {
-                    $("#maq , #add_maq_option").hide();
-                    $(".option_text2").removeAttr('required');
-                    // $('#mcq , #add_mcq_option').removeClass('mcq , add_mcq_option');
-                    $("#mcq , #add_mcq_option").show();
-                    var i=$('#mcq input[type="radio"]').length;
-                    if(i>=4){
-                            $('#add_mcq_option').hide();
-                        }
-                        //adding options dynamically
-
-                    $("#option1, #option_text").attr('required','true');
-                }
-                else if(selected_type == 'Multiple Answers') {
-                    $("#mcq , #add_mcq_option").hide();
-                    $("#option1, #option_text").removeAttr('required');
-                    // $('#mcq , #add_mcq_option').addClass('mcq , add_mcq_option');
-                    $("#maq , #add_maq_option").show();
-                    var i=$('#maq input[type="checkbox"]').length;
-                    if(i>=4){
-                            $('#add_maq_option').hide();
-                        }
-                        //adding options dynamically
-
-                    $(".option_text2").attr('required','true');
-                }
-                else if(selected_type == 'True or False') {
-                    $("#torf").remove();
-                    $("#maq , #add_maq_option").hide();
-                    $(".option_text2").removeAttr('required');
-                    $("#mcq , #add_mcq_option").hide();
-                    $("#option1, #option_text").removeAttr('required');
-                    $("#quest").append(`<div class="torf" id="torf">
-                                        @foreach($question->questionOptions as $key=>$options)
-                                        <div class="col-md-12 row" style="margin-bottom:5px;">
-                                            <div class="icheck-success">
-                                                <input type="radio" name="points" id="option{{ $key+1 }}" value="{{ $key+1 }}"  {{ (($options->points==1) ? 'checked' : '' )}} >
-                                                <label for="option{{ $key+1 }}">
-                                                </label>
-                                            </div>
-                                            <div class="col-md-8">
-                                            <input class="{{ $errors->has('torf') ? 'is-invalid' : '' }}" name="torf[]" id="torf" type="text" value="{{ $options->option_text , old('torf[]') }}" readonly>
-
-                                            </div>
-                                            @if($errors->has('torf'))
-                                                <div class="invalid-feedback">
-                                                    {{ $errors->first('torf') }}
-                                                </div>
-                                            @endif
-                                            <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span>
-                                        </div>
-                                        @endforeach
-                                    </div>`);
-                }
-                else if(selected_type == 'Short Answer') {
-                    $("#torf").remove();
-                    $("#maq , #add_maq_option").hide();
-                    $(".option_text2").removeAttr('required');
-                    $("#mcq , #add_mcq_option").hide();
-                    $("#option1, #option_text").removeAttr('required');
-                    $("#quest").after(`<div class="form-group option-container">
-        <label for="saq" class="editor-label"> Write correct answer here</label>
-        <textarea class="d-none" name="saq"></textarea>
-        <div id="saq" class="editor {{ $errors->has('saq') ? 'is-invalid' : '' }}">{{ old('saq') }}</div>
-        @if($errors->has('saq'))
-        <div class="invalid-feedback">
-            {{ $errors->first('saq') }}
-        </div>
-        @endif
-        <span class="help-block">{{ trans('cruds.question.fields.question_text_helper') }}</span>
-    </div>
-    `);
-            $this = $('#saq');
-            InlineEditor.create( document.querySelector( '#saq' ),ckConfig ).then(editor=>{
-            editor.model.document.on( 'change', ( evt, data ) => {
-            $this.parents('.option-container').find('textarea').html(editor.getData());
-                });
-            });
-                }
-                else {
-                    $("#maq , #add_maq_option").hide();
-                    $("#mcq , #add_mcq_option").hide();
-                    $("#torf").remove();
-                    $("#saq").remove();
-                    // $('#mcq , #add_mcq_option').addClass('mcq , add_mcq_option');
-                }
-
-                // changing options according to type of question selected
-                $("#type").change(function() {
-                var selected_type = $(this).val();
-                if(selected_type == 'Multiple Choices') {
-                    $("#maq , #add_maq_option").remove();
-                    // $(".option_text2").removeAttr('required');
-                    $("#torf").remove();
-                    $("#saq").remove();
-                    $("#mcq , #add_mcq_option").remove();
-                    // $("#mcq , #add_mcq_option").show();
-                    // $("#option1, #option_text").attr('required','true');
-
-                    $("#quest").after(`<div class="mcq" id="mcq">
-        <div class="col-md-12 row option-pad">
-            <div class="icheck-success">
-                <input type="radio" name="points" id="option1" value="1">
-                <label for="option1">
-                </label>
-            </div>
-            <div class="col-md-8 option-container">
-                <label for="question-text" class="editor-label">Option 1</label>
-                <textarea class="d-none" name="option_text[]"></textarea>
-                <div class="option-editor {{ $errors->has('option_text') ? 'is-invalid' : '' }}" id="option_text_1">
-                    {{ old('option_text[]', '') }}</div>
-            </div>
-            @if($errors->has('option_text'))
-            <div class="invalid-feedback">
-                {{ $errors->first('option_text') }}
-            </div>
-            @endif
-            <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span>
-        </div>
-        <div class="col-md-12 row option-pad">
-            <div class="icheck-success">
-                <input type="radio" name="points" id="option2" value="2">
-                <label for="option2">
-                </label>
-            </div>
-            <div class="col-md-8 option-container">
-                <label for="question-text" class="editor-label">Option 2</label>
-                <textarea class="d-none" name="option_text[]"></textarea>
-                <div class="option-editor {{ $errors->has('option_text') ? 'is-invalid' : '' }}" id="option_text_2">
-                    {{ old('option_text[]', '') }}</div>
-            </div>
-            @if($errors->has('option_text'))
-            <div class="invalid-feedback">
-                {{ $errors->first('option_text') }}
-            </div>
-            @endif
-            <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span>
-        </div>
-    </div>
-    <div class="form-group add_mcq_option" id="add_mcq_option">
-        <input type="button" class="btn btn-default" id="add1" value="Add more option">
-    </div>`);
-                }
-                else if(selected_type == 'Multiple Answers') {
-                    // $("#mcq , #add_mcq_option").hide();
-                    // $("#option1, #option_text").removeAttr('required');
-                    $("#torf").remove();
-                    $("#saq").remove();
-                    $("#mcq , #add_mcq_option").remove();
-                    $("#maq , #add_maq_option").remove();
-                    // $("#maq , #add_maq_option").show();
-                    // $(".option_text2").attr('required','true');
-
-                    $("#quest").append(`<div class="maq" id="maq">
-        <div class="col-md-12 row option-pad">
-            <div class="icheck-success">
-                <input type="checkbox" name="maq_points[]" id="checkbox1" value="1">
-                <label for="checkbox1">
-                </label>
-            </div>
-            <div class="col-md-8 option-container">
-                <label for="question-text" class="editor-label">Option 1</label>
-                <textarea class="d-none" name="option_text2[]"></textarea>
-                <div class="option-editor {{ $errors->has('option_text2') ? 'is-invalid' : '' }}"
-                    id="option_text_maq_1">{{ old('option_text2[]', '') }}</div>
-            </div>
-            @if($errors->has('option_text2'))
-            <div class="invalid-feedback">
-                {{ $errors->first('option_text2') }}
-            </div>
-            @endif
-            <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span>
-        </div>
-        <div class="col-md-12 row option-pad">
-            <div class="icheck-success">
-                <input type="checkbox" name="maq_points[]" id="checkbox2" value="2">
-                <label for="checkbox2">
-                </label>
-            </div>
-            <div class="col-md-8 option-container">
-                <label for="question-text" class="editor-label">Option 2</label>
-                <textarea class="d-none" name="option_text2[]"></textarea>
-                <div class="option-editor {{ $errors->has('option_text2') ? 'is-invalid' : '' }}"
-                    id="option_text_maq_2">{{ old('option_text2[]', '') }}</div>
-            </div>
-            @if($errors->has('option_text2'))
-            <div class="invalid-feedback">
-                {{ $errors->first('option_text2') }}
-            </div>
-            @endif
-            <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span>
-        </div>
-    </div>
-    <div class="form-group add_maq_option" id="add_maq_option">
-        <input type="button" class="btn btn-default" id="add" value="Add more option">
-    </div>`);
-                }
-                else if(selected_type == 'True or False') {
-                    // $("#torf").remove();
-                    $("#saq").remove();
-                    $("#maq , #add_maq_option").remove();
-                    // $(".option_text2").removeAttr('required');
-                    $("#mcq , #add_mcq_option").remove();
-                    // $("#option1, #option_text").removeAttr('required');
-                    $("#quest").append(`<div class="torf" id="torf">
-                        <br>
-                                    <div class="col-md-12 row" style="margin-bottom:5px;">
-                                        <div class="icheck-success">
-                                            <input type="radio" name="points" id="option1" value="1" required>
-                                            <label for="option1">
-                                            </label>
-                                        </div>
-                                        <div class="col-md-8">
-                                        <input class="{{ $errors->has('torf') ? 'is-invalid' : '' }}" name="torf[]" type="text" value="True" readonly>
-                                        </div>
-                                        @if($errors->has('torf'))
-                                            <div class="invalid-feedback">
-                                                {{ $errors->first('torf') }}
-                                            </div>
-                                        @endif
-                                        <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span>
-                                    </div>
-                                    <br>
-                                    <div class="col-md-12 row">
-                                        <div class="icheck-success">
-                                            <input type="radio" name="points" id="option2" value="2" required>
-                                            <label for="option2">
-                                            </label>
-                                        </div>
-                                        <div class="col-md-8">
-                                        <input class="{{ $errors->has('torf') ? 'is-invalid' : '' }}" name="torf[]" type="text" value="False" readonly>
-
-                                        </div>
-                                        @if($errors->has('torf'))
-                                            <div class="invalid-feedback">
-                                                {{ $errors->first('torf') }}
-                                            </div>
-                                        @endif
-                                        <span class="help-block">{{ trans('cruds.option.fields.option_text_helper') }}</span>
-                                    </div>
-                                </div><br>`);
-                }
-                else if(selected_type == 'Short Answer') {
-                $("#saq").remove();
-                $("#torf").remove();
-                $("#maq , #add_maq_option").hide();
-                $(".option_text2").removeAttr('required');
-                $("#mcq , #add_mcq_option").hide();
-                $("#option1, #option_text").removeAttr('required');
-                $("#quest").append(`<div class="form-group option-container">
-        <label for="saq" class="editor-label"> Write correct answer here</label>
-        <textarea class="d-none" name="saq"></textarea>
-        <div id="saq" class="editor {{ $errors->has('saq') ? 'is-invalid' : '' }}">{{ old('saq') }}</div>
-        @if($errors->has('saq'))
-        <div class="invalid-feedback">
-            {{ $errors->first('saq') }}
-        </div>
-        @endif
-        <span class="help-block">{{ trans('cruds.question.fields.question_text_helper') }}</span>
-    </div>`);
-    InlineEditor.create( document.querySelector( '#saq' ),ckConfig ).then(editor=>{
-            editor.model.document.on( 'change', ( evt, data ) => {
-            $this.parents('.option-container').find('textarea').html(editor.getData());
-                });
-            });
-                }
-                else {
-                    $("#maq , #add_maq_option").hide();
-                    $("#mcq , #add_mcq_option").hide();
-                    $("#torf").remove();
-                    $("#saq").remove();
-                    // $('#mcq , #add_mcq_option').addClass('mcq , add_mcq_option');
-                }
-
-                //adding editor
-                $('.option-editor').each(function(i,ele){
-                    if(! $(this).hasClass('ck')){
-                        $this = $(this);
-                        let value = $this.parents('.option-container').find('textarea').text();
-                        let $id = $(this).attr('id');
-                        InlineEditor.create( document.querySelector( '#'+$(this).attr('id') ), optionConfig ).then(editor=>{
-                        editor.setData(value);
-                        //adding data in text editor
-                            editor.model.document.on( 'change', ( evt, data ) => {
-                                $('#'+$id).parent().find('textarea').html(editor.getData());
-                            });
-                    });
-                    }
-                });
-            });
         });
 </script>
 @endsection
