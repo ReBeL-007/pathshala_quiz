@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Pathshala | @yield('title')</title>
+<title>{{ ($setting)?$setting->title:trans('panel.site_title') }} | @yield('title')</title>
 <!-- Tell the browser to be responsive to screen width -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {{-- csrf-token for ajax post request --}}
@@ -9,7 +9,9 @@
 <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <!-- Font Awesome -->
 <link rel="stylesheet" href="{{asset('/backend/plugins/fontawesome-free/css/all.min.css')}}">
-<link rel = "icon" href ="{{asset('fav.png')}}" type = "image/x-icon">
+@if(isset($setting))
+<link rel = "icon" href ="{{asset('storage/uploads/logo/'.$setting->logo)}}" type = "image/x-icon">
+@endif
 <!-- Ionicons -->
 {{-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}
 <!-- Tempusdominus Bbootstrap 4 -->

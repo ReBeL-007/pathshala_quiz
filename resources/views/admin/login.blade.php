@@ -4,8 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin Portal | Mangosoft</title>
-    <link rel = "icon" href ="{{asset('fav.png')}}" type = "image/x-icon">
+    <title>Admin Portal | {{ ($setting)?$setting->title:trans('panel.site_title') }}</title>
+    @if(isset($setting))
+    <link rel = "icon" href ="{{asset('storage/uploads/logo/'.$setting->logo)}}" type = "image/x-icon">
+    @endif
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- to accept http while server running on https -->
@@ -25,7 +27,9 @@
 <body class="hold-transition login-page">
     <section>
         <div class="imgBx">
-            <img src="{{asset('pathshala.png')}}" alt="logo" style="height:auto" />
+            @if(isset($setting))
+            <img src="{{asset('storage/uploads/logo/'.$setting->logo)}}" alt="logo" style="height:auto" />
+            @endif
         </div>
         <div class="contentBx">
             <div class="formBx">

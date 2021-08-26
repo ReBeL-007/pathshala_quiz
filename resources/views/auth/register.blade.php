@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pathshala</title>
-    <link rel = "icon" href ="{{asset('fav.png')}}" type = "image/x-icon">
+    <title>{{ ($setting)?$setting->title:trans('panel.site_title') }}</title>
+    @if(isset($setting))
+    <link rel = "icon" href ="{{asset('storage/uploads/favicon/'.$setting->favicocn)}}" type = "image/x-icon">
+    @endif
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
@@ -30,7 +32,9 @@
     <section class="section-log">
       <div class="row-log">
         <div class="brandLogo">
-          <img src="{{ asset('pathshala.png')}}" alt="Pathshala" />
+          @if(isset($setting))
+          <img src="{{asset('storage/uploads/logo/'.$setting->logo)}}" alt="Pathshala" />
+          @endif
         </div>
         <div class="logIn__form">
             @php

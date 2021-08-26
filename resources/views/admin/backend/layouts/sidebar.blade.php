@@ -1,6 +1,8 @@
 <a href="{{route('admin.dashboard')}}" class="brand-link">
-    <!-- <img src="{{asset('pathshala.png')}}" alt="Asmita Logo" class="brand-image" /> -->
-    <span class="brand-text font-weight-light" style="font-weight: bold">Quizzes</span>
+    @if(isset($setting))
+    <img src="{{asset('storage/uploads/logo/'.$setting->logo)}}" alt="Project Logo" class="brand-image" />
+    @endif
+    <span class="brand-text font-weight-light" style="font-weight: bold">{{ ($setting)?$setting->title:trans('panel.site_title') }}</span>
 </a>
 
 <div class="sidebar">
@@ -192,6 +194,15 @@
                     class="nav-link {{ request()->is('admin/students') || request()->is('admin/students/*') ? 'active' : '' }}">
                     <i class="fas fa-user-graduate"></i>
                     <p><span>Students</span></p>
+                </a>
+            </li>
+            @endcan
+            @can('setting-create')
+            <li class="nav-item">
+                <a href="{{ route('admin.settings.create') }}"
+                    class="nav-link {{ request()->is('admin/settings') || request()->is('admin/settings/*') ? 'active' : '' }}">
+                    <i class="fas fa-user-graduate"></i>
+                    <p><span>Setting</span></p>
                 </a>
             </li>
             @endcan
