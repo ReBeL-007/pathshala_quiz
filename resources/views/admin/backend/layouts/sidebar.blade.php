@@ -1,6 +1,8 @@
 <a href="{{route('admin.dashboard')}}" class="brand-link">
     @if(isset($setting))
     <img src="{{asset('storage/uploads/logo/'.$setting->logo)}}" alt="Project Logo" class="brand-image" />
+    @else
+    <img src="{{asset('logo.svg')}}" alt="Project Logo" class="brand-image" />
     @endif
     <span class="brand-text font-weight-light" style="font-weight: bold">{{ ($setting)?$setting->title:trans('panel.site_title') }}</span>
 </a>

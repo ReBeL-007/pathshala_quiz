@@ -13,6 +13,10 @@
   <link rel = "icon" href ="
   {{asset('storage/uploads/favicon/'.$setting->favicon)}}"
           type = "image/x-icon">
+  @else
+  <link rel = "icon" href ="
+  {{asset('logo.svg')}}"
+          type = "image/x-icon">
   @endif
   <!-- Ionicons -->
   {{-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> --}}

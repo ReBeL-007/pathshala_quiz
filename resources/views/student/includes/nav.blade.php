@@ -8,6 +8,8 @@
     </ul> --}}
     @if(isset($setting))
     <a href="{{route('home')}}"><img src="{{asset('storage/uploads/logo/'.$setting->logo)}}" width="100"></a>
+    @else
+    <a href="{{route('home')}}"><img src="{{asset('logo.svg')}}" width="100"></a>
     @endif
     {{-- <!-- SEARCH FORM -->
 

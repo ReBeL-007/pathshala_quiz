@@ -7,6 +7,8 @@
     <title>Admin Portal | {{ ($setting)?$setting->title:trans('panel.site_title') }}</title>
     @if(isset($setting))
     <link rel = "icon" href ="{{asset('storage/uploads/logo/'.$setting->logo)}}" type = "image/x-icon">
+    @else
+    <link rel = "icon" href ="{{asset('logo.svg')}}" type = "image/x-icon">
     @endif
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -29,6 +31,8 @@
         <div class="imgBx">
             @if(isset($setting))
             <img src="{{asset('storage/uploads/logo/'.$setting->logo)}}" alt="logo" style="height:auto" />
+            @else
+            <img src="{{asset('logo.svg')}}" alt="logo" style="height:auto" />
             @endif
         </div>
         <div class="contentBx">

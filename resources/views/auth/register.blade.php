@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ ($setting)?$setting->title:trans('panel.site_title') }}</title>
     @if(isset($setting))
-    <link rel = "icon" href ="{{asset('storage/uploads/favicon/'.$setting->favicocn)}}" type = "image/x-icon">
+    <link rel = "icon" href ="{{asset('storage/uploads/favicon/'.$setting->favicon)}}" type = "image/x-icon">
+    @else
+    <link rel = "icon" href ="{{asset('logo.svg')}}" type = "image/x-icon">
     @endif
     <link
       rel="stylesheet"
@@ -34,6 +36,8 @@
         <div class="brandLogo">
           @if(isset($setting))
           <img src="{{asset('storage/uploads/logo/'.$setting->logo)}}" alt="Pathshala" />
+          @else
+          <img src="{{asset('logo.svg')}}" alt="Project logo" />
           @endif
         </div>
         <div class="logIn__form">

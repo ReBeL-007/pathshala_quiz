@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'Pathshala',
+    'site_title' => config('app.name'),
 ];
