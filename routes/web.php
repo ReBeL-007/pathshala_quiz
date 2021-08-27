@@ -180,4 +180,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::post('students_restore/{id}', ['uses' => 'Admin\StudentsController@restore', 'as' => 'students.restore']);
     Route::delete('students_perma_del/{id}', ['uses' => 'Admin\StudentsController@perma_del', 'as' => 'students.perma_del']);
 
+    // settings
+    Route::resource('settings', 'Admin\SettingsController');
+
 });
