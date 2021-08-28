@@ -54,7 +54,7 @@
             </div>
 
             <div class="form-group">
-                <label class="" for="contact">{{ trans('cruds.student.fields.category') }}</label>
+                <label class="" for="course">{{ trans('cruds.student.fields.category') }}</label>
                         <select class="form-control {{ $errors->has('course_id') ? 'is-invalid' : '' }}" name="course_id" id="course_id" >
                     <option value="">Select course</option>
                     @foreach($courses as  $course)
