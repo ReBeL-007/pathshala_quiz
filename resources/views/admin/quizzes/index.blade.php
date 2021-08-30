@@ -36,6 +36,7 @@
                     @endif
                     <th>@lang('cruds.quizzes.fields.title')</th>
                     <th>@lang('cruds.quizzes.fields.description')</th>
+                    <th>@lang('cruds.quizzes.fields.limit')</th>
                     {{-- <th>@lang('cruds.quizzes.fields.questions')</th> --}}
                     <th>@lang('cruds.quizzes.fields.published')</th>
                     <th>@lang('cruds.quizzes.fields.answer_published')</th>
@@ -57,6 +58,7 @@
                     @endif
                     <td>{{ $quiz->title }}</td>
                     <td>{!! $quiz->description !!}</td>
+                    <td>{!! $quiz->limit !!}</td>
                     <td>
                         <div class="container">
                             <label class="switch" for="publish-checkbox-{{$quiz->id}}" >
