@@ -8,9 +8,13 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
-    <link rel = "icon" href ="{{asset('fav.png')}}" type = "image/x-icon">
+    @if(isset($setting))
+    <link rel = "icon" href ="{{asset('storage/uploads/favicon/'.$setting->favicon)}}" type = "image/x-icon">
+    @else
+    <link rel = "icon" href ="{{asset('logo.svg')}}" type = "image/x-icon">
+    @endif
     <link rel="stylesheet" href="{{asset('css/login/register-sign-in.css')}}" />
-    <title>Pathshala</title>
+    <title>{{ ($setting)?$setting->title:trans('panel.site_title') }}</title>
 </head>
 
 <body>
@@ -173,11 +177,17 @@
                 <div class="content">
                     <h3>New here ?</h3>
                     <p style="text-transform:uppercase">
-                    Pathshala Nepal Foundation
+                    {{ ($setting)?$setting->title:trans('panel.site_title') }}
                     </p>
+                    @if(isset($setting))
                     <p>
-                    Pathshala was founded in 2004 AD as co-educational English Medium School to cater the need of quality schooling in the context of 21st century learning.
+                        {{$setting->description}}
                     </p>
+                    @else
+                    <p>
+                        Let's change the world through IT.
+                    </p>
+                    @endif
                     <a href="{{ route('register')}}" ><button class="btn transparent" id="sign-up-btn"> Sign up</button></a>
                 </div>
                 <img src="{{asset('img/log.svg')}}" class="image" alt="" />
@@ -186,11 +196,17 @@
                 <div class="content">
                     <h3>One of us ?</h3>
                     <p style="text-transform:uppercase">
-                    Pathshala Nepal Foundation
+                    {{ ($setting)?$setting->title:trans('panel.site_title') }}
                     </p>
+                    @if(isset($setting))
                     <p>
-                    Pathshala was founded in 2004 AD as co-educational English Medium School to cater the need of quality schooling in the context of 21st century learning.
+                        {{$setting->description}}
                     </p>
+                    @else
+                    <p>
+                        Let's change the world through IT.
+                    </p>
+                    @endif
                     <button class="btn transparent" id="sign-in-btn">Sign in</button>
                 </div>
                 <img src="{{asset('img/register.svg')}}" class="image" alt="" />
