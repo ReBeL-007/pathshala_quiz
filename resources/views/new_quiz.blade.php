@@ -49,35 +49,35 @@
         display: none;
     }
 
-    .option input:checked ~ span {
+    .option input:checked~span {
         background: #44c385;
         border-color: #44c385;
     }
 
-    .option input:checked ~ span:before {
+    .option input:checked~span:before {
         width: 1rem;
         height: 0.15rem;
         transition: width 0.1s;
         transition-delay: 0.3s;
     }
 
-    .option input:checked ~ span:after {
+    .option input:checked~span:after {
         width: 0.4rem;
         height: 0.15rem;
         transition: width 0.1s;
         transition-delay: 0.2s;
     }
 
-    .option input:disabled ~ span {
+    .option input:disabled~span {
         background: #ececec;
         border-color: #dcdcdc;
     }
 
-    .option input:disabled ~ label {
+    .option input:disabled~label {
         color: #dcdcdc;
     }
 
-    .option input:disabled ~ label:hover {
+    .option input:disabled~label:hover {
         cursor: default;
     }
 
@@ -210,19 +210,19 @@
         justify-content: space-around;
     }
 
-    .minutes-group > .number-grp {
+    .minutes-group>.number-grp {
         color: #2927a3;
     }
 
-    .score-group > .number-grp {
+    .score-group>.number-grp {
         color: #2927a3;
     }
 
-    .hours-group > .number-grp {
+    .hours-group>.number-grp {
         color: #2927a3;
     }
 
-    .seconds-group > .number-grp {
+    .seconds-group>.number-grp {
         color: #ff8353;
     }
 
@@ -350,7 +350,7 @@
     }
 
     .label-text {
-        margin-left: 3rem;
+        margin-right: 3rem;
     }
 
     .btn-container {
@@ -495,13 +495,14 @@
 
     .option-wrapper {
         display: flex;
-        justify-content: space-between;
+        justify-content: stretch;
         align-items: center;
-        padding: 1rem 0.5rem;
+        padding: 0;
         border: 0.5px solid #808e9b;
         cursor: pointer;
         margin-bottom: 2rem;
         border-radius: 3px;
+        min-height: 50px;
     }
 
     .option-wrapper.active {
@@ -513,11 +514,13 @@
 
     .option-wrapper-label {
         margin-bottom: 0px;
-        margin-left: 2rem;
+        padding-left: 2rem;
         order: 1;
         cursor: pointer;
         position: relative;
         flex-basis: 100%;
+        height: 100%;
+        padding-top: .7rem;
     }
 
     .input-radio {
@@ -533,8 +536,8 @@
         border: 0.1rem solid #575fcf;
         display: inline-block;
         position: absolute;
-        right: -1rem;
-        top: 0.1rem;
+        right: 1rem;
+        top: .7rem;
     }
 
     .radio-container::after {
@@ -551,8 +554,12 @@
         opacity: 0;
     }
 
-    .input-radio:checked ~ .option-wrapper-label .radio-container::after {
+    .input-radio:checked~.option-wrapper-label .radio-container::after {
         opacity: 1;
+    }
+
+    .input-radio {
+        display: none;
     }
 
     .checkbox-container {
@@ -578,7 +585,7 @@
         opacity: 0;
     }
 
-    .input-checkbox:checked ~ .option-wrapper-label .checkbox-container::after {
+    .input-checkbox:checked~.option-wrapper-label .checkbox-container::after {
         opacity: 1;
     }
 
@@ -609,7 +616,8 @@
     .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-rounded-corners {
         border-radius: 8px;
     }
-    .editor{
+
+    .editor {
         padding: 1rem;
     }
 </style>
@@ -631,10 +639,7 @@
                             </div>
                             <div class="time-indicator col-md-4 d-none">
                                 <div class="clock">
-                                    <img
-                                        class="clock-img"
-                                        src="{{ asset('img/clock.svg') }}"
-                                    />
+                                    <img class="clock-img" src="{{ asset('img/clock.svg') }}" />
                                 </div>
                                 <div class="time-counter">
                                     <span class="timer"></span>
@@ -659,134 +664,66 @@
                                 <div class="question-text col-md-10">
                                     <div class="readonly-editor" id="question-editor"></div>
                                 </div>
-                                <span class="solution-container ml-auto"
-                                    ><img
-                                        data-toggle="tooltip"
-                                        src=""
-                                        class="solution"
-                                /></span>
-                                <span class="hint-container ml-auto"
-                                    ><img
-                                        data-toggle="tooltip"
-                                        src=""
-                                        class="hint"
-                                /></span>
+                                <span class="solution-container ml-auto"><img data-toggle="tooltip" src=""
+                                        class="solution" /></span>
+                                <span class="hint-container ml-auto"><img data-toggle="tooltip" src=""
+                                        class="hint" /></span>
                             </div>
                             <div class="hint-text-container d-none">
                                 <div class="hint-text readonly-editor" id="hint-editor"></div>
                                 <div class="hint-append">Hint</div>
                             </div>
                             <div class="solution-text-container d-none">
-                                <div
-                                    class="solution-text readonly-editor"
-                                    id="solution-editor"
-                                ></div>
+                                <div class="solution-text readonly-editor" id="solution-editor"></div>
                                 <div class="solution-append">Solution</div>
                             </div>
                             <div class="options">
                                 <div class="row">
                                     <div class="option-wrapper col-md-12">
-                                        <input
-                                            id=""
-                                            type="checkbox"
-                                            class="input-radio"
-                                            name="option"
-                                            value=""
-                                        />
-                                        <label
-                                            for=""
-                                            class="option-wrapper-label"
-                                        >
-                                            <div
-                                                class="
+                                        <input id="" type="checkbox" class="input-radio" name="option" value="" />
+                                        <label for="" class="option-wrapper-label">
+                                            <div class="
                                                     readonly-editor
                                                     label-text
-                                                "
-                                                id="option-1"
-                                            ></div>
-                                            <span
-                                                class="radio-container"
-                                            ></span>
+                                                " id="option-1"></div>
+                                            <span class="radio-container"></span>
                                         </label>
                                     </div>
                                     <div class="option-wrapper col-md-12">
-                                        <input
-                                            id=""
-                                            type="checkbox"
-                                            class="input-radio"
-                                            name="option"
-                                            value=""
-                                        />
-                                        <label
-                                            for=""
-                                            class="option-wrapper-label"
-                                        >
-                                            <div
-                                                class="
+                                        <input id="" type="checkbox" class="input-radio" name="option" value="" />
+                                        <label for="" class="option-wrapper-label">
+                                            <div class="
                                                     readonly-editor
                                                     label-text
-                                                "
-                                                id="option-2"
-                                            ></div>
-                                            <span
-                                                class="radio-container"
-                                            ></span>
+                                                " id="option-2"></div>
+                                            <span class="radio-container"></span>
                                         </label>
                                     </div>
                                     <div class="option-wrapper col-md-12">
-                                        <input
-                                            id="option-"
-                                            type="checkbox"
-                                            class="input-radio"
-                                            name="option"
-                                            value=""
-                                        />
-                                        <label
-                                            for="option-"
-                                            class="option-wrapper-label"
-                                        >
-                                            <div
-                                                class="
+                                        <input id="option-" type="checkbox" class="input-radio" name="option"
+                                            value="" />
+                                        <label for="option-" class="option-wrapper-label">
+                                            <div class="
                                                     readonly-editor
                                                     label-text
-                                                "
-                                                id="option-3"
-                                            ></div>
-                                            <span
-                                                class="radio-container"
-                                            ></span>
+                                                " id="option-3"></div>
+                                            <span class="radio-container"></span>
                                         </label>
                                     </div>
                                     <div class="option-wrapper col-md-12">
-                                        <input
-                                            id="option-"
-                                            type="checkbox"
-                                            class="input-radio"
-                                            name="option"
-                                            value=""
-                                        />
-                                        <label
-                                            for="option-"
-                                            class="option-wrapper-label"
-                                        >
-                                            <div
-                                                class="
+                                        <input id="option-" type="checkbox" class="input-radio" name="option"
+                                            value="" />
+                                        <label for="option-" class="option-wrapper-label">
+                                            <div class="
                                                     readonly-editor
                                                     label-text
-                                                "
-                                                id="option-4"
-                                            ></div>
-                                            <span
-                                                class="radio-container"
-                                            ></span>
+                                                " id="option-4"></div>
+                                            <span class="radio-container"></span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="answer-container d-none">
-                                    <div
-                                        class="editor answer"
-                                        id="answer-editor"
-                                    ></div>
+                                    <div class="editor answer" id="answer-editor"></div>
                                     <div class="answer-append">
                                         Write your answer
                                     </div>
@@ -802,13 +739,10 @@
 <div class="quiz-btn">
     <div class="quiz-btn-container">
         <button class="prev quiz-nav-btn">
-            <span class="btn-quiz"><i class="fas fa-arrow-left"></i></span
-            >&nbsp;<span>Previous</span>
+            <span class="btn-quiz"><i class="fas fa-arrow-left"></i></span>&nbsp;<span>Previous</span>
         </button>
         <button class="next quiz-nav-btn">
-            <span>Next</span>&nbsp;<span class="btn-quiz"
-                ><i class="fas fa-arrow-right"></i
-            ></span>
+            <span>Next</span>&nbsp;<span class="btn-quiz"><i class="fas fa-arrow-right"></i></span>
         </button>
     </div>
     <div class="submit-container"></div>
@@ -817,7 +751,6 @@
 @endsection @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 <script>
-
     tinymce.init({
         selector: '.editor',
         inline:true,
@@ -857,12 +790,13 @@
         });
     $(function () {
         let editors = [];
-        var quiz = [];
-        var $answer = [];
-        var $attempt;
-        var $question_no = 1;
-        var $total_question = 0;
-        var $user_id = "{{auth()->user()->id }}";
+        let quiz = [];
+        let $answer = [];
+        let $attempt;
+        let $questions = [];
+        let $question_no = 1;
+        let $total_question = 0;
+        let $user_id = "{{auth()->user()->id }}";
         let timer;
         let answerInterval;
         let $left_time = null;
@@ -920,6 +854,11 @@
                 getCookie("attempt_" + quiz.id + "_" + $user_id)
             );
         }
+
+        $non_ordered_questions = quiz.questions;
+        $attempt.order.forEach(ord => {
+            $questions.push($non_ordered_questions.find(x => x.id === ord));
+        });
 
         if (getCookie("answer_" + quiz.id + "_" + $user_id) != undefined) {
             $answer = JSON.parse(
@@ -1020,21 +959,21 @@
             }
             //updating question as per question number
             let is_time_up = false;
-            if (quiz.questions[$ele].time != null) {
-                switch (quiz.questions[$ele].time_type) {
+            if ($questions[$ele].time != null) {
+                switch ($questions[$ele].time_type) {
                     case 1:
-                        time = quiz.questions[$ele].time;
+                        time = $questions[$ele].time;
                         break;
                     case 2:
-                        time = quiz.questions[$ele].time * 60;
+                        time = $questions[$ele].time * 60;
                         break;
                     default:
-                        time = quiz.questions[$ele].time / 60;
+                        time = $questions[$ele].time / 60;
                         break;
                 }
                 // $('.prev').remove();
                 $.each($time_answer, function (i, data) {
-                    if (data.question_id == quiz.questions[$ele].id) {
+                    if (data.question_id == $questions[$ele].id) {
                         time = data.time;
                         if (time <= 0) {
                             is_time_up = true;
@@ -1046,17 +985,17 @@
                 } else {
                     $timers.push({
                         timer: setLogoutTimer(time, "question"),
-                        question_no: quiz.questions[$ele].id,
+                        question_no: $questions[$ele].id,
                     });
                 }
                 $(".time-indicator").removeClass("d-none");
             }
             $(".option-wrapper").addClass("d-none");
             $(".answer-container").addClass("d-none");
-            switch (quiz.questions[$ele].type) {
+            switch ($questions[$ele].type) {
                 case "Multiple Choices":
                     $.each(
-                        quiz.questions[$ele].question_options,
+                        $questions[$ele].question_options,
                         function (i, ele) {
                             renderOption(i, ele, (is_time_up = is_time_up));
                         }
@@ -1064,7 +1003,7 @@
                     break;
                 case "True or False":
                     $.each(
-                        quiz.questions[$ele].question_options,
+                        $questions[$ele].question_options,
                         function (i, ele) {
                             renderOption(i, ele, (is_time_up = is_time_up));
                         }
@@ -1072,7 +1011,7 @@
                     break;
                 case "Multiple Answers":
                     $.each(
-                        quiz.questions[$ele].question_options,
+                        $questions[$ele].question_options,
                         function (i, ele) {
                             renderOption(
                                 i,
@@ -1088,7 +1027,7 @@
                     answerInterval = setInterval(function () {
                         localStorage.setItem(
                             "short_answer_" +
-                                quiz.questions[$ele].id +
+                                $questions[$ele].id +
                                 "_" +
                                 $user_id,
                                 tinymce.get('answer-editor').getContent()
@@ -1098,11 +1037,11 @@
             }
             $question_template = renderQuestion(
                 $question_no,
-                quiz.questions[$ele].question_text,
-                quiz.questions[$ele].question_hint,
-                quiz.questions[$ele].id,
+                $questions[$ele].question_text,
+                $questions[$ele].question_hint,
+                $questions[$ele].id,
                 quiz.answer_view,
-                quiz.questions[$ele].answer_explanation
+                $questions[$ele].answer_explanation
             );
 
             $('[data-toggle="tooltip"]').tooltip();
@@ -1117,12 +1056,12 @@
 
         function selectOption() {
             $.each($answer, function (i, ele) {
-                if (ele.question_id == quiz.questions[$question_no - 1].id) {
+                if (ele.question_id == $questions[$question_no - 1].id) {
                     if (ele.options == "text_answer") {
                         $('#answer-editor').html(
                             localStorage.getItem(
                                 "short_answer_" +
-                                    quiz.questions[$question_no - 1].id +
+                                    $questions[$question_no - 1].id +
                                     "_" +
                                     $user_id
                             )
@@ -1235,7 +1174,7 @@
             $.each($("input[name='option']:checked"), function () {
                 selected_options.push($(this).val());
             });
-            if (quiz.questions[$question_no - 1].time == null) {
+            if ($questions[$question_no - 1].time == null) {
                 $left_time = null;
             }
             addAnswer(selected_options, $left_time);
@@ -1255,8 +1194,8 @@
         });
 
         function addAnswer(option, time = null) {
-            var $question_id = quiz.questions[$question_no - 1].id;
-            if (quiz.questions[$question_no - 1].type == "Short Answer") {
+            var $question_id = $questions[$question_no - 1].id;
+            if ($questions[$question_no - 1].type == "Short Answer") {
                 if (tinymce.get('answer-editor').getContent() != "") {
                     option = "text_answer";
                     localStorage.setItem(
@@ -1307,7 +1246,7 @@
             $.each($("input[name='option']:checked"), function () {
                 selected_options.push($(this).val());
             });
-            if (quiz.questions[$question_no - 1].time == null) {
+            if ($questions[$question_no - 1].time == null) {
                 $left_time = null;
             }
             addAnswer(selected_options, $left_time);
@@ -1431,7 +1370,7 @@
                     } else {
                         if (
                             timer_question_id ==
-                            quiz.questions[$question_no - 1].id
+                            $questions[$question_no - 1].id
                         ) {
                             var selected_options = [];
                             $.each(
@@ -1490,7 +1429,7 @@
             // conversion
             let intoSeconds = minutes * 60;
             let time = intoSeconds;
-            let timer_question_id = quiz.questions[$question_no - 1].id;
+            let timer_question_id = $questions[$question_no - 1].id;
             tick();
             try {
                 clearInterval(timer);
