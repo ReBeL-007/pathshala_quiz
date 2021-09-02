@@ -29,9 +29,15 @@ class TestController extends Controller
 
     public function store(Request $request){
 
+        $quiz = Quiz::find($request->quiz);
+        $ids = [];
+        foreach ($quiz->questions()->inRandomOrder()->get() as $question) {
+            array_push($ids, $question->id);
+        }
         $attemptData=[
             'quiz_id'=>$request->quiz,
             'user_id' => $request->user,
+            'order' => $ids,
         ];
         $attempt = Attempt::create($attemptData);
     return $attempt;
@@ -103,10 +109,10 @@ class TestController extends Controller
         $questions = Quiz::where('id', $quiz_id)
             ->with(['questions' => function ($query) {
                 $query->with(['questionOptions' => function ($q) {
-                    $q->whereNull('deleted_at')->inRandomOrder();
-                }])->whereNull('deleted_at')->inRandomOrder();
-            }])->inRandomOrder()->first();
-        
+                    $q->whereNull('deleted_at');
+                }])->whereNull('deleted_at');
+            }])->first();
+
         return $questions;
     }
 
