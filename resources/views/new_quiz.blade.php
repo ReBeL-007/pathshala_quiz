@@ -855,10 +855,24 @@
             );
         }
 
+        // providing question in ordering format
         $non_ordered_questions = quiz.questions;
         $attempt.order.forEach(ord => {
             $questions.push($non_ordered_questions.find(x => x.id === ord));
         });
+
+        let order = Object.keys($attempt.order)
+            .map(function(key) {
+                return $attempt.order[key];
+            });
+
+        // adding extra quiz question if added later
+        quiz.questions.forEach(quiz => {
+            if(! order.includes(quiz.id)){
+                $questions.push(quiz);
+            }
+        });
+
 
         if (getCookie("answer_" + quiz.id + "_" + $user_id) != undefined) {
             $answer = JSON.parse(
