@@ -31,7 +31,7 @@ class TestController extends Controller
 
         $quiz = Quiz::find($request->quiz);
         $ids = [];
-        foreach ($quiz->questions()->inRandomOrder()->get() as $question) {
+        foreach ($quiz->questions()->inRandomOrder()->whereNull('deleted_at')->get() as $question) {
             array_push($ids, $question->id);
         }
         $attemptData=[
@@ -109,7 +109,7 @@ class TestController extends Controller
         $questions = Quiz::where('id', $quiz_id)
             ->with(['questions' => function ($query) {
                 $query->with(['questionOptions' => function ($q) {
-                    $q->whereNull('deleted_at');
+                    $q->inRandomOrder()->whereNull('deleted_at');
                 }])->whereNull('deleted_at');
             }])->first();
 
