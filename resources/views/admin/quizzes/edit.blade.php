@@ -106,7 +106,7 @@
 <div class="row">
     <div class="col-md-12 form-group">
         {!! Form::label('limit', 'Limit', ['class' => 'control-label']) !!}
-        {!! Form::text('limit', old('limit'), ['class' => 'form-control', 'placeholder' => '']) !!}
+        {!! Form::number('limit', old('limit'), ['class' => 'form-control', 'placeholder' => '']) !!}
         <p class="help-block"></p>
         @if($errors->has('limit'))
         <p class="help-block">
