@@ -103,7 +103,7 @@
     </div>
 </div>
 
-<div class="row">
+{{--<div class="row">
     <div class="col-md-12 form-group">
         {!! Form::label('limit', 'Limit', ['class' => 'control-label']) !!}
         {!! Form::number('limit', old('limit'), ['class' => 'form-control', 'placeholder' => '']) !!}
@@ -114,7 +114,7 @@
         </p>
         @endif
     </div>
-</div>
+</div>--}}
 
 <div class="row">
     <div class="col-md-12 form-group">
