@@ -193,6 +193,7 @@ return [
 			'course' => 'Category',
 			'lesson' => 'Lesson',
 			'title' => 'Title',
+            'limit' => 'Question Limit',
 			'description' => 'Description',
 			'questions' => 'Questions',
 			'published' => 'Published',

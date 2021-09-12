@@ -28,7 +28,9 @@
 
             <div class="col-md-4 content">
                 <div class="upcoming-test y-scroll">
-                    <h4>Available Tests <small><a href="{{route('quiz_index')}}">See all</a></small> </h4>
+                    <h4>Available Tests 
+                        <!-- <small><a href="{{route('quiz_index')}}">See all</a></small>  -->
+                    </h4>
                     @if(Auth::user()->status == 1)
                         @if (count($quizzes)==0)
                         <p>No Available Tests</p>
@@ -60,7 +62,9 @@
             </div>
             <div class="col-md-4">
                 <div class="upcoming-test y-scroll">
-                    <h4>Upcoming Tests <small><a href="{{route('quiz_index')}}">See all</a></small> </h4>
+                    <h4>Upcoming Tests 
+                        <!-- <small><a href="{{route('quiz_index')}}">See all</a></small>  -->
+                    </h4>
                     @if (count($upcoming_tests)==0)
                     <p>No Upcoming Tests</p>
                     @else

@@ -333,7 +333,7 @@
         setup: function(editor) {
             editor.on('init', function(e) {
                 data = $(editor.bodyElement).text();
-                console.log(data)
+                // console.log(data)
                 // editor.setContent(data.replace('../../../','/'));
                 editor.setContent(data.replace('../','/').replace('../../','/').replace('../../../','/'));
                 changed_read_only_editor+=1;

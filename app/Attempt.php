@@ -29,6 +29,11 @@ class Attempt extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'order',
+    ];
+
+    protected $casts = [
+        'order' => 'array'
     ];
 
     public function attemptAnswers()

@@ -20,7 +20,7 @@ class Quiz extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['title', 'description', 'published','answer_publish','answer_view','attempts_no','course_id', 'lesson_id', 'start_at', 'end_at', 'time', 'time_type', 'full_marks', 'pass_marks','remaining_marks','quiz_type'];
+    protected $fillable = ['title', 'description', 'limit', 'published','answer_publish','answer_view','attempts_no','course_id', 'lesson_id', 'start_at', 'end_at', 'time', 'time_type', 'full_marks', 'pass_marks','remaining_marks','quiz_type'];
 
 
     /**
