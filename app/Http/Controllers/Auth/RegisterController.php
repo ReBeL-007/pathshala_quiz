@@ -111,7 +111,7 @@ class RegisterController extends Controller
             'contact' => $data['contact'],
             'school' => $data['school'],
             'course_id' => $data['course_id'],
-            'status' => 1,
+            // 'status' => 1,
         ]);
     }
 
