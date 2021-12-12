@@ -20,6 +20,7 @@
                     <th>SN</th>
                     <th>User</th>
                     <th>Total Marks</th>
+                    <th>Exam Date</th>
                 </tr>
             </thead>
 
@@ -43,6 +44,7 @@
                         }
                     ?>
                     {{$total_marks}}</td>
+                    <td>{{$attempt->created_at}}</td>
                 </tr>
                 @endforeach
             </tbody>
