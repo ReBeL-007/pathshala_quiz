@@ -19,6 +19,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 use App\Notifications\QuizNotification;
 use Illuminate\Support\Facades\Notification;
+use Session;
 
 class QuizzesController extends Controller
 {
@@ -82,6 +83,10 @@ class QuizzesController extends Controller
         Notification::send($users,new QuizNotification($quiz,route('quiz_index')));
         Notification::send($admins,new QuizNotification($quiz,route('admin.quizzes.index')));
         }
+
+        Session::flash('flash_success', 'Quiz created successfully!.');
+        Session::flash('flash_type', 'alert-success');
+
         return redirect()->route('admin.quizzes.index');
     }
 
@@ -151,6 +156,10 @@ class QuizzesController extends Controller
             Notification::send($users,new QuizNotification($quiz,route('quiz_index')));
             Notification::send($admins,new QuizNotification($quiz,route('admin.quizzes.index')));
             }
+
+        Session::flash('flash_success', 'Quiz updated successfully!.');
+        Session::flash('flash_type', 'alert-success');
+
         return redirect()->route('admin.quizzes.index');
     }
 
@@ -181,6 +190,9 @@ class QuizzesController extends Controller
         abort_if(Gate::denies('quiz-delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $test = Quiz::findOrFail($id);
         $test->delete();
+
+        Session::flash('flash_danger', 'Quiz has been deleted !.');
+        Session::flash('flash_type', 'alert-danger');
 
         return redirect()->route('admin.quizzes.index');
     }

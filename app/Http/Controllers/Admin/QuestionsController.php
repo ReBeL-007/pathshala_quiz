@@ -15,6 +15,7 @@ use Illuminate\Foundation\Console\Presets\None;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\Response;
+use Session;
 
 class QuestionsController extends Controller
 {
@@ -158,6 +159,10 @@ class QuestionsController extends Controller
             // }
 
             }
+
+        Session::flash('flash_success', 'Question added successfully!.');
+        Session::flash('flash_type', 'alert-success');
+
         return back()->with('flash_success','Question Created Successfully.');
     }
 
@@ -330,6 +335,10 @@ class QuestionsController extends Controller
             //     }
             // }
         }
+
+        Session::flash('flash_success', 'Question updated successfully!.');
+        Session::flash('flash_type', 'alert-success');
+
         return redirect()->route('admin.questions.index',['quiz'=>$quiz->id])->with('flash_success','Updated Successfully');
     }
 
@@ -359,6 +368,10 @@ class QuestionsController extends Controller
             $question->question_no = $key + 1;
             $question->save();
         }
+
+        Session::flash('flash_danger', 'Question has been deleted !.');
+        Session::flash('flash_type', 'alert-danger');
+
         return back();
     }
 
@@ -419,6 +432,10 @@ class QuestionsController extends Controller
         $question->question_no = $latest_question->question_no + 1;
         $question->save();
         // dd($question);
+
+        Session::flash('flash_success', 'Question restored successfully !.');
+        Session::flash('flash_type', 'alert-success');
+
         return back();
     }
 
@@ -433,6 +450,10 @@ class QuestionsController extends Controller
         abort_if(Gate::denies('question-delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $question = Question::onlyTrashed()->findOrFail($id);
         $question->forceDelete();
+
+        Session::flash('flash_danger', 'Question has been deleted permanently !.');
+        Session::flash('flash_type', 'alert-danger');
+
         return back();
     }
 }

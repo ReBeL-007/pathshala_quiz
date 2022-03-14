@@ -12,6 +12,7 @@ use App\Http\Requests\UpdateCoursesRequest;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Http\Controllers\Traits\MediaUploadingTrait;
 use Spatie\MediaLibrary\Models\Media;
+use Session;
 
 class CoursesController extends Controller
 {
@@ -94,6 +95,10 @@ class CoursesController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $course->id]);
         }
 
+        Session::flash('flash_success', 'Category created successfully!.');
+        Session::flash('flash_type', 'alert-success');
+        
+
         return redirect()->route('admin.courses.index');
     }
 
@@ -153,6 +158,10 @@ class CoursesController extends Controller
                 $course->addMedia(storage_path('app/public/tmp/uploads/' . $file))->toMediaCollection('thumbnail');
             }
         }
+
+        Session::flash('flash_success', 'Category edited successfully!.');
+        Session::flash('flash_type', 'alert-success');
+
         return redirect()->route('admin.courses.index');
     }
 
@@ -187,6 +196,9 @@ class CoursesController extends Controller
         abort_if(Gate::denies('course-delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $course = Course::findOrFail($id);
         $course->delete();
+
+        Session::flash('flash_danger', 'Category has been deleted !.');
+        Session::flash('flash_type', 'alert-danger');
 
         return redirect()->route('admin.courses.index');
     }
