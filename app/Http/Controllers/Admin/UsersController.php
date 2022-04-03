@@ -52,7 +52,7 @@ class UsersController extends Controller
 
         Session::flash('flash_success', 'User created successfully!.');
         Session::flash('flash_type', 'alert-success');
-        dd(session()->all());
+        // dd(session()->all());
         return redirect()->route('admin.users.index');
 
     }
