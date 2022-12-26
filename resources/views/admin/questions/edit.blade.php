@@ -219,6 +219,10 @@
             <button class="btn btn-success" type="submit" id="submit-btn">
                 {{ trans('global.save') }}
             </button>
+            <a class="btn btn-danger"
+            href="{{route('admin.questions.index')}}{{(request('quiz')!='')? "?quiz=".request('quiz'):''}}">
+            Cancel
+        </a>
         </div>
     </div>
     </form>

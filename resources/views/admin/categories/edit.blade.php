@@ -37,6 +37,7 @@
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
+                
             </div>
         </form>
     </div>

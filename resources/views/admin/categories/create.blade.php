@@ -35,6 +35,7 @@
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>
+                <a href="{{route('admin.categories.index')}}" class="btn btn-danger">{{ trans('global.cancel') }}</a>
             </div>
         </form>
     </div>

@@ -250,7 +250,7 @@ id="option_text_maq_1">{{ old('option_text2[]', '') }}</div>
         </button>
         <a class="btn btn-danger"
             href="{{route('admin.questions.index')}}{{(request('quiz')!='')? "?quiz=".request('quiz'):''}}">
-            Back
+            Cancel
         </a>
     </div>
 </div>
