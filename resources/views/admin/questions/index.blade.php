@@ -107,11 +107,11 @@
                         @else
                         <td>
                             @can('question-show')
-                            <a href="{{ route('admin.questions.show',[$question->id]) }}"
+                            <a href="{{ route('admin.questions.show',[$question->id]) }}{{(request()->get('quiz') != Null)?'?quiz='.request()->get('quiz'):''}}"
                                 class="btn btn-xs btn-primary">@lang('global.view')</a>
                             @endcan
                             @can('question-edit')
-                            <a href="{{ route('admin.questions.edit',[$question->id]) }}"
+                            <a href="{{ route('admin.questions.edit',[$question->id]) }}{{(request()->get('quiz') != Null)?'?quiz='.request()->get('quiz'):''}}"
                                 class="btn btn-xs btn-info">@lang('global.edit')</a>
                             @endcan
                             @can('question-delete')

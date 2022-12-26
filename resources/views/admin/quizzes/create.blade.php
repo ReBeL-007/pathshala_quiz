@@ -233,7 +233,7 @@
             </div>
         </div>
         {!! Form::submit(trans('global.save'), ['class' => 'btn btn-success']) !!}
-
+        <a href="{{route('admin.quizzes.index')}}" class="btn btn-danger">{{ trans('global.cancel') }}</a>
     </div>
 </div>
 

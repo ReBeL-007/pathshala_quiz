@@ -242,6 +242,11 @@ class PermissionsTableSeeder extends Seeder
                 'title' => 'response_access',
                 'slug' => 'response-access',
             ],
+            [
+                'title' => 'setting_create',
+                'slug' => 'setting-create',
+            ],
+            
         ];
 
         Permission::insert($permissions);

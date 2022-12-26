@@ -43,7 +43,7 @@
     <div class="row">
         
         <div class="col-md-6">
-            @if (count($quizzes)>0)
+           
 
             <div class="card" style="box-shadow: 0px 3px 6px #00000029;border-radius: 10px;">
                 <div class="card-body d-flex justify-content-center align-items-center">
@@ -115,7 +115,7 @@
                     </script>
                 </div>
             </div>
-            @endif
+            
         </div>
 
         <div class="col-md-6 content">

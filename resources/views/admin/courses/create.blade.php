@@ -95,6 +95,7 @@
                 </div>
             </div>
             {!! Form::submit(trans('global.add'), ['class' => 'btn btn-success']) !!}
+            <a href="{{route('admin.courses.index')}}" class="btn btn-danger">{{ trans('global.cancel') }}</a>
         </div>
     </div>
 
